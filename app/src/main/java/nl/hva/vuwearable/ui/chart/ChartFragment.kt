@@ -48,6 +48,8 @@ class ChartFragment : Fragment() {
             xAxis.setDrawGridLines(false)
             xAxis.position = XAxis.XAxisPosition.BOTTOM
 
+            axisLeft.mAxisMinimum = 0f
+
             axisRight.isEnabled = false
             extraRightOffset = 30f
 
