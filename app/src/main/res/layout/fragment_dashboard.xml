@@ -5,24 +5,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#e4e4e4"
-    tools:context=".MainActivity"
-    tools:ignore="HardcodedText">
+    android:overScrollMode="always"
+    tools:context=".MainActivity">
 
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="124dp"
+        android:layout_marginTop="24dp"
         android:gravity="center_horizontal"
         android:orientation="horizontal"
         android:weightSum="2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.506"
+        app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/contributeCard"
             android:layout_width="150dp"
             android:layout_height="150dp"
@@ -32,35 +31,32 @@
             android:elevation="12dp"
             android:focusable="true"
             android:foreground="?android:attr/selectableItemBackground"
+            app:cardBackgroundColor="#1F1B24"
             app:cardCornerRadius="8dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <ImageView
+                <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/image_view1"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_marginBottom="8dp"
-                    android:src="@drawable/ic_dashboard_black_24dp"
+                    android:src="@drawable/ic_round_heart_broken_24"
                     app:layout_constraintBottom_toTopOf="@+id/textView"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView1"
-                    app:srcCompat="@drawable/ic_round_heart_broken_24" />
+                    app:layout_constraintTop_toBottomOf="@+id/textView1" />
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/textView1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     android:gravity="center"
-                    android:text="Heartrate"
-                    android:textAllCaps="true"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
+                    android:text="Heart-rate"
                     app:layout_constraintBottom_toTopOf="@+id/image_view1"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
@@ -68,15 +64,12 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_chainStyle="packed" />
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="140 BPM"
-                    android:textAllCaps="false"
-                    android:textSize="12sp"
-                    android:textStyle="normal"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
@@ -85,9 +78,9 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/practiceCard"
             android:layout_width="150dp"
             android:layout_height="150dp"
@@ -97,24 +90,24 @@
             android:elevation="12dp"
             android:focusable="true"
             android:foreground="?android:attr/selectableItemBackground"
+            app:cardBackgroundColor="#1F1B24"
             app:cardCornerRadius="8dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <ImageView
+                <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/image_view20"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_marginBottom="8dp"
-                    android:src="@drawable/ic_dashboard_black_24dp"
+                    android:src="@drawable/ic_baseline_air_24"
                     app:layout_constraintBottom_toTopOf="@+id/textView2"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView20"
-                    app:srcCompat="@drawable/ic_baseline_air_24" />
+                    app:layout_constraintTop_toBottomOf="@+id/textView20" />
 
                 <TextView
                     android:id="@+id/textView20"
@@ -124,6 +117,7 @@
                     android:gravity="center"
                     android:text="Breath"
                     android:textAllCaps="true"
+                    android:textColor="#DCDCDC"
                     android:textSize="14sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toTopOf="@+id/image_view20"
@@ -140,6 +134,7 @@
                     android:gravity="center"
                     android:text="19%/min"
                     android:textAllCaps="false"
+                    android:textColor="#DCDCDC"
                     android:textSize="12sp"
                     android:textStyle="normal"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -150,7 +145,7 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
     </LinearLayout>
 
@@ -158,7 +153,6 @@
         android:id="@+id/linearLayout2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:gravity="center_horizontal"
         android:orientation="horizontal"
         android:weightSum="2"
@@ -176,6 +170,7 @@
             android:elevation="12dp"
             android:focusable="true"
             android:foreground="?android:attr/selectableItemBackground"
+            app:cardBackgroundColor="#1F1B24"
             app:cardCornerRadius="8dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -187,13 +182,12 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_marginTop="8dp"
-                    android:src="@drawable/ic_dashboard_black_24dp"
+                    android:src="@drawable/ic_baseline_compress_24"
                     app:layout_constraintBottom_toTopOf="@+id/textView3"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView21"
-                    app:srcCompat="@drawable/ic_baseline_compress_24" />
+                    app:layout_constraintTop_toBottomOf="@+id/textView21" />
 
                 <TextView
                     android:id="@+id/textView21"
@@ -202,6 +196,7 @@
                     android:gravity="center"
                     android:text="Air pressure"
                     android:textAllCaps="true"
+                    android:textColor="#FFFFFF"
                     android:textSize="14sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toTopOf="@+id/image_view21"
@@ -219,6 +214,7 @@
                     android:gravity="center"
                     android:text="1013.25 hPa"
                     android:textAllCaps="false"
+                    android:textColor="#FFFFFF"
                     android:textSize="12sp"
                     android:textStyle="italic"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -241,6 +237,7 @@
             android:elevation="12dp"
             android:focusable="true"
             android:foreground="?android:attr/selectableItemBackground"
+            app:cardBackgroundColor="#1F1B24"
             app:cardCornerRadius="8dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -252,13 +249,12 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_marginTop="8dp"
-                    android:src="@drawable/ic_dashboard_black_24dp"
+                    android:src="@drawable/ic_twotone_battery_4_bar_24"
                     app:layout_constraintBottom_toTopOf="@+id/textView4"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView22"
-                    app:srcCompat="@drawable/ic_twotone_battery_4_bar_24" />
+                    app:layout_constraintTop_toBottomOf="@+id/textView22" />
 
                 <TextView
                     android:id="@+id/textView22"
@@ -267,6 +263,7 @@
                     android:gravity="center"
                     android:text="Battery"
                     android:textAllCaps="true"
+                    android:textColor="#FFFFFF"
                     android:textSize="14sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toTopOf="@+id/image_view22"
@@ -284,6 +281,7 @@
                     android:gravity="center"
                     android:text="64%"
                     android:textAllCaps="false"
+                    android:textColor="#FFFFFF"
                     android:textSize="12sp"
                     android:textStyle="normal"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -297,16 +295,5 @@
         </androidx.cardview.widget.CardView>
 
     </LinearLayout>
-
-    <androidx.cardview.widget.CardView
-        android:layout_width="0dp"
-        android:layout_height="150dp"
-        android:layout_marginStart="46dp"
-        android:layout_marginEnd="46dp"
-        app:cardCornerRadius="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="505dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
