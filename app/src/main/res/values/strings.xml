@@ -2,6 +2,9 @@
     <string name="app_name">VU Wearable</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="heart_rate_number">120</string>
+    <string name="heart_rate_bpm">bpm</string>
     <string name="title_chart">Chart</string>
     <string name="chart_information_placeholder">Chart Information</string>
 </resources>
