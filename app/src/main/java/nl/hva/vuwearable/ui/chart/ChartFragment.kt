@@ -1,6 +1,8 @@
 package nl.hva.vuwearable.ui.chart
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,6 +24,8 @@ class ChartFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+    private lateinit var runnable: Runnable
+    private lateinit var handler: Handler
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,7 +39,6 @@ class ChartFragment : Fragment() {
         val root: View = binding.root
 
         setupLineChart()
-
         setDataToLines()
 
         return root
@@ -62,7 +65,7 @@ class ChartFragment : Fragment() {
     }
 
     private fun setDataToLines() {
-        val first = LineDataSet(getValues(), "Some Data")
+        val first = LineDataSet(arrayListOf(), "Some Data")
         first.apply {
             lineWidth = 3f
         }
@@ -73,23 +76,39 @@ class ChartFragment : Fragment() {
         val lineData = LineData(dataSet)
         binding.lineChart.data = lineData
 
-        binding.lineChart.invalidate()
-    }
 
-    private fun getValues(): List<Entry> {
-        return listOf(
-            Entry(0f, 13f),
-            Entry(1f, 23F),
-            Entry(2f, 18f),
-            Entry(3f, 3f),
-            Entry(4f, 0f),
-            Entry(5f, 7f),
-            Entry(6f, 18f),
-        )
+        handler = Handler(Looper.getMainLooper())
+
+        runnable = Runnable {
+            val data = binding.lineChart.data
+            val set = data.getDataSetByIndex(0)
+
+            data.addEntry(
+                Entry(set.entryCount.toFloat(), (0..100).shuffled().last().toFloat()),
+                0
+            )
+            data.notifyDataChanged()
+
+            // To reset the graph every 1000ms
+            // binding.lineChart.animateX(1000, Easing.Linear)
+
+            binding.lineChart.notifyDataSetChanged()
+
+
+            binding.lineChart.setVisibleXRangeMaximum(10f);
+            binding.lineChart.moveViewToX(data.entryCount.toFloat())
+
+            handler.postDelayed(runnable, 250)
+        }
+
+        handler.postDelayed(runnable, 100)
+
+        binding.lineChart.invalidate()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+        handler.removeCallbacks(runnable)
         _binding = null
     }
 }
