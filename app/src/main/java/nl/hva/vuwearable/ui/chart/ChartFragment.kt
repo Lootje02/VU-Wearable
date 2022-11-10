@@ -65,7 +65,7 @@ class ChartFragment : Fragment() {
     }
 
     private fun setDataToLines() {
-        val first = LineDataSet(arrayListOf(), "Some Data")
+        val first = LineDataSet(arrayListOf(), "BPM")
         first.apply {
             lineWidth = 3f
         }
