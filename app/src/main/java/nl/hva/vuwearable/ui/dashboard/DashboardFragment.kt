@@ -2,14 +2,15 @@ package nl.hva.vuwearable.ui.dashboard
 
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Chronometer
-import android.widget.TextView
+import androidx.core.os.postDelayed
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import nl.hva.vuwearable.R
 import nl.hva.vuwearable.databinding.FragmentDashboardBinding
 import java.util.*
 
@@ -30,6 +31,7 @@ class DashboardFragment : Fragment() {
         val dashboardViewModel =
             ViewModelProvider(this).get(DashboardViewModel::class.java)
 
+        setAirPressure()
         setStepCount()
 
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
@@ -38,14 +40,27 @@ class DashboardFragment : Fragment() {
         return root
     }
 
-    private fun setStepCount(){
-        object : CountDownTimer(1000000, 1000) {
-            override fun onTick(millisUntilFinished: Long) {
-                binding.tvStepsNumber.text = (millisUntilFinished / 1000).toString()
+    private fun setStepCount() {
+        var count = 0
+        val handler: Handler = Handler()
+        handler.postDelayed(object : Runnable {
+            override fun run() {
+                count++
+                handler.postDelayed(this, 1000)
+                binding.tvStepsNumber.text = count.toString()
             }
-            override fun onFinish() {
-                Log.i("finished","timer stoppped")
+        }, 1000)
+    }
+
+    private fun setAirPressure() {
+        val handler: Handler = Handler()
+
+        handler.postDelayed(object : Runnable {
+            override fun run() {
+                var randomInt = (1000..1030).random()
+                handler.postDelayed(this, 1000)
+                binding.tvPressureNumber.text = randomInt.toString()
             }
-        }.start()
+        }, 1000)
     }
 }
