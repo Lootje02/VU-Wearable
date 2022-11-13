@@ -7,7 +7,7 @@
     <string name="heart_rate_bpm">bpm</string>
     <string name="steps_number">%f</string>
     <string name="steps_string">steps</string>
-    <string name="pressure_number">1013.24</string>
+    <string name="pressure_number">%f</string>
     <string name="pressure_string">hPa</string>
     <string name="battery_life">battery is performing good</string>
     <string name="wifi_connection">wifi connection is established</string>
