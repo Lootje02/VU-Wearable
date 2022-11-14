@@ -1,18 +1,13 @@
 package nl.hva.vuwearable.ui.dashboard
 
 import android.os.Bundle
-import android.os.CountDownTimer
 import android.os.Handler
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.postDelayed
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import nl.hva.vuwearable.R
 import nl.hva.vuwearable.databinding.FragmentDashboardBinding
-import java.util.*
 
 
 class DashboardFragment : Fragment() {
@@ -31,8 +26,10 @@ class DashboardFragment : Fragment() {
         val dashboardViewModel =
             ViewModelProvider(this).get(DashboardViewModel::class.java)
 
-        setAirPressure()
+        setEcg()
+        setIcg()
         setStepCount()
+        setAirPressure()
 
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
         val root: View = binding.root
@@ -43,6 +40,7 @@ class DashboardFragment : Fragment() {
     private fun setStepCount() {
         var count = 0
         val handler: Handler = Handler()
+
         handler.postDelayed(object : Runnable {
             override fun run() {
                 count++
@@ -60,6 +58,30 @@ class DashboardFragment : Fragment() {
                 var randomInt = (1000..1030).random()
                 handler.postDelayed(this, 1000)
                 binding.tvPressureNumber.text = randomInt.toString()
+            }
+        }, 1000)
+    }
+
+    private fun setEcg() {
+        val handler: Handler = Handler()
+
+        handler.postDelayed(object : Runnable {
+            override fun run() {
+                var randomInt = (90..140).random()
+                handler.postDelayed(this, 1000)
+                binding.tvEcgNumber.text = randomInt.toString()
+            }
+        }, 1000)
+    }
+
+    private fun setIcg() {
+        val handler: Handler = Handler()
+
+        handler.postDelayed(object : Runnable {
+            override fun run() {
+                var randomInt = (1000..1030).random()
+                handler.postDelayed(this, 1000)
+                binding.tvIcgNumber.text = randomInt.toString()
             }
         }, 1000)
     }
