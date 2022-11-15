@@ -45,7 +45,7 @@
         app:cardCornerRadius="10dp"
         android:backgroundTint="@color/bg_blue"
         android:outlineProvider="none"
-        >
+    >
 
         <ImageView
             android:id="@+id/iconConnection"
@@ -92,7 +92,7 @@
             android:layout_marginTop="50dp"
             android:layout_marginStart="50dp"
             android:layout_marginBottom="20dp"
-            />
+        />
 
 
         <ImageView
@@ -168,7 +168,7 @@
         app:cardCornerRadius="10dp"
         android:backgroundTint="@color/bg_turquoise"
         android:outlineProvider="none"
-        >
+    >
 
         <ImageView
             android:id="@+id/iconStart"
@@ -206,7 +206,7 @@
         app:cardCornerRadius="10dp"
         android:backgroundTint="@color/bg_purple"
         android:outlineProvider="none"
-        >
+    >
 
         <ImageView
             android:id="@+id/iconTimeUpdate"
