@@ -5,6 +5,13 @@
     <string name="title_notifications">Notifications</string>
     <string name="login_to_professor">Login to professor account</string>
     <string name="login">Login</string>
+    <string name="yes">Yes</string>
+    <string name="logout">Logout</string>
+    <string name="logout_description">Are you sure you want to switch back to a tester account?</string>
     <string name="cancel">Cancel</string>
     <string name="settings">Settings</string>
+    <string name="input_is_emptry">Please fill in the input field</string>
+    <string name="incorrect_code">Filled in an incorrect code</string>
+    <string name="login_successful">Login successful</string>
+    <string name="logout_successful">Logout successful</string>
 </resources>
