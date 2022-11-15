@@ -10,9 +10,6 @@ import nl.hva.vuwearable.databinding.FragmentProfesorDashboardBinding
 class ProfessorDashboardFragment : Fragment() {
 
     private var _binding: FragmentProfesorDashboardBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     override fun onCreateView(

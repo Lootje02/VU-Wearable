@@ -7,4 +7,13 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="success">#48BB78</color>
+    <color name="system_blue">#197BD2</color>
+    <color name="system_warning">#FDB707</color>
+    <color name="system_error">#E53E3E</color>
+    <color name="bg_blue">#1A197BD2</color>
+    <color name="turquoise">#0DB1AD</color>
+    <color name="bg_turquoise">#1A0DB1AD</color>
+    <color name="purple">#7042C9</color>
+    <color name="bg_purple">#1A7042C9</color>
 </resources>

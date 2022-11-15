@@ -6,4 +6,15 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="vu_logo_content_desc">VU Logo</string>
+    <string name="pd_connection_status">Connected</string>
+    <string name="pd_recording_status">Recording Not Started</string>
+    <string name="pd_time_status">Time out of date</string>
+    <string name="pd_electrodes_status">All Electrodes attached</string>
+    <string name="success_icon_content_desc">success icon</string>
+    <string name="time_icon_content_desc">time icon</string>
+    <string name="content_desc_placeholder">TODO</string>
+    <string name="pd_system_status_title">SYSTEM STATUS</string>
+    <string name="pd_current_system_time">Current System Time:\n %s</string>
+    <string name="pd_update_time">UPDATE TIME</string>
+    <string name="pd_start_btn">START</string>
 </resources>
