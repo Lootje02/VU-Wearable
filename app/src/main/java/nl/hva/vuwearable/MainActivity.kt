@@ -1,6 +1,5 @@
 package nl.hva.vuwearable
 
-import android.graphics.Color
 import androidx.appcompat.app.AlertDialog
 import android.os.Bundle
 import android.text.InputType
@@ -15,7 +14,6 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.snackbar.Snackbar
 import nl.hva.vuwearable.databinding.ActivityMainBinding
 import nl.hva.vuwearable.ui.login.LoginViewModel
 
