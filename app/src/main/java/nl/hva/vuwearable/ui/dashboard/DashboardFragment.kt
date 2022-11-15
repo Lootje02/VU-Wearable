@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import nl.hva.vuwearable.R
 import nl.hva.vuwearable.databinding.FragmentDashboardBinding
 
 
@@ -26,13 +27,10 @@ class DashboardFragment : Fragment() {
         val dashboardViewModel =
             ViewModelProvider(this).get(DashboardViewModel::class.java)
 
-        setEcg()
-        setIcg()
-        setStepCount()
-        setAirPressure()
-
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
         val root: View = binding.root
+
+        setStepCount()
 
         return root
     }
@@ -45,7 +43,7 @@ class DashboardFragment : Fragment() {
             override fun run() {
                 count++
                 handler.postDelayed(this, 1000)
-                binding.tvStepsNumber.text = count.toString()
+                binding.tvStepsValue.text = count.toString()
             }
         }, 1000)
     }
@@ -57,7 +55,6 @@ class DashboardFragment : Fragment() {
             override fun run() {
                 var randomInt = (1000..1030).random()
                 handler.postDelayed(this, 1000)
-                binding.tvPressureNumber.text = randomInt.toString()
             }
         }, 1000)
     }
@@ -69,7 +66,6 @@ class DashboardFragment : Fragment() {
             override fun run() {
                 var randomInt = (90..140).random()
                 handler.postDelayed(this, 1000)
-                binding.tvEcgNumber.text = randomInt.toString()
             }
         }, 1000)
     }
@@ -81,7 +77,6 @@ class DashboardFragment : Fragment() {
             override fun run() {
                 var randomInt = (1000..1030).random()
                 handler.postDelayed(this, 1000)
-                binding.tvIcgNumber.text = randomInt.toString()
             }
         }, 1000)
     }
