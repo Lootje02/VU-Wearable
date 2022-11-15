@@ -1,3 +1,6 @@
+/**
+ * @author Hugo Zuidema
+ */
 package nl.hva.vuwearable.ui.professordashboard
 
 import android.content.res.ColorStateList

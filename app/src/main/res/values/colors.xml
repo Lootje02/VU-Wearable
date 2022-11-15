@@ -18,4 +18,6 @@
     <color name="bg_turquoise">#1A0DB1AD</color>
     <color name="purple">#7042C9</color>
     <color name="bg_purple">#1A7042C9</color>
+    <color name="bg_black">#CC191919</color>
+
 </resources>
