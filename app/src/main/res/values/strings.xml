@@ -17,4 +17,6 @@
     <string name="pd_current_system_time">Current System Time:\n %s</string>
     <string name="pd_update_time">UPDATE TIME</string>
     <string name="pd_start_btn">START</string>
+    <string name="pd_stop_btn">STOP</string>
+
 </resources>

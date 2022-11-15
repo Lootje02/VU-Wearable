@@ -158,8 +158,8 @@
 
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/startBlock"
-        android:layout_width="wrap_content"
+        android:id="@+id/cvStartBlock"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/txtSystemTime"
         app:layout_constraintStart_toStartOf="@id/vuLogoHeader"
@@ -191,7 +191,6 @@
             android:layout_marginTop="70dp"
             android:layout_marginStart="25dp"
             android:layout_marginBottom="20dp"
-            android:layout_marginEnd="40dp"
         />
 
     </androidx.cardview.widget.CardView>
@@ -200,8 +199,8 @@
         android:id="@+id/cvUpdateTimeBlock"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@id/startBlock"
-        app:layout_constraintTop_toTopOf="@id/startBlock"
+        app:layout_constraintStart_toEndOf="@id/cvStartBlock"
+        app:layout_constraintTop_toTopOf="@id/cvStartBlock"
         app:layout_constraintEnd_toEndOf="parent"
         app:cardCornerRadius="10dp"
         android:backgroundTint="@color/bg_purple"

@@ -11,6 +11,8 @@
     <color name="system_blue">#197BD2</color>
     <color name="system_warning">#FDB707</color>
     <color name="system_error">#E53E3E</color>
+    <color name="bg_red">#1AE53E3E</color>
+
     <color name="bg_blue">#1A197BD2</color>
     <color name="turquoise">#0DB1AD</color>
     <color name="bg_turquoise">#1A0DB1AD</color>
