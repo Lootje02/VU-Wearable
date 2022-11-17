@@ -32,14 +32,8 @@ class MainActivity : AppCompatActivity() {
         val navView: BottomNavigationView = binding.navView
 
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        val appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_chart
-            )
-        )
-        setupActionBarWithNavController(navController, appBarConfiguration)
+        setupAppBar()
+
         navView.setupWithNavController(navController)
     }
 
@@ -53,6 +47,20 @@ class MainActivity : AppCompatActivity() {
             R.id.logout_button -> showDialog()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun setupAppBar() {
+        val navController = findNavController(R.id.nav_host_fragment_activity_main)
+
+        val dashboardId = if (loginViewModel.isLoggedIn.value == true) R.id.professorDashboardFragment
+        else R.id.navigation_dashboard
+
+        val appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.navigation_home, dashboardId, R.id.navigation_chart
+            )
+        )
+        setupActionBarWithNavController(navController, appBarConfiguration)
     }
 
     private fun showDialog () {
@@ -75,6 +83,7 @@ class MainActivity : AppCompatActivity() {
                 loginViewModel.checkInput(input.text.toString(), this@MainActivity)
                 if (loginViewModel.isLoggedIn.value == true) {
                     builder.hide()
+                    findNavController(R.id.nav_host_fragment_activity_main).navigate(R.id.professorDashboardFragment)
                 }
             }
         } else {
@@ -89,9 +98,11 @@ class MainActivity : AppCompatActivity() {
             logoutButton.setOnClickListener {
                 loginViewModel.setIsLoggedIn(false)
                 builder.hide()
+                findNavController(R.id.nav_host_fragment_activity_main).navigate(R.id.navigation_dashboard)
                 Toast.makeText(this, getString(R.string.logout_successful), Toast.LENGTH_LONG).show()
             }
         }
 
+        setupAppBar()
     }
 }

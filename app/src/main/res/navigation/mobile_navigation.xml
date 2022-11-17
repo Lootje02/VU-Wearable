@@ -25,6 +25,6 @@
     <fragment
         android:id="@+id/professorDashboardFragment"
         android:name="nl.hva.vuwearable.ui.professordashboard.ProfessorDashboardFragment"
-        android:label="fragment_profesor_dashboard"
+        android:label="Management Dashboard"
         tools:layout="@layout/fragment_profesor_dashboard" />
 </navigation>
