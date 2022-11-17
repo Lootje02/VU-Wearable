@@ -42,8 +42,8 @@ class DashboardFragment : Fragment() {
         handler.postDelayed(object : Runnable {
             override fun run() {
                 count++
-                handler.postDelayed(this, 1000)
                 binding.tvStepsValue.text = count.toString()
+                handler.postDelayed(this, 1000)
             }
         }, 1000)
     }
