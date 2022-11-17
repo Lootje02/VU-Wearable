@@ -2,10 +2,13 @@ package nl.hva.vuwearable.ui.dashboard
 
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import nl.hva.vuwearable.databinding.FragmentDashboardBinding
 
@@ -13,6 +16,8 @@ import nl.hva.vuwearable.databinding.FragmentDashboardBinding
 class DashboardFragment : Fragment() {
 
     private var _binding: FragmentDashboardBinding? = null
+
+    private val viewModel: DashboardViewModel by activityViewModels()
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -23,8 +28,6 @@ class DashboardFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val dashboardViewModel =
-            ViewModelProvider(this).get(DashboardViewModel::class.java)
 
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
         val root: View = binding.root
@@ -35,21 +38,22 @@ class DashboardFragment : Fragment() {
     }
 
     private fun setStepCount() {
-        var count = 0
-        val handler: Handler = Handler()
-        binding.tvStepsValue.text = "0"
+        viewModel.steps.observe(viewLifecycleOwner) {
+            binding.tvStepsValue.text = it.toString()
+        }
+
+        val handler = Handler(Looper.getMainLooper())
 
         handler.postDelayed(object : Runnable {
             override fun run() {
-                count++
+                viewModel.incrementSteps()
                 handler.postDelayed(this, 1000)
-                binding.tvStepsValue.text = count.toString()
             }
         }, 1000)
     }
 
     private fun setAirPressure() {
-        val handler: Handler = Handler()
+        val handler = Handler(Looper.getMainLooper())
 
         handler.postDelayed(object : Runnable {
             override fun run() {
@@ -60,7 +64,7 @@ class DashboardFragment : Fragment() {
     }
 
     private fun setEcg() {
-        val handler: Handler = Handler()
+        val handler = Handler(Looper.getMainLooper())
 
         handler.postDelayed(object : Runnable {
             override fun run() {
@@ -71,7 +75,7 @@ class DashboardFragment : Fragment() {
     }
 
     private fun setIcg() {
-        val handler: Handler = Handler()
+        val handler = Handler(Looper.getMainLooper())
 
         handler.postDelayed(object : Runnable {
             override fun run() {
