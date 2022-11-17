@@ -24,7 +24,7 @@ class ProfessorDashboardFragment : Fragment() {
     private val binding get() = _binding!!
 
     private var isRecording: Boolean = false
-    private var testerId: String = ""
+    private var testerId: String = "Not Set"
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,6 +44,7 @@ class ProfessorDashboardFragment : Fragment() {
         val formatter =  SimpleDateFormat.getDateTimeInstance().format(time)
 
         binding.txtSystemTime.text = getString(R.string.pd_current_system_time, formatter.format(time))
+        binding.txtTestId.text = getString(R.string.pd_test_id, testerId)
 
         binding.btnTesterId.setOnClickListener { showSetTesterIdDialog() }
 
