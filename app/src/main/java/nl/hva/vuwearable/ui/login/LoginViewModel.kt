@@ -1,15 +1,11 @@
 package nl.hva.vuwearable.ui.login
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 
-class LoginViewModel(application: Application) : AndroidViewModel(application) {
+class LoginViewModel() : ViewModel() {
     private val loginCode = "nextgen2022"
-    val isLoggedIn = MutableLiveData<Boolean>().apply {
-        value = false
-    }
+    val isLoggedIn = MutableLiveData(false)
 
     fun checkLogin (codeInput : String) {
         isLoggedIn.value = loginCode == codeInput
