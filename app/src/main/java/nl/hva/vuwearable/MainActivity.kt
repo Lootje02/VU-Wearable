@@ -1,7 +1,5 @@
 package nl.hva.vuwearable
 
-import android.content.Context
-import androidx.appcompat.app.AlertDialog
 import android.os.Bundle
 import android.text.InputType
 import android.view.Menu
@@ -9,6 +7,7 @@ import android.view.MenuItem
 import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -62,7 +61,7 @@ class MainActivity : AppCompatActivity() {
             // Set up the input
             val input = EditText(this)
             // Specify the type of input expected
-            input.inputType = InputType.TYPE_CLASS_TEXT
+            input.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
 
             val builder = AlertDialog.Builder(this).apply {
                 setTitle(getString(R.string.login_to_professor))
@@ -82,7 +81,7 @@ class MainActivity : AppCompatActivity() {
             val builder = AlertDialog.Builder(this).apply {
                 setTitle(getString(R.string.logout))
                 setMessage(R.string.logout_description)
-                setPositiveButton(getString(R.string.login), null)
+                setPositiveButton(getString(R.string.logout), null)
                 setNegativeButton(getString(R.string.cancel), null)
             }.show()
 
