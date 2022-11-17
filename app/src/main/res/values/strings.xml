@@ -15,7 +15,6 @@
     <string name="welcome">Welcome</string>
     <string name="battery_life_string">Battery</string>
     <string name="battery_life_value">53%</string>
-    <string name="testperson_id">127</string>
     <string name="profile_name">Firstname</string>
     <string name="tips"><![CDATA[Tips & Tricks]]></string>
     <string name="more_info">Find out more here</string>
@@ -27,7 +26,6 @@
     <string name="correct">correct</string>
     <string name="warning">warning</string>
     <string name="toolbar">toolbar</string>
-    <string name="title_notifications">Notifications</string>
     <string name="login_to_professor">Login to researcher account</string>
     <string name="login">Login</string>
     <string name="yes">Yes</string>
