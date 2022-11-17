@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@id/professorDashboardFragment">
+    app:startDestination="@id/navigation_dashboard">
+
     <fragment
         android:id="@+id/navigation_home"
         android:name="nl.hva.vuwearable.ui.home.HomeFragment"

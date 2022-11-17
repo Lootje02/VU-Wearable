@@ -1,13 +1,14 @@
 package nl.hva.vuwearable.ui.dashboard
 
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import nl.hva.vuwearable.databinding.FragmentDashboardBinding
+
 
 class DashboardFragment : Fragment() {
 
@@ -28,15 +29,55 @@ class DashboardFragment : Fragment() {
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textDashboard
-        dashboardViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
+        setStepCount()
+
         return root
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    private fun setStepCount() {
+        var count = 0
+        val handler: Handler = Handler()
+        binding.tvStepsValue.text = "0"
+
+        handler.postDelayed(object : Runnable {
+            override fun run() {
+                count++
+                handler.postDelayed(this, 1000)
+                binding.tvStepsValue.text = count.toString()
+            }
+        }, 1000)
+    }
+
+    private fun setAirPressure() {
+        val handler: Handler = Handler()
+
+        handler.postDelayed(object : Runnable {
+            override fun run() {
+                var randomInt = (1000..1030).random()
+                handler.postDelayed(this, 1000)
+            }
+        }, 1000)
+    }
+
+    private fun setEcg() {
+        val handler: Handler = Handler()
+
+        handler.postDelayed(object : Runnable {
+            override fun run() {
+                var randomInt = (90..140).random()
+                handler.postDelayed(this, 1000)
+            }
+        }, 1000)
+    }
+
+    private fun setIcg() {
+        val handler: Handler = Handler()
+
+        handler.postDelayed(object : Runnable {
+            override fun run() {
+                var randomInt = (1000..1030).random()
+                handler.postDelayed(this, 1000)
+            }
+        }, 1000)
     }
 }
