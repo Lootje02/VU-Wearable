@@ -2,6 +2,7 @@ package nl.hva.vuwearable.ui.dashboard
 
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,20 +37,20 @@ class DashboardFragment : Fragment() {
 
     private fun setStepCount() {
         var count = 0
-        val handler: Handler = Handler()
+        val handler = Handler(Looper.getMainLooper())
         binding.tvStepsValue.text = "0"
 
         handler.postDelayed(object : Runnable {
             override fun run() {
                 count++
-                handler.postDelayed(this, 1000)
                 binding.tvStepsValue.text = count.toString()
+                handler.postDelayed(this, 1000)
             }
         }, 1000)
     }
 
     private fun setAirPressure() {
-        val handler: Handler = Handler()
+        val handler = Handler(Looper.getMainLooper())
 
         handler.postDelayed(object : Runnable {
             override fun run() {
@@ -60,7 +61,7 @@ class DashboardFragment : Fragment() {
     }
 
     private fun setEcg() {
-        val handler: Handler = Handler()
+        val handler = Handler(Looper.getMainLooper())
 
         handler.postDelayed(object : Runnable {
             override fun run() {
@@ -71,7 +72,7 @@ class DashboardFragment : Fragment() {
     }
 
     private fun setIcg() {
-        val handler: Handler = Handler()
+        val handler = Handler(Looper.getMainLooper())
 
         handler.postDelayed(object : Runnable {
             override fun run() {
