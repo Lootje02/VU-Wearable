@@ -1,5 +1,6 @@
 package nl.hva.vuwearable
 
+import android.content.Context
 import androidx.appcompat.app.AlertDialog
 import android.os.Bundle
 import android.text.InputType
@@ -63,51 +64,35 @@ class MainActivity : AppCompatActivity() {
             // Specify the type of input expected
             input.inputType = InputType.TYPE_CLASS_TEXT
 
-            val builder = AlertDialog.Builder(this)
-                .setTitle(getString(R.string.login_to_professor))
-                .setView(input)
-                .setPositiveButton(getString(R.string.login), null)
-                .setNegativeButton(getString(R.string.cancel), null)
-                .show()
+            val builder = AlertDialog.Builder(this).apply {
+                setTitle(getString(R.string.login_to_professor))
+                setView(input)
+                setPositiveButton(getString(R.string.login), null)
+                setNegativeButton(getString(R.string.cancel), null)
+            }.show()
 
             val loginButton = builder.getButton(AlertDialog.BUTTON_POSITIVE)
             loginButton.setOnClickListener {
-                checkInput(input.text.toString())
+                loginViewModel.checkInput(input.text.toString(), this@MainActivity)
                 if (loginViewModel.isLoggedIn.value == true) {
                     builder.hide()
                 }
             }
         } else {
-            val builder = AlertDialog.Builder(this)
-                .setTitle(getString(R.string.logout))
-                .setMessage(R.string.logout_description)
-                .setPositiveButton(getString(R.string.yes), null)
-                .setNegativeButton(getString(R.string.cancel), null)
-                .show()
+            val builder = AlertDialog.Builder(this).apply {
+                setTitle(getString(R.string.logout))
+                setMessage(R.string.logout_description)
+                setPositiveButton(getString(R.string.login), null)
+                setNegativeButton(getString(R.string.cancel), null)
+            }.show()
 
             val logoutButton = builder.getButton(AlertDialog.BUTTON_POSITIVE)
             logoutButton.setOnClickListener {
-                loginViewModel.isLoggedIn.value = false
+                loginViewModel.setIsLoggedIn(false)
                 builder.hide()
                 Toast.makeText(this, getString(R.string.logout_successful), Toast.LENGTH_LONG).show()
             }
         }
 
-    }
-
-    private fun checkInput ( inputText : String) {
-        var toastText = ""
-
-        toastText = if (inputText.isEmpty()) {
-            getString(R.string.input_is_emptry)
-        } else {
-            loginViewModel.checkLogin(inputText)
-            if (loginViewModel.isLoggedIn.value == true) {
-                getString(R.string.login_successful)
-            } else {
-                getString(R.string.incorrect_code)
-            }
-        }
-        Toast.makeText(this, toastText, Toast.LENGTH_LONG).show()
     }
 }
