@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import nl.hva.vuwearable.R
 import nl.hva.vuwearable.databinding.FragmentDashboardBinding
 
 
@@ -38,6 +37,7 @@ class DashboardFragment : Fragment() {
     private fun setStepCount() {
         var count = 0
         val handler: Handler = Handler()
+        binding.tvStepsValue.text = "0"
 
         handler.postDelayed(object : Runnable {
             override fun run() {
