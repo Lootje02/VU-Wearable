@@ -105,15 +105,5 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, getString(R.string.logout_successful), Toast.LENGTH_LONG).show()
             }
         }
-
-
-        // Android does not allow to use a UDP socket on the main thread,
-        // so we need to use it on a different thread
-        Thread(UDPConnection {
-            // Update the view model on the main thread
-            CoroutineScope(Dispatchers.Main).launch {
-                viewModel.setIsConnected(it)
-            }
-        }).start()
     }
 }
