@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#f7f7f7"
+    android:theme="@style/Theme.Material3.DayNight"
     android:padding="5dp">
 
     <com.google.android.material.imageview.ShapeableImageView
@@ -102,7 +103,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/materialTextView5" />
+                    app:layout_constraintTop_toBottomOf="@+id/materialTextView5"
+                    tools:ignore="ImageContrastCheck" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/materialTextView6"
@@ -199,13 +201,15 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_marginBottom="8dp"
+                    android:contentDescription="@string/tips_icon"
                     app:layout_constraintBottom_toTopOf="@+id/materialTextView3"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_chainStyle="packed"
-                    app:srcCompat="@drawable/ic_baseline_tips_and_updates_24" />
+                    app:srcCompat="@drawable/ic_baseline_tips_and_updates_24"
+                    tools:ignore="ImageContrastCheck" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/materialTextView4"
@@ -270,10 +274,12 @@
 
                         <ImageView
                             android:id="@+id/imageView6"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            app:srcCompat="@drawable/ic_baseline_check_circle_24" />
+                            android:contentDescription="@string/correct"
+                            app:srcCompat="@drawable/ic_baseline_check_circle_24"
+                            tools:ignore="ImageContrastCheck" />
 
                         <com.google.android.material.textview.MaterialTextView
                             android:layout_width="wrap_content"
@@ -292,10 +298,12 @@
 
                         <ImageView
                             android:id="@+id/imageView5"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            app:srcCompat="@drawable/ic_baseline_check_circle_24" />
+                            android:contentDescription="@string/correct"
+                            app:srcCompat="@drawable/ic_baseline_check_circle_24"
+                            tools:ignore="ImageContrastCheck,ImageContrastCheck" />
 
                         <com.google.android.material.textview.MaterialTextView
                             android:layout_width="wrap_content"
@@ -313,10 +321,12 @@
 
                         <ImageView
                             android:id="@+id/imageView4"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            app:srcCompat="@drawable/ic_baseline_warning_24" />
+                            android:contentDescription="@string/warning"
+                            app:srcCompat="@drawable/ic_baseline_warning_24"
+                            tools:ignore="ImageContrastCheck" />
 
                         <com.google.android.material.textview.MaterialTextView
                             android:layout_width="wrap_content"
