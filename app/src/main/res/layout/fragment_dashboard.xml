@@ -332,7 +332,7 @@
                 android:id="@+id/imageButton2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="24dp"
+                android:layout_marginEnd="16dp"
                 android:text="@string/fix_issue"
                 android:textColor="@color/black"
                 app:backgroundTint="#F7C80C"
