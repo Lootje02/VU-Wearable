@@ -25,5 +25,7 @@
     <string name="dialog_ok_button">OK</string>
     <string name="pd_test_id">Tester ID: %s</string>
     <string name="tester_id_err">You filled in an empty ID</string>
-
+    
+    <string name="title_chart">Chart</string>
+    <string name="chart_information_placeholder">Chart Information</string>
 </resources>
