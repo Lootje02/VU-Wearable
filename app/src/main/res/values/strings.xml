@@ -22,5 +22,5 @@
     <string name="wifi">WIFI</string>
     <string name="recording_connection">recording is active</string>
     <string name="time_calibration">time is calibrated correctly</string>
-    <string name="fix_issue">fix issue</string>
+    <string name="fix_issue">fix</string>
 </resources>
