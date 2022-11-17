@@ -5,8 +5,20 @@
     android:id="@+id/mobile_navigation"
     app:startDestination="@id/professorDashboardFragment">
     <fragment
-        android:id="@+id/professorDashboardFragment"
-        android:name="nl.hva.vuwearable.ui.professordashboard.ProfessorDashboardFragment"
-        android:label="fragment_profesor_dashboard"
-        tools:layout="@layout/fragment_profesor_dashboard" />
+        android:id="@+id/navigation_home"
+        android:name="nl.hva.vuwearable.ui.home.HomeFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/navigation_dashboard"
+        android:name="nl.hva.vuwearable.ui.dashboard.DashboardFragment"
+        android:label="@string/title_dashboard"
+        tools:layout="@layout/fragment_dashboard" />
+
+    <fragment
+        android:id="@+id/navigation_chart"
+        android:name="nl.hva.vuwearable.ui.chart.ChartFragment"
+        android:label="@string/title_chart"
+        tools:layout="@layout/fragment_chart" />
 </navigation>
