@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@id/navigation_dashboard">
 
     <fragment
         android:id="@+id/navigation_home"
@@ -18,8 +18,13 @@
         tools:layout="@layout/fragment_dashboard" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="nl.hva.vuwearable.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/navigation_chart"
+        android:name="nl.hva.vuwearable.ui.chart.ChartFragment"
+        android:label="@string/title_chart"
+        tools:layout="@layout/fragment_chart" />
+    <fragment
+        android:id="@+id/professorDashboardFragment"
+        android:name="nl.hva.vuwearable.ui.professordashboard.ProfessorDashboardFragment"
+        android:label="fragment_profesor_dashboard"
+        tools:layout="@layout/fragment_profesor_dashboard" />
 </navigation>
