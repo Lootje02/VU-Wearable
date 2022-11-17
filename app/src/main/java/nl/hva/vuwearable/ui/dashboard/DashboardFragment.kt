@@ -44,11 +44,17 @@ class DashboardFragment : Fragment() {
     }
 
 
-    private fun connectionEstablished(){
+    private fun connectionEstablished() {
         udpViewModel.isConnected.observe(viewLifecycleOwner) {
-            when(it){
-                true -> binding.ivWifi.setImageResource(R.drawable.ic_baseline_wifi_24)
-                false -> binding.ivWifi.setImageResource(R.drawable.ic_baseline_wifi_disconnected_24)
+            when (it) {
+                true -> {
+                    binding.ivWifi.setImageResource(R.drawable.ic_baseline_wifi_24)
+                    binding.wifiConnection.text = getString(R.string.connection_success)
+                }
+                false -> {
+                    binding.ivWifi.setImageResource(R.drawable.ic_baseline_wifi_disconnected_24)
+                    binding.wifiConnection.text = getString(R.string.connection_failed)
+                }
             }
         }
     }

@@ -62,4 +62,6 @@
     <string name="logout_successful">Logout successful</string>
     <string name="title_chart">Chart</string>
     <string name="chart_information_placeholder">Chart Information</string>
+    <string name="connection_success">connection established</string>
+    <string name="connection_failed">no connection</string>
 </resources>
