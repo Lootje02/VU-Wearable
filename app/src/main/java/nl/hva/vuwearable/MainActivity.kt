@@ -14,15 +14,20 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import nl.hva.vuwearable.databinding.ActivityMainBinding
+import nl.hva.vuwearable.udp.UDPConnection
 import nl.hva.vuwearable.ui.login.LoginViewModel
-
+import nl.hva.vuwearable.ui.udp.UDPViewModel
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private val loginViewModel : LoginViewModel by viewModels()
 
+    private val viewModel: UDPViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -35,6 +40,15 @@ class MainActivity : AppCompatActivity() {
         setupAppBar()
 
         navView.setupWithNavController(navController)
+
+        // Android does not allow to use a UDP socket on the main thread,
+        // so we need to use it on a different thread
+        Thread(UDPConnection {
+            // Update the view model on the main thread
+            CoroutineScope(Dispatchers.Main).launch {
+                viewModel.setIsConnected(it)
+            }
+        }).start()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -64,7 +78,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showDialog () {
-
         if (loginViewModel.isLoggedIn.value == false) {
             // Set up the input
             val input = EditText(this)
