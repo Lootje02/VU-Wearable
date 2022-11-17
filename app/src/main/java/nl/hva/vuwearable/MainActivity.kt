@@ -1,7 +1,13 @@
 package nl.hva.vuwearable
 
 import android.os.Bundle
+import android.text.InputType
+import android.view.Menu
+import android.view.MenuItem
+import android.widget.EditText
+import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -12,8 +18,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import nl.hva.vuwearable.databinding.ActivityMainBinding
-import nl.hva.vuwearable.udp.UDPConnection
-import nl.hva.vuwearable.ui.udp.UDPViewModel
 import nl.hva.vuwearable.udp.UDPConnection
 import nl.hva.vuwearable.ui.login.LoginViewModel
 import nl.hva.vuwearable.ui.udp.UDPViewModel
