@@ -10,6 +10,7 @@ import nl.hva.vuwearable.R
 
 class LoginViewModel(application: Application) : AndroidViewModel(application) {
     private val LOGIN_CODE = "nextgen2022"
+    private val APPLICATION = getApplication<Application>()
     val isLoggedIn = MutableLiveData(false)
 
     fun checkLogin (codeInput : String) {
@@ -23,13 +24,13 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
     fun checkInput ( inputText : String, context : Context) {
 
         val toastText = if (inputText.isEmpty()) {
-            getApplication<Application>().getString(R.string.input_is_empty)
+            APPLICATION.getString(R.string.input_is_empty)
         } else {
             checkLogin(inputText)
             if (isLoggedIn.value == true) {
-                getApplication<Application>().getString(R.string.login_successful)
+                APPLICATION.getString(R.string.login_successful)
             } else {
-                getApplication<Application>().getString(R.string.incorrect_code)
+                APPLICATION.getString(R.string.incorrect_code)
             }
         }
         Toast.makeText(context, toastText, Toast.LENGTH_LONG).show()
