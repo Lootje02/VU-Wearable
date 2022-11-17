@@ -14,4 +14,6 @@
     <string name="incorrect_code">Filled in an incorrect code</string>
     <string name="login_successful">Login successful</string>
     <string name="logout_successful">Logout successful</string>
+    <string name="title_chart">Chart</string>
+    <string name="chart_information_placeholder">Chart Information</string>
 </resources>
