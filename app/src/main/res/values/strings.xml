@@ -20,5 +20,10 @@
     <string name="pd_stop_btn">STOP</string>
     <string name="pd_view_live_data">VIEW LIVE DATA</string>
     <string name="pd_set_tester_id">SET TESTER ID</string>
+    <string name="pd_set_tester_title">Set Tester ID</string>
+    <string name="st_tester_id_hint">Tester ID</string>
+    <string name="dialog_ok_button">OK</string>
+    <string name="pd_test_id">Tester ID: %s</string>
+    <string name="tester_id_err">You filled in an empty ID</string>
 
 </resources>

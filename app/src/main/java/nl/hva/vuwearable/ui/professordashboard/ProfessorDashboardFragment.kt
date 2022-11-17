@@ -3,14 +3,20 @@
  */
 package nl.hva.vuwearable.ui.professordashboard
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import nl.hva.vuwearable.R
 import nl.hva.vuwearable.databinding.FragmentProfesorDashboardBinding
+import java.text.SimpleDateFormat
+import java.util.*
 
 class ProfessorDashboardFragment : Fragment() {
 
@@ -18,6 +24,7 @@ class ProfessorDashboardFragment : Fragment() {
     private val binding get() = _binding!!
 
     private var isRecording: Boolean = false
+    private var testerId: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,6 +36,16 @@ class ProfessorDashboardFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        initView()
+    }
+
+    private fun initView() {
+        val time = Calendar.getInstance().time
+        val formatter =  SimpleDateFormat.getDateTimeInstance().format(time)
+
+        binding.txtSystemTime.text = getString(R.string.pd_current_system_time, formatter.format(time))
+
+        binding.btnTesterId.setOnClickListener { showSetTesterIdDialog() }
 
         binding.cvStartBlock.setOnClickListener {
             isRecording = if (isRecording) {
@@ -64,5 +81,29 @@ class ProfessorDashboardFragment : Fragment() {
 
         binding.txtStart.text = getString(R.string.pd_start_btn)
         binding.txtStart.setTextColor(resources.getColor(R.color.turquoise, null))
+    }
+
+    private fun updateTesterId(id: String) {
+        if (id.isNotBlank()) {
+            testerId = id
+            binding.txtTestId.text = getString(R.string.pd_test_id, id)
+        } else {
+            Toast.makeText(activity, getString(R.string.tester_id_err), Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun showSetTesterIdDialog() {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle(getString(R.string.pd_set_tester_title))
+
+        val dialogLayout = layoutInflater.inflate(R.layout.set_tester_dialog, null)
+        val idInput = dialogLayout.findViewById<EditText>(R.id.tvTesterId)
+
+        builder.setView(dialogLayout)
+        builder.setPositiveButton(R.string.dialog_ok_button) { _: DialogInterface, _: Int ->
+            updateTesterId(idInput.text.toString())
+        }
+
+        builder.show()
     }
 }

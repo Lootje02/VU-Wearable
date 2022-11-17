@@ -29,7 +29,7 @@
         android:textColor="@color/system_blue"
         app:layout_constraintStart_toStartOf="@id/vuLogoHeader"
         app:layout_constraintTop_toBottomOf="@id/vuLogoHeader"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="0dp"
     />
 
     <androidx.cardview.widget.CardView
@@ -156,12 +156,24 @@
         android:text="@string/pd_current_system_time"
     />
 
+    <TextView
+        android:id="@+id/txtTestId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/txtSystemTime"
+        android:fontFamily="@font/heebo_medium"
+        android:textColor="@color/black"
+        android:layout_marginTop="5dp"
+        android:textAlignment="center"
+        android:text="@string/pd_test_id"
+    />
+
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cvStartBlock"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/txtSystemTime"
+        app:layout_constraintTop_toBottomOf="@id/txtTestId"
         app:layout_constraintStart_toStartOf="@id/vuLogoHeader"
         android:layout_marginTop="20dp"
         app:cardCornerRadius="10dp"
@@ -236,14 +248,14 @@
     <Button
         android:id="@+id/btnTesterId"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="50dp"
         app:layout_constraintTop_toBottomOf="@id/cvStartBlock"
         app:layout_constraintStart_toStartOf="@id/cvStartBlock"
         android:layout_marginTop="20dp"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
         android:text="@string/pd_set_tester_id"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:fontFamily="@font/heebo_bold"
         android:backgroundTint="@color/bg_black"
         app:cornerRadius="10dp"
@@ -252,14 +264,14 @@
     <Button
         android:id="@+id/btnLiveData"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="50dp"
         app:layout_constraintTop_toBottomOf="@id/btnTesterId"
         app:layout_constraintStart_toStartOf="@id/btnTesterId"
         android:layout_marginTop="5dp"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
         android:text="@string/pd_view_live_data"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:fontFamily="@font/heebo_bold"
         android:backgroundTint="@color/bg_black"
         app:cornerRadius="10dp"
