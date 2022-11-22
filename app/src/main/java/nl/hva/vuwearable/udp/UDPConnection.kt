@@ -76,6 +76,10 @@ class UDPConnection(private val context: Context,
         }
     }
 
+    /**
+     * Function which checks if the current user is connected to the correct network (if any)
+     * and checks if the current network (if available) has WiFi capabilities
+     */
     private fun userIsOnline(): Boolean {
         val connectivityManager =
             context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -87,6 +91,7 @@ class UDPConnection(private val context: Context,
         val wifiManager: WifiManager = context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
         val wifiInfo: WifiInfo = wifiManager.connectionInfo
         if (wifiInfo.supplicantState == SupplicantState.COMPLETED) {
+            // remove double quotes from ssid format
             ssid = wifiInfo.ssid.replace("\"", "")
         }
 
