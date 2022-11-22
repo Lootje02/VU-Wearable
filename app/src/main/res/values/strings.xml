@@ -44,7 +44,7 @@
     <string name="wifi">WIFI</string>
     <string name="recording_connection">recording is active</string>
     <string name="time_calibration">time is calibrated correctly</string>
-    <string name="fix_issue">fix</string>
+    <string name="fix_issue">more ></string>
     <string name="tips_icon">tips_icon</string>
     <string name="correct">correct</string>
     <string name="warning">warning</string>
@@ -62,4 +62,6 @@
     <string name="logout_successful">Logout successful</string>
     <string name="title_chart">Chart</string>
     <string name="chart_information_placeholder">Chart Information</string>
+    <string name="connection_success">connection established</string>
+    <string name="connection_failed">no connection</string>
 </resources>

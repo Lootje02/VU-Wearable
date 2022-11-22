@@ -10,7 +10,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
+import nl.hva.vuwearable.R
 import nl.hva.vuwearable.databinding.FragmentDashboardBinding
+import nl.hva.vuwearable.ui.udp.UDPViewModel
 
 
 class DashboardFragment : Fragment() {
@@ -18,6 +20,8 @@ class DashboardFragment : Fragment() {
     private var _binding: FragmentDashboardBinding? = null
 
     private val viewModel: DashboardViewModel by activityViewModels()
+
+    private val udpViewModel: UDPViewModel by activityViewModels()
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -32,9 +36,27 @@ class DashboardFragment : Fragment() {
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        connectionEstablished()
+
         setStepCount()
 
         return root
+    }
+
+
+    private fun connectionEstablished() {
+        udpViewModel.isConnected.observe(viewLifecycleOwner) {
+            when (it) {
+                true -> {
+                    binding.ivWifi.setImageResource(R.drawable.ic_baseline_wifi_24)
+                    binding.wifiConnection.text = getString(R.string.connection_success)
+                }
+                false -> {
+                    binding.ivWifi.setImageResource(R.drawable.ic_baseline_wifi_off_24)
+                    binding.wifiConnection.text = getString(R.string.connection_failed)
+                }
+            }
+        }
     }
 
     private fun setStepCount() {
