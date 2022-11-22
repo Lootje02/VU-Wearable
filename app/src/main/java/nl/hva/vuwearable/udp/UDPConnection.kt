@@ -1,5 +1,11 @@
 package nl.hva.vuwearable.udp
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.net.wifi.SupplicantState
+import android.net.wifi.WifiInfo
+import android.net.wifi.WifiManager
 import android.util.Log
 import java.io.IOException
 import java.net.DatagramPacket
@@ -10,21 +16,22 @@ import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 
 
-class UDPConnection(private val setConnectedCallback: (isConnected: Boolean) -> Unit) : Runnable {
+class UDPConnection(private val context: Context,
+                    private val setConnectedCallback: (isConnected: Boolean) -> Unit) : Runnable {
 
     companion object {
         const val UDP_TAG = "TAG"
         const val CONNECTION_TIMEOUT_SECONDS = 3
         const val UDP_PORT = 1234
         const val BUFFER_LENGTH = 2048
+        const val DEVICE_NETWORK_NAME = "AndroidWifi"
     }
-
 
     override fun run() {
         var lastReceivedPacketDate: Date? = null
 
         Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate({
-            if (lastReceivedPacketDate === null) {
+            if (lastReceivedPacketDate === null || !userIsOnline()) {
                 Log.i(UDP_TAG, "No stable connection")
                 setConnectedCallback(false)
                 return@scheduleAtFixedRate
@@ -68,5 +75,23 @@ class UDPConnection(private val setConnectedCallback: (isConnected: Boolean) -> 
             setConnectedCallback(false)
         }
     }
+
+    private fun userIsOnline(): Boolean {
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+        val capabilities =
+            connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+
+        var ssid: String? = null
+        val wifiManager: WifiManager = context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+        val wifiInfo: WifiInfo = wifiManager.connectionInfo
+        if (wifiInfo.supplicantState == SupplicantState.COMPLETED) {
+            ssid = wifiInfo.ssid.replace("\"", "")
+        }
+
+        return ssid.toString() == DEVICE_NETWORK_NAME && capabilities!!.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
+    }
+
 
 }

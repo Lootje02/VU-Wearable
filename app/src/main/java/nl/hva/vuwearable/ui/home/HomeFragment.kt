@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import nl.hva.vuwearable.databinding.FragmentHomeBinding
 import nl.hva.vuwearable.ui.udp.UDPViewModel
 
+
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
@@ -20,6 +21,8 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: UDPViewModel by activityViewModels()
+
+    private val deviceNetwork: String = "AndroidWifi"
 
     override fun onCreateView(
         inflater: LayoutInflater,

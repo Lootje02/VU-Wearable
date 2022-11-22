@@ -1,5 +1,11 @@
 package nl.hva.vuwearable
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.net.wifi.SupplicantState
+import android.net.wifi.WifiInfo
+import android.net.wifi.WifiManager
 import android.os.Bundle
 import android.text.InputType
 import android.view.Menu
@@ -28,6 +34,9 @@ class MainActivity : AppCompatActivity() {
     private val loginViewModel : LoginViewModel by viewModels()
 
     private val viewModel: UDPViewModel by viewModels()
+
+    private val deviceNetwork: String = "AndroidWifi"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -43,12 +52,30 @@ class MainActivity : AppCompatActivity() {
 
         // Android does not allow to use a UDP socket on the main thread,
         // so we need to use it on a different thread
-        Thread(UDPConnection {
+        Thread(UDPConnection(this.applicationContext) {
             // Update the view model on the main thread
             CoroutineScope(Dispatchers.Main).launch {
                 viewModel.setIsConnected(it)
             }
+
         }).start()
+    }
+
+    private fun isOnline(context: Context): Boolean {
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+        val capabilities =
+            connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+
+        var ssid: String? = null
+        val wifiManager: WifiManager = this.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+        val wifiInfo: WifiInfo = wifiManager.connectionInfo
+        if (wifiInfo.supplicantState == SupplicantState.COMPLETED) {
+            ssid = wifiInfo.ssid.replace("\"", "")
+        }
+
+        return ssid.toString() == deviceNetwork && capabilities!!.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
