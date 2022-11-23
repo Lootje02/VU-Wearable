@@ -1,6 +1,5 @@
 package nl.hva.vuwearable
 
-import android.app.Notification
 import android.app.Service
 import android.os.Bundle
 import android.text.InputType
@@ -20,7 +19,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import nl.hva.vuwearable.databinding.ActivityMainBinding
-import nl.hva.vuwearable.notification.NotificationFragment
+import nl.hva.vuwearable.service.BackgroundWorker
 import nl.hva.vuwearable.udp.UDPConnection
 import nl.hva.vuwearable.ui.login.LoginViewModel
 import nl.hva.vuwearable.ui.udp.UDPViewModel
@@ -29,10 +28,6 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private val loginViewModel : LoginViewModel by viewModels()
-    private val service : Service
-        get() {
-            TODO()
-        }
 
     private val viewModel: UDPViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {

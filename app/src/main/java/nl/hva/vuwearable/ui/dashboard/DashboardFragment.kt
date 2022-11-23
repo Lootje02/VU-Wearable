@@ -1,5 +1,7 @@
 package nl.hva.vuwearable.ui.dashboard
 
+import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -9,9 +11,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.work.*
 import nl.hva.vuwearable.R
 import nl.hva.vuwearable.databinding.FragmentDashboardBinding
+import nl.hva.vuwearable.service.BackgroundWorker
 import nl.hva.vuwearable.ui.udp.UDPViewModel
+import java.util.concurrent.TimeUnit
 
 
 class DashboardFragment : Fragment() {
@@ -22,8 +27,10 @@ class DashboardFragment : Fragment() {
 
     private val udpViewModel: UDPViewModel by activityViewModels()
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
+    @SuppressLint("InvalidPeriodicWorkRequestInterval")
+    private val uploadWorkRequest =
+        PeriodicWorkRequest.Builder(BackgroundWorker::class.java, 1, TimeUnit.MINUTES)
+
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -36,6 +43,8 @@ class DashboardFragment : Fragment() {
         val root: View = binding.root
 
         connectionEstablished()
+
+        WorkManager.getInstance(requireContext()).enqueue(uploadWorkRequest.build())
 
         setStepCount()
 

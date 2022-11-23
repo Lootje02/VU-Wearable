@@ -25,7 +25,7 @@ class UDPConnection(private val setConnectedCallback: (isConnected: Boolean) -> 
 
         Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate({
             if (lastReceivedPacketDate === null) {
-                Log.i(UDP_TAG, "No stable connection")
+                //Log.i(UDP_TAG, "No stable connection")
                 setConnectedCallback(false)
                 return@scheduleAtFixedRate
             }

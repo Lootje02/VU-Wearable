@@ -31,6 +31,8 @@
                 android:value=""/>
         </activity>
 
+        <service android:name=".service.BackgroundService"/>
+
     </application>
 
 </manifest>
