@@ -10,7 +10,6 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -31,11 +30,10 @@ import java.util.concurrent.TimeUnit
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private val loginViewModel : LoginViewModel by viewModels()
+    private val loginViewModel: LoginViewModel by viewModels()
 
-    @SuppressLint("InvalidPeriodicWorkRequestInterval")
     private val uploadWorkRequest =
-        PeriodicWorkRequest.Builder(BackgroundWorker::class.java, 1, TimeUnit.MINUTES)
+        PeriodicWorkRequest.Builder(BackgroundWorker::class.java, 15, TimeUnit.MINUTES)
 
     private val viewModel: UDPViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -79,8 +77,9 @@ class MainActivity : AppCompatActivity() {
     private fun setupAppBar() {
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
 
-        val dashboardId = if (loginViewModel.isLoggedIn.value == true) R.id.professorDashboardFragment
-        else R.id.navigation_dashboard
+        val dashboardId =
+            if (loginViewModel.isLoggedIn.value == true) R.id.professorDashboardFragment
+            else R.id.navigation_dashboard
 
         val appBarConfiguration = AppBarConfiguration(
             setOf(
@@ -90,7 +89,7 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
     }
 
-    private fun showDialog () {
+    private fun showDialog() {
         if (loginViewModel.isLoggedIn.value == false) {
             // Set up the input
             val input = EditText(this)
@@ -125,7 +124,8 @@ class MainActivity : AppCompatActivity() {
                 loginViewModel.setIsLoggedIn(false)
                 builder.hide()
                 findNavController(R.id.nav_host_fragment_activity_main).navigate(R.id.navigation_dashboard)
-                Toast.makeText(this, getString(R.string.logout_successful), Toast.LENGTH_LONG).show()
+                Toast.makeText(this, getString(R.string.logout_successful), Toast.LENGTH_LONG)
+                    .show()
             }
         }
         setupAppBar()

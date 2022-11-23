@@ -1,6 +1,5 @@
 package nl.hva.vuwearable.ui.dashboard
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper

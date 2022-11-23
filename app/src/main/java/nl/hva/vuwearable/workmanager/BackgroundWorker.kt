@@ -7,15 +7,19 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.work.*
 import nl.hva.vuwearable.MainActivity
 import nl.hva.vuwearable.R
+import nl.hva.vuwearable.ui.udp.UDPViewModel
 
 
 class BackgroundWorker(appContext: Context, workerParams: WorkerParameters) :
     Worker(appContext, workerParams) {
     private val CHANNEL_ID = "notificationWifi"
+
+    private val udpViewModel = UDPViewModel()
 
     private val notificationManager =
         applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -23,9 +27,17 @@ class BackgroundWorker(appContext: Context, workerParams: WorkerParameters) :
     override fun doWork(): Result {
         createNotificationChannel()
 
-        notifyUser()
-
-        return Result.retry()
+        return when(udpViewModel.isConnected.value){
+            false -> {
+                Log.i("wifi disconnected","wifi connection")
+                notifyUser()
+                Result.retry()
+            }
+            else -> {
+                Log.i("wifi connected","wifi connection")
+                Result.success()
+            }
+        }
     }
 
     private fun createNotificationChannel() {
@@ -46,8 +58,13 @@ class BackgroundWorker(appContext: Context, workerParams: WorkerParameters) :
         val activityActionIntent = Intent(applicationContext, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK
         }
-        val activityActionPendingIntent: PendingIntent =
-            PendingIntent.getActivity(applicationContext, 0, activityActionIntent, PendingIntent.FLAG_IMMUTABLE)
+        val pendingIntent: PendingIntent =
+            PendingIntent.getActivity(
+                applicationContext,
+                0,
+                activityActionIntent,
+                PendingIntent.FLAG_IMMUTABLE
+            )
 
         val notificationBuilder: NotificationCompat.Builder =
             NotificationCompat.Builder(applicationContext, CHANNEL_ID)
@@ -55,7 +72,7 @@ class BackgroundWorker(appContext: Context, workerParams: WorkerParameters) :
                 .setSmallIcon(R.drawable.ic_vu_logo)
                 .setContentTitle("Connection Lost")
                 .setContentText("Return to the app and reconnect the device")
-                .addAction(R.drawable.ic_vu_logo,"Fix issue",activityActionPendingIntent)
+                .addAction(R.drawable.ic_vu_logo, "Fix issue", pendingIntent)
 
         notificationManager.notify(1, notificationBuilder.build())
     }
