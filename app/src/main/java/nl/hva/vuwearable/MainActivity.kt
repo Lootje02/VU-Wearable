@@ -1,6 +1,6 @@
 package nl.hva.vuwearable
 
-import android.app.Service
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.InputType
 import android.view.Menu
@@ -10,24 +10,32 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.work.PeriodicWorkRequest
+import androidx.work.WorkManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import nl.hva.vuwearable.databinding.ActivityMainBinding
-import nl.hva.vuwearable.service.BackgroundWorker
 import nl.hva.vuwearable.udp.UDPConnection
 import nl.hva.vuwearable.ui.login.LoginViewModel
 import nl.hva.vuwearable.ui.udp.UDPViewModel
+import nl.hva.vuwearable.workmanager.BackgroundWorker
+import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private val loginViewModel : LoginViewModel by viewModels()
+
+    @SuppressLint("InvalidPeriodicWorkRequestInterval")
+    private val uploadWorkRequest =
+        PeriodicWorkRequest.Builder(BackgroundWorker::class.java, 1, TimeUnit.MINUTES)
 
     private val viewModel: UDPViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,6 +49,8 @@ class MainActivity : AppCompatActivity() {
 
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
         setupAppBar()
+
+        WorkManager.getInstance(applicationContext).enqueue(uploadWorkRequest.build())
 
         navView.setupWithNavController(navController)
 
@@ -118,7 +128,6 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, getString(R.string.logout_successful), Toast.LENGTH_LONG).show()
             }
         }
-
         setupAppBar()
     }
 }

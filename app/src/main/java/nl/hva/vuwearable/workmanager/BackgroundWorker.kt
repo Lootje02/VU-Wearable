@@ -1,14 +1,16 @@
-package nl.hva.vuwearable.service
+package nl.hva.vuwearable.workmanager
 
-//noinspection SuspiciousImport
-import android.R
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.work.*
+import nl.hva.vuwearable.MainActivity
+import nl.hva.vuwearable.R
 
 
 class BackgroundWorker(appContext: Context, workerParams: WorkerParameters) :
@@ -41,14 +43,20 @@ class BackgroundWorker(appContext: Context, workerParams: WorkerParameters) :
 
 
     private fun notifyUser() {
+        val activityActionIntent = Intent(applicationContext, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        }
+        val activityActionPendingIntent: PendingIntent =
+            PendingIntent.getActivity(applicationContext, 0, activityActionIntent, PendingIntent.FLAG_IMMUTABLE)
+
         val notificationBuilder: NotificationCompat.Builder =
             NotificationCompat.Builder(applicationContext, CHANNEL_ID)
                 .setDefaults(Notification.DEFAULT_ALL)
-                .setSmallIcon(R.drawable.ic_dialog_alert)
+                .setSmallIcon(R.drawable.ic_vu_logo)
                 .setContentTitle("Connection Lost")
-                .setContentText("Return to the app and reconnect to the device via Wifi")
-                .addAction()
-        notificationManager.notify(1, notificationBuilder.build());
-    }
+                .setContentText("Return to the app and reconnect the device")
+                .addAction(R.drawable.ic_vu_logo,"Fix issue",activityActionPendingIntent)
 
+        notificationManager.notify(1, notificationBuilder.build())
+    }
 }
