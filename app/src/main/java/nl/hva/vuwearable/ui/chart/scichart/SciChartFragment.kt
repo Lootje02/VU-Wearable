@@ -11,14 +11,14 @@ import com.scichart.charting.model.dataSeries.XyDataSeries
 import com.scichart.charting.modifiers.*
 import com.scichart.charting.visuals.axes.IAxis
 import com.scichart.charting.visuals.axes.NumericAxis
-import com.scichart.charting.visuals.pointmarkers.EllipsePointMarker
 import com.scichart.charting.visuals.renderableSeries.FastLineRenderableSeries
 import com.scichart.charting.visuals.renderableSeries.IRenderableSeries
 import com.scichart.core.annotations.Orientation
 import com.scichart.core.framework.UpdateSuspender
 import com.scichart.core.model.DoubleValues
 import com.scichart.core.model.IntegerValues
-import com.scichart.drawing.common.SolidBrushStyle
+import com.scichart.drawing.common.SolidPenStyle
+import com.scichart.drawing.utility.ColorUtil
 import nl.hva.vuwearable.databinding.FragmentSciChartBinding
 import java.util.*
 import java.util.concurrent.Executors
@@ -36,8 +36,14 @@ class SciChartFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
-    private val lineData = DoubleValues()
-    private val lineDataSeries =
+    private val ecgLineData = DoubleValues()
+    private val ecgLineDataSeries =
+        XyDataSeries(Int::class.javaObjectType, Double::class.javaObjectType).apply {
+            append(xValues, yValues)
+        }
+
+    private val icgLineData = DoubleValues()
+    private val icgLineDataSeries =
         XyDataSeries(Int::class.javaObjectType, Double::class.javaObjectType).apply {
             append(xValues, yValues)
         }
@@ -55,20 +61,18 @@ class SciChartFragment : Fragment() {
         val xAxis: IAxis = NumericAxis(requireContext())
         val yAxis: IAxis = NumericAxis(requireContext())
 
-        lineDataSeries.seriesName = "ECG"
+        ecgLineDataSeries.seriesName = "ECG"
 
-        lineDataSeries.fifoCapacity = 300
+        ecgLineDataSeries.fifoCapacity = 300
 
         val xValues = IntegerValues()
 
-        lineDataSeries.append(xValues, lineData)
+        ecgLineDataSeries.append(xValues, ecgLineData)
 
         val lineSeries: IRenderableSeries = FastLineRenderableSeries()
-        lineSeries.dataSeries = lineDataSeries
+        lineSeries.dataSeries = ecgLineDataSeries
 
-        val pointMarker = EllipsePointMarker()
-        pointMarker.fillStyle = SolidBrushStyle(-0xcd32ce)
-        pointMarker.setSize(10, 10)
+        lineSeries.strokeStyle = SolidPenStyle(ColorUtil.LimeGreen, true, 5f, null)
 
         val legendModifier = LegendModifier(requireContext())
         legendModifier.setOrientation(Orientation.HORIZONTAL)
@@ -80,7 +84,7 @@ class SciChartFragment : Fragment() {
                 surface.chartModifiers,
                 PinchZoomModifier(),
                 ZoomPanModifier(),
-                ZoomExtentsModifier()
+                ZoomExtentsModifier(),
             )
             Collections.addAll(surface.chartModifiers, legendModifier)
             Collections.addAll(surface.chartModifiers, RolloverModifier())
@@ -110,48 +114,48 @@ class SciChartFragment : Fragment() {
             var totalStepsDone = -1
             if (changeCount == 100) {
                 for (i in 0..10) {
-                    lineDataSeries.append(x + ++totalStepsDone, 0.01 * i)
+                    ecgLineDataSeries.append(x + ++totalStepsDone, 0.01 * i)
                 }
 
                 Log.i("UDP", totalStepsDone.toString())
-                lineDataSeries.append(x + ++totalStepsDone, 0.09)
+                ecgLineDataSeries.append(x + ++totalStepsDone, 0.09)
                 Log.i("UDP", totalStepsDone.toString())
 
-                lineDataSeries.append(x + ++totalStepsDone, 0.08)
-                lineDataSeries.append(x + ++totalStepsDone, 0.07)
-                lineDataSeries.append(x + ++totalStepsDone, 0.06)
-                lineDataSeries.append(x + ++totalStepsDone, 0.05)
-                lineDataSeries.append(x + ++totalStepsDone, 0.04)
-                lineDataSeries.append(x + ++totalStepsDone, 0.03)
-                lineDataSeries.append(x + ++totalStepsDone, 0.02)
-                lineDataSeries.append(x + ++totalStepsDone, 0.01)
+                ecgLineDataSeries.append(x + ++totalStepsDone, 0.08)
+                ecgLineDataSeries.append(x + ++totalStepsDone, 0.07)
+                ecgLineDataSeries.append(x + ++totalStepsDone, 0.06)
+                ecgLineDataSeries.append(x + ++totalStepsDone, 0.05)
+                ecgLineDataSeries.append(x + ++totalStepsDone, 0.04)
+                ecgLineDataSeries.append(x + ++totalStepsDone, 0.03)
+                ecgLineDataSeries.append(x + ++totalStepsDone, 0.02)
+                ecgLineDataSeries.append(x + ++totalStepsDone, 0.01)
 
                 for (i in 0..5) {
-                    lineDataSeries.append(x + ++totalStepsDone, -0.01 * i)
+                    ecgLineDataSeries.append(x + ++totalStepsDone, -0.01 * i)
                 }
 
                 for (i in 0..30) {
-                    lineDataSeries.append(x + ++totalStepsDone, 0.0)
+                    ecgLineDataSeries.append(x + ++totalStepsDone, 0.0)
                 }
 
 
                 for (i in 0..10) {
-                    lineDataSeries.append(x + ++totalStepsDone, 0.02 * i)
+                    ecgLineDataSeries.append(x + ++totalStepsDone, 0.02 * i)
                 }
 
                 for (i in 10 downTo -6) {
-                    lineDataSeries.append(x + ++totalStepsDone, 0.02 * i)
+                    ecgLineDataSeries.append(x + ++totalStepsDone, 0.02 * i)
                 }
 
                 for (i in -6..0) {
-                    lineDataSeries.append(x + ++totalStepsDone, 0.02 * i)
+                    ecgLineDataSeries.append(x + ++totalStepsDone, 0.02 * i)
                 }
 
                 count += totalStepsDone
                 changeCount = 0
                 totalStepsDone = 0
             } else {
-                lineDataSeries.append(x, 0.0)
+                ecgLineDataSeries.append(x, 0.0)
             }
 
             binding.surface.zoomExtentsX()
