@@ -9,44 +9,43 @@ import android.content.Intent
 import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
-import androidx.fragment.app.activityViewModels
 import androidx.work.*
 import nl.hva.vuwearable.MainActivity
 import nl.hva.vuwearable.R
 import nl.hva.vuwearable.udp.UDPConnection
-import nl.hva.vuwearable.ui.udp.UDPViewModel
 
 
 class BackgroundWorker(appContext: Context, workerParams: WorkerParameters) :
     Worker(appContext, workerParams) {
+
+    private val measurementStarted = false
 
     private val CHANNEL_ID = "notificationWifi"
 
     private val notificationManager =
         applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-    private val udpViewModel = UDPViewModel()
     override fun doWork(): Result {
         createNotificationChannel()
-        var result: Result = Result.retry()
-        var previous = false
-        Thread(UDPConnection({
-            when (it) {
-                false -> {
-                    Log.i("wifi disconnected", "wifi connection")
-                    createNotification()
-                    result = Result.retry()
-                    previous = it
-                }
-                true -> {
-                    Log.i("wifi connected", "wifi connection")
-                    result = Result.success()
-                    previous = it
 
+        if (measurementStarted) {
+            Thread(UDPConnection({
+                when (it) {
+                    false -> {
+                        createNotification()
+                        Log.i("wifi connected", "wifi connection")
+                        Result.retry()
+                    }
+                    true -> {
+                        Log.i("wifi connected", "wifi connection")
+                        Result.success()
+                    }
                 }
-            }
-        }, 10, 10)).start()
-        return result
+            }, 10, 10)).start()
+        } else {
+            return Result.failure()
+        }
+        return Result.retry()
     }
 
     private fun createNotificationChannel() {

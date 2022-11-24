@@ -13,6 +13,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -32,7 +33,7 @@ class MainActivity : AppCompatActivity() {
     private val loginViewModel: LoginViewModel by viewModels()
 
     private val uploadWorkRequest =
-        PeriodicWorkRequest.Builder(BackgroundWorker::class.java, 15, TimeUnit.MINUTES)
+        PeriodicWorkRequest.Builder(BackgroundWorker::class.java, 1, TimeUnit.MINUTES)
 
     private val viewModel: UDPViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,7 +59,7 @@ class MainActivity : AppCompatActivity() {
             CoroutineScope(Dispatchers.Main).launch {
                 viewModel.setIsConnected(it)
             }
-        })).start()
+        }, 3, 3)).start()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

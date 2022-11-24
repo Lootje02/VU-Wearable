@@ -1,11 +1,14 @@
 package nl.hva.vuwearable.ui.dashboard
 
+import android.app.AlertDialog
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import nl.hva.vuwearable.R
@@ -22,6 +25,7 @@ class DashboardFragment : Fragment() {
 
     private val binding get() = _binding!!
 
+    @RequiresApi(Build.VERSION_CODES.S)
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -30,6 +34,10 @@ class DashboardFragment : Fragment() {
 
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
         val root: View = binding.root
+
+        binding.imageButton2.setOnClickListener {
+            showIssueDialog()
+        }
 
         connectionEstablished()
 
@@ -100,5 +108,22 @@ class DashboardFragment : Fragment() {
                 handler.postDelayed(this, 1000)
             }
         }, 1000)
+    }
+
+
+    @RequiresApi(Build.VERSION_CODES.S)
+    private fun showIssueDialog() {
+
+        val dialogLayout = layoutInflater.inflate(R.layout.issue_dialog, null)
+
+        val builder = AlertDialog.Builder(requireContext())
+
+        builder.setTitle(getString(R.string.set_issue_title))
+
+        builder.setCancelable(true)
+
+        builder.setView(dialogLayout)
+
+        builder.show()
     }
 }
