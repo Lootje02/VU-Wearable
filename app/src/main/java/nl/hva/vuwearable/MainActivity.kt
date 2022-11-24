@@ -2,6 +2,7 @@ package nl.hva.vuwearable
 
 import android.os.Bundle
 import android.text.InputType
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.EditText
@@ -14,6 +15,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.scichart.charting.visuals.SciChartSurface
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -25,7 +27,7 @@ import nl.hva.vuwearable.ui.udp.UDPViewModel
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private val loginViewModel : LoginViewModel by viewModels()
+    private val loginViewModel: LoginViewModel by viewModels()
 
     private val viewModel: UDPViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,6 +51,12 @@ class MainActivity : AppCompatActivity() {
                 viewModel.setIsConnected(it)
             }
         }).start()
+
+        try {
+            SciChartSurface.setRuntimeLicenseKey(BuildConfig.SCI_CHART_KEY)
+        } catch (e: Exception) {
+            Log.e("SciChart", e.toString())
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -66,8 +74,9 @@ class MainActivity : AppCompatActivity() {
     private fun setupAppBar() {
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
 
-        val dashboardId = if (loginViewModel.isLoggedIn.value == true) R.id.professorDashboardFragment
-        else R.id.navigation_dashboard
+        val dashboardId =
+            if (loginViewModel.isLoggedIn.value == true) R.id.professorDashboardFragment
+            else R.id.navigation_dashboard
 
         val appBarConfiguration = AppBarConfiguration(
             setOf(
@@ -77,7 +86,7 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
     }
 
-    private fun showDialog () {
+    private fun showDialog() {
         if (loginViewModel.isLoggedIn.value == false) {
             // Set up the input
             val input = EditText(this)
@@ -112,7 +121,8 @@ class MainActivity : AppCompatActivity() {
                 loginViewModel.setIsLoggedIn(false)
                 builder.hide()
                 findNavController(R.id.nav_host_fragment_activity_main).navigate(R.id.navigation_dashboard)
-                Toast.makeText(this, getString(R.string.logout_successful), Toast.LENGTH_LONG).show()
+                Toast.makeText(this, getString(R.string.logout_successful), Toast.LENGTH_LONG)
+                    .show()
             }
         }
 
