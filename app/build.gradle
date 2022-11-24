@@ -16,7 +16,7 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField("String", "SCI_CHART_KEY", '"<KEY_HERE>"')
+        buildConfigField("String", "SCI_CHART_KEY", '"<KEY HERE>"')
 
     }
 
@@ -56,11 +56,15 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
-    implementation(group: 'com.scichart.library', name: 'core', version: '3.0.0.4253', ext: 'aar')
-    implementation(group: 'com.scichart.library', name: 'data', version: '3.0.0.4253', ext: 'aar')
-    implementation(group: 'com.scichart.library', name: 'drawing', version: '3.0.0.4253', ext: 'aar')
-    implementation(group: 'com.scichart.library', name: 'charting3d', version: '3.0.0.4253', ext: 'aar')
-    implementation(group: 'com.scichart.library', name: 'charting', version: '3.0.0.4253', ext: 'aar')
-    implementation(group: 'com.scichart.library', name: 'extensions', version: '3.0.0.4253', ext: 'aar')
-    implementation(group: 'com.scichart.library', name: 'extensions3d', version: '3.0.0.4253', ext: 'aar')
+    def sciChart_version = "4.4.0-nightly.4744"
+
+    // Declare SciChart libraries as module dependencies
+    implementation(group: 'com.scichart.library', name: 'core', version: sciChart_version, ext: 'aar')
+    implementation(group: 'com.scichart.library', name: 'data', version: sciChart_version, ext: 'aar')
+    implementation(group: 'com.scichart.library', name: 'drawing', version: sciChart_version, ext: 'aar')
+    implementation(group: 'com.scichart.library', name: 'charting', version: sciChart_version, ext: 'aar')
+    implementation(group: 'com.scichart.library', name: 'charting3d', version: sciChart_version, ext: 'aar')
+    // Declare SciChart extension library as module dependencies
+    implementation(group: 'com.scichart.library', name: 'extensions', version: sciChart_version, ext: 'aar')
+    implementation(group: 'com.scichart.library', name: 'extensions3d', version: sciChart_version, ext: 'aar')
 }
