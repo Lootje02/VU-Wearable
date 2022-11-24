@@ -17,24 +17,25 @@ import nl.hva.vuwearable.ui.udp.UDPViewModel
 
 class BackgroundWorker(appContext: Context, workerParams: WorkerParameters) :
     Worker(appContext, workerParams) {
-    private val CHANNEL_ID = "notificationWifi"
 
-    private val udpViewModel = UDPViewModel()
+    private val CHANNEL_ID = "notificationWifi"
 
     private val notificationManager =
         applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
+    private val udpViewModel = UDPViewModel()
+
     override fun doWork(): Result {
         createNotificationChannel()
 
-        return when(udpViewModel.isConnected.value){
+        return when (udpViewModel.isConnected.value) {
             false -> {
-                Log.i("wifi disconnected","wifi connection")
-                notifyUser()
+                Log.i("wifi disconnected", "wifi connection")
+                createNotification()
                 Result.retry()
             }
             else -> {
-                Log.i("wifi connected","wifi connection")
+                Log.i("wifi connected", "wifi connection")
                 Result.success()
             }
         }
@@ -53,11 +54,11 @@ class BackgroundWorker(appContext: Context, workerParams: WorkerParameters) :
         }
     }
 
-
-    private fun notifyUser() {
+    private fun createNotification() {
         val activityActionIntent = Intent(applicationContext, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK
         }
+
         val pendingIntent: PendingIntent =
             PendingIntent.getActivity(
                 applicationContext,
@@ -73,7 +74,6 @@ class BackgroundWorker(appContext: Context, workerParams: WorkerParameters) :
                 .setContentTitle("Connection Lost")
                 .setContentText("Return to the app and reconnect the device")
                 .addAction(R.drawable.ic_vu_logo, "Fix issue", pendingIntent)
-
         notificationManager.notify(1, notificationBuilder.build())
     }
 }

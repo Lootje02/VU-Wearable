@@ -1,6 +1,5 @@
 package nl.hva.vuwearable
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.InputType
 import android.view.Menu
@@ -33,7 +32,7 @@ class MainActivity : AppCompatActivity() {
     private val loginViewModel: LoginViewModel by viewModels()
 
     private val uploadWorkRequest =
-        PeriodicWorkRequest.Builder(BackgroundWorker::class.java, 15, TimeUnit.MINUTES)
+        PeriodicWorkRequest.Builder(BackgroundWorker::class.java, 1, TimeUnit.MINUTES)
 
     private val viewModel: UDPViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,6 +45,7 @@ class MainActivity : AppCompatActivity() {
         val navView: BottomNavigationView = binding.navView
 
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
+        
         setupAppBar()
 
         WorkManager.getInstance(applicationContext).enqueue(uploadWorkRequest.build())
