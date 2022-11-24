@@ -1,6 +1,7 @@
 package nl.hva.vuwearable.ui.chart.scichart
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -19,7 +20,6 @@ import com.scichart.core.model.DoubleValues
 import com.scichart.core.model.IntegerValues
 import com.scichart.drawing.common.SolidBrushStyle
 import nl.hva.vuwearable.databinding.FragmentSciChartBinding
-import java.lang.Math.sin
 import java.util.*
 import java.util.concurrent.Executors
 import java.util.concurrent.ScheduledFuture
@@ -60,11 +60,6 @@ class SciChartFragment : Fragment() {
         lineDataSeries.fifoCapacity = 300
 
         val xValues = IntegerValues()
-        for (i in 0 until 200) {
-            xValues.add(i)
-            lineData.add(sin(i * 0.1))
-            count++
-        }
 
         lineDataSeries.append(xValues, lineData)
 
@@ -99,7 +94,7 @@ class SciChartFragment : Fragment() {
         schedule = scheduledExecutorService.scheduleWithFixedDelay(
             updateData,
             0,
-            10,
+            15,
             TimeUnit.MILLISECONDS
         )
 
@@ -107,14 +102,61 @@ class SciChartFragment : Fragment() {
     }
 
     private var count = 0
+    private var changeCount = 0
 
     private val updateData = Runnable {
         val x = count
         UpdateSuspender.using(binding.surface) {
-            lineDataSeries.append(x, sin(x * 0.1))
+            var totalStepsDone = -1
+            if (changeCount == 100) {
+                for (i in 0..10) {
+                    lineDataSeries.append(x + ++totalStepsDone, 0.01 * i)
+                }
+
+                Log.i("UDP", totalStepsDone.toString())
+                lineDataSeries.append(x + ++totalStepsDone, 0.09)
+                Log.i("UDP", totalStepsDone.toString())
+
+                lineDataSeries.append(x + ++totalStepsDone, 0.08)
+                lineDataSeries.append(x + ++totalStepsDone, 0.07)
+                lineDataSeries.append(x + ++totalStepsDone, 0.06)
+                lineDataSeries.append(x + ++totalStepsDone, 0.05)
+                lineDataSeries.append(x + ++totalStepsDone, 0.04)
+                lineDataSeries.append(x + ++totalStepsDone, 0.03)
+                lineDataSeries.append(x + ++totalStepsDone, 0.02)
+                lineDataSeries.append(x + ++totalStepsDone, 0.01)
+
+                for (i in 0..5) {
+                    lineDataSeries.append(x + ++totalStepsDone, -0.01 * i)
+                }
+
+                for (i in 0..30) {
+                    lineDataSeries.append(x + ++totalStepsDone, 0.0)
+                }
+
+
+                for (i in 0..10) {
+                    lineDataSeries.append(x + ++totalStepsDone, 0.02 * i)
+                }
+
+                for (i in 10 downTo -6) {
+                    lineDataSeries.append(x + ++totalStepsDone, 0.02 * i)
+                }
+
+                for (i in -6..0) {
+                    lineDataSeries.append(x + ++totalStepsDone, 0.02 * i)
+                }
+
+                count += totalStepsDone
+                changeCount = 0
+                totalStepsDone = 0
+            } else {
+                lineDataSeries.append(x, 0.0)
+            }
 
             binding.surface.zoomExtentsX()
             count++
+            changeCount++
         }
     }
 
