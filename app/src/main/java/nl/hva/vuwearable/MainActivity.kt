@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
     private val loginViewModel: LoginViewModel by viewModels()
 
     private val uploadWorkRequest =
-        PeriodicWorkRequest.Builder(BackgroundWorker::class.java, 1, TimeUnit.MINUTES)
+        PeriodicWorkRequest.Builder(BackgroundWorker::class.java, 15, TimeUnit.MINUTES)
 
     private val viewModel: UDPViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,11 +41,10 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
         val navView: BottomNavigationView = binding.navView
 
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
-        
+
         setupAppBar()
 
         WorkManager.getInstance(applicationContext).enqueue(uploadWorkRequest.build())
@@ -54,12 +53,12 @@ class MainActivity : AppCompatActivity() {
 
         // Android does not allow to use a UDP socket on the main thread,
         // so we need to use it on a different thread
-        Thread(UDPConnection {
+        Thread(UDPConnection({
             // Update the view model on the main thread
             CoroutineScope(Dispatchers.Main).launch {
                 viewModel.setIsConnected(it)
             }
-        }).start()
+        })).start()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
