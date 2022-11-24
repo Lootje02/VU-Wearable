@@ -122,8 +122,4 @@ class SciChartFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
-    companion object {
-        private const val FIFO_CAPACITY = 7850
-    }
 }
