@@ -16,8 +16,10 @@ import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 
 
-class UDPConnection(private val context: Context,
-                    private val setConnectedCallback: (isConnected: Boolean) -> Unit) : Runnable {
+class UDPConnection(
+    private val context: Context,
+    private val setConnectedCallback: (isConnected: Boolean, isReceivingData: Boolean) -> Unit
+) : Runnable {
 
     companion object {
         const val UDP_TAG = "TAG"
@@ -31,9 +33,14 @@ class UDPConnection(private val context: Context,
         var lastReceivedPacketDate: Date? = null
 
         Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate({
+            if (lastReceivedPacketDate === null && userIsOnline()) {
+                setConnectedCallback(true, false)
+                return@scheduleAtFixedRate
+            }
+
             if (lastReceivedPacketDate === null || !userIsOnline()) {
                 Log.i(UDP_TAG, "No stable connection")
-                setConnectedCallback(false)
+                setConnectedCallback(false, false)
                 return@scheduleAtFixedRate
             }
 
@@ -44,11 +51,11 @@ class UDPConnection(private val context: Context,
             // Connection is not stable
             if (secondsDifference >= CONNECTION_TIMEOUT_SECONDS) {
                 Log.i(UDP_TAG, "No stable connection!")
-                setConnectedCallback(false)
+                setConnectedCallback(false, false)
             } else {
                 // Connection is stable
                 Log.i(UDP_TAG, "Stable connection")
-                setConnectedCallback(true)
+                setConnectedCallback(true, true)
             }
         }, 3, 3, TimeUnit.SECONDS)
         try {
@@ -69,10 +76,10 @@ class UDPConnection(private val context: Context,
             }
         } catch (e: SocketException) {
             Log.e(UDP_TAG, "Socket error", e)
-            setConnectedCallback(false)
+            setConnectedCallback(false, false)
         } catch (e: IOException) {
             Log.e(UDP_TAG, "IO error", e)
-            setConnectedCallback(false)
+            setConnectedCallback(false, false)
         }
     }
 
@@ -95,8 +102,6 @@ class UDPConnection(private val context: Context,
             ssid = wifiInfo.ssid.replace("\"", "")
         }
 
-        return ssid.toString() == DEVICE_NETWORK_NAME && capabilities!!.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
+        return ssid.toString().contains(DEVICE_NETWORK_NAME) && capabilities!!.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
     }
-
-
 }

@@ -52,35 +52,19 @@ class MainActivity : AppCompatActivity() {
 
         // Android does not allow to use a UDP socket on the main thread,
         // so we need to use it on a different thread
-        Thread(UDPConnection(this.applicationContext) {
+        Thread(UDPConnection(this.applicationContext) { isConnected, isReceivingData ->
             // Update the view model on the main thread
             CoroutineScope(Dispatchers.Main).launch {
-                viewModel.setIsConnected(it)
+                viewModel.setIsConnected(isConnected)
+                viewModel.setIsReceivingData(isReceivingData)
             }
 
         }).start()
     }
 
-    private fun isOnline(context: Context): Boolean {
-        val connectivityManager =
-            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-
-        val capabilities =
-            connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
-
-        var ssid: String? = null
-        val wifiManager: WifiManager = this.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
-        val wifiInfo: WifiInfo = wifiManager.connectionInfo
-        if (wifiInfo.supplicantState == SupplicantState.COMPLETED) {
-            ssid = wifiInfo.ssid.replace("\"", "")
-        }
-
-        return ssid.toString() == deviceNetwork && capabilities!!.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
-    }
-
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.nav_menu, menu)
-        return true;
+        return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

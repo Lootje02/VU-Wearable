@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
+import nl.hva.vuwearable.R
 import nl.hva.vuwearable.databinding.FragmentHomeBinding
 import nl.hva.vuwearable.ui.udp.UDPViewModel
 
@@ -37,9 +38,10 @@ class HomeFragment : Fragment() {
 
         val textView: TextView = binding.textHome
 
-        viewModel.isConnected.observe(viewLifecycleOwner) {
-            textView.text = if (it) "Connected" else "Not connected"
+        viewModel.isConnected.observe(viewLifecycleOwner) { isConnected ->
+            textView.text = if (isConnected) getString(R.string.connected) else getString(R.string.not_connected)
         }
+
         return root
     }
 
