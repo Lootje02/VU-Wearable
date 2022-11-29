@@ -21,15 +21,18 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import nl.hva.vuwearable.databinding.ActivityMainBinding
 import nl.hva.vuwearable.udp.UDPConnection
+import nl.hva.vuwearable.ui.chart.scichart.ChartViewModel
 import nl.hva.vuwearable.ui.login.LoginViewModel
 import nl.hva.vuwearable.ui.udp.UDPViewModel
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private val loginViewModel: LoginViewModel by viewModels()
+    private val chartViewModel: ChartViewModel by viewModels()
+    private val udpViewModel: UDPViewModel by viewModels()
 
-    private val viewModel: UDPViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -45,12 +48,18 @@ class MainActivity : AppCompatActivity() {
 
         // Android does not allow to use a UDP socket on the main thread,
         // so we need to use it on a different thread
-        Thread(UDPConnection {
+        Thread(UDPConnection(setConnectedCallback = {
             // Update the view model on the main thread
             CoroutineScope(Dispatchers.Main).launch {
-                viewModel.setIsConnected(it)
+                udpViewModel.setIsConnected(it)
             }
-        }).start()
+        }, setMeasurementCallback = {
+            CoroutineScope(Dispatchers.Main).launch {
+//                Log.i("YES", it.toString())
+
+                chartViewModel.setMeasurement(TreeMap(it))
+            }
+        })).start()
 
         try {
             SciChartSurface.setRuntimeLicenseKey(BuildConfig.SCI_CHART_KEY)

@@ -11,7 +11,10 @@ import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 
 
-class UDPConnection(private val setConnectedCallback: (isConnected: Boolean) -> Unit) : Runnable {
+class UDPConnection(
+    private val setConnectedCallback: (isConnected: Boolean) -> Unit,
+    private val setMeasurementCallback: (measurements: LinkedHashMap<Double, List<Measurement>>) -> Unit
+) : Runnable {
 
     companion object {
         const val UDP_TAG = "UDP"
@@ -78,6 +81,7 @@ class UDPConnection(private val setConnectedCallback: (isConnected: Boolean) -> 
 
                 val map = getPartOfA(text)
                 val results = getMeasurementValuesForTypeA(map)
+                setMeasurementCallback(results)
 
                 // Set the last received date to see if there is a delay between next packet
                 lastReceivedPacketDate = Date()
@@ -143,6 +147,7 @@ class UDPConnection(private val setConnectedCallback: (isConnected: Boolean) -> 
                 }
                 type.value =
                     if (type.formula != null) type.formula?.let { it(measurementTotal) }!! else measurementTotal
+
                 if (type.title == TIME_TITLE) timeInUnix = measurementTotal
 
                 measurements.add(type)
