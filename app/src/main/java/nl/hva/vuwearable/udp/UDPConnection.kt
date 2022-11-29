@@ -1,6 +1,13 @@
 package nl.hva.vuwearable.udp
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.net.wifi.SupplicantState
+import android.net.wifi.WifiInfo
+import android.net.wifi.WifiManager
 import android.util.Log
+import nl.hva.vuwearable.models.Measurement
 import java.io.IOException
 import java.net.DatagramPacket
 import java.net.DatagramSocket
@@ -17,7 +24,6 @@ class UDPConnection(
 
     companion object {
         const val UDP_TAG = "UDP"
-        const val CONNECTION_TIMEOUT_SECONDS = 3
         const val UDP_PORT = 1234
         const val BUFFER_LENGTH = 2048
         const val DEVICE_NETWORK_NAME = "AndroidWifi"
@@ -37,7 +43,6 @@ class UDPConnection(
         private val IRSC = Measurement(32, "IRSC") { value: Double -> A0_ALL + A1_ALL * value }
         private val T = Measurement(32, "T") { value: Double -> A0_T + A1_T * value }
 
-
         private val TYPE_A_DATA_SET = listOf(HEADER, TICK_COUNT, STATUS, ICG, ECG, IRSC, T)
 
         private const val A_PART_LENGTH = 28
@@ -47,9 +52,14 @@ class UDPConnection(
         var lastReceivedPacketDate: Date? = null
 
         Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate({
-            if (lastReceivedPacketDate === null) {
+            if (lastReceivedPacketDate === null && userIsOnline()) {
+                setConnectedCallback(true, false)
+                return@scheduleAtFixedRate
+            }
+
+            if (lastReceivedPacketDate === null || !userIsOnline()) {
                 Log.i(UDP_TAG, "No stable connection")
-                setConnectedCallback(false)
+                setConnectedCallback(false, false)
                 return@scheduleAtFixedRate
             }
 
@@ -60,11 +70,11 @@ class UDPConnection(
             // Connection is not stable
             if (secondsDifference >= CONNECTION_TIMEOUT_SECONDS) {
                 Log.i(UDP_TAG, "No stable connection!")
-                setConnectedCallback(false)
+                setConnectedCallback(false, false)
             } else {
                 // Connection is stable
                 Log.i(UDP_TAG, "Stable connection")
-                setConnectedCallback(true)
+                setConnectedCallback(true, true)
             }
         }, 3, 3, TimeUnit.SECONDS)
         try {
@@ -88,10 +98,10 @@ class UDPConnection(
             }
         } catch (e: SocketException) {
             Log.e(UDP_TAG, "Socket error", e)
-            setConnectedCallback(false)
+            setConnectedCallback(false, false)
         } catch (e: IOException) {
             Log.e(UDP_TAG, "IO error", e)
-            setConnectedCallback(false)
+            setConnectedCallback(false, false)
         }
     }
 
@@ -178,6 +188,7 @@ class UDPConnection(
             ssid = wifiInfo.ssid.replace("\"", "")
         }
 
-        return ssid.toString().contains(DEVICE_NETWORK_NAME) && capabilities!!.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
+        return ssid.toString().contains(DEVICE_NETWORK_NAME) &&
+                capabilities!!.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
     }
 }
