@@ -77,7 +77,7 @@ class UDPConnection(private val setConnectedCallback: (isConnected: Boolean) -> 
                 // Log.i(UDP_TAG, text)
 
                 val map = getPartOfA(text)
-                val results = getMeasurmentValuesForTypeA(map)
+                val results = getMeasurementValuesForTypeA(map)
 
                 // Set the last received date to see if there is a delay between next packet
                 lastReceivedPacketDate = Date()
@@ -127,7 +127,7 @@ class UDPConnection(private val setConnectedCallback: (isConnected: Boolean) -> 
         return map
     }
 
-    private fun getMeasurmentValuesForTypeA(map: Map<Int, List<Int>>): LinkedHashMap<Double, List<Measurement>> {
+    private fun getMeasurementValuesForTypeA(map: Map<Int, List<Int>>): LinkedHashMap<Double, List<Measurement>> {
         val results = LinkedHashMap<Double, List<Measurement>>()
         val byteToBit = 8
         map.values.forEach { measurement ->
