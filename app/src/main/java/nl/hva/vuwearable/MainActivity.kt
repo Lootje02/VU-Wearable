@@ -1,13 +1,15 @@
 package nl.hva.vuwearable
 
+import android.graphics.Color
 import android.os.Bundle
-import android.text.InputType
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -91,43 +93,47 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
     }
 
+    /**
+     * @author Lorenzo Bindemann
+     */
     private fun showDialog() {
         if (loginViewModel.isLoggedIn.value == false) {
-            // Set up the input
-            val input = EditText(this)
-            // Specify the type of input expected
-            input.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+            // create login pop up
+            val dialogLayout = layoutInflater.inflate(R.layout.login_dialog, null)
+            val builder = android.app.AlertDialog.Builder(this).setView(dialogLayout).show()
 
-            val builder = AlertDialog.Builder(this).apply {
-                setTitle(getString(R.string.login_to_professor))
-                setView(input)
-                setPositiveButton(getString(R.string.login), null)
-                setNegativeButton(getString(R.string.cancel), null)
-            }.show()
-
-            val loginButton = builder.getButton(AlertDialog.BUTTON_POSITIVE)
-            loginButton.setOnClickListener {
-                loginViewModel.checkInput(input.text.toString(), this@MainActivity)
+            // set login function on button click
+            dialogLayout.findViewById<Button>(R.id.login_button).setOnClickListener {
+                val inputCode =
+                    dialogLayout.findViewById<EditText>(R.id.
+                    input_password).text.toString()
+                loginViewModel.checkInput(inputCode, this@MainActivity)
+                // check if login is successfully
                 if (loginViewModel.isLoggedIn.value == true) {
                     builder.hide()
                     findNavController(R.id.nav_host_fragment_activity_main).navigate(R.id.professorDashboardFragment)
+                } else {
+                    // login is unsuccessfully
+                    builder.findViewById<EditText>(R.id.input_password).setTextColor(Color.RED)
+                    builder.findViewById<TextView>(R.id.wrong_password).visibility = View.VISIBLE
                 }
             }
         } else {
-            val builder = AlertDialog.Builder(this).apply {
-                setTitle(getString(R.string.logout))
-                setMessage(R.string.logout_description)
-                setPositiveButton(getString(R.string.logout), null)
-                setNegativeButton(getString(R.string.cancel), null)
-            }.show()
+            // create logout pop up
+            val dialogLayout = layoutInflater.inflate(R.layout.logout_dialog, null)
+            val builder = android.app.AlertDialog.Builder(this).setView(dialogLayout).show()
 
-            val logoutButton = builder.getButton(AlertDialog.BUTTON_POSITIVE)
-            logoutButton.setOnClickListener {
-                loginViewModel.setIsLoggedIn(false)
+            // set logout function on button click
+            dialogLayout.findViewById<Button>(R.id.logout_button).setOnClickListener {
                 builder.hide()
+                loginViewModel.setIsLoggedIn(false)
                 findNavController(R.id.nav_host_fragment_activity_main).navigate(R.id.navigation_dashboard)
                 Toast.makeText(this, getString(R.string.logout_successful), Toast.LENGTH_LONG)
                     .show()
+            }
+            // set cancel function on button click
+            dialogLayout.findViewById<Button>(R.id.cancel_button).setOnClickListener {
+                builder.hide()
             }
         }
         setupAppBar()
