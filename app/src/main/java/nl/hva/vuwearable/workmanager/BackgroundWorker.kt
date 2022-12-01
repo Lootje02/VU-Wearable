@@ -40,7 +40,7 @@ class BackgroundWorker(appContext: Context, workerParams: WorkerParameters) :
                 }
             })).start()
         }
-        return Result.retry()
+        return Result.success()
     }
 
     private fun createNotificationChannel() {

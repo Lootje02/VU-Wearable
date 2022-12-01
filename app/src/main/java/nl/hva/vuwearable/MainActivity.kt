@@ -47,8 +47,8 @@ class MainActivity : AppCompatActivity() {
         setupAppBar()
 
         WorkManager.getInstance(applicationContext).enqueue(
-            PeriodicWorkRequest.Builder(BackgroundWorker::class.java, 10, TimeUnit.SECONDS)
-                //.setInitialDelay(1, TimeUnit.MINUTES)
+            PeriodicWorkRequest.Builder(BackgroundWorker::class.java, 1, TimeUnit.MINUTES)
+                .setInitialDelay(1, TimeUnit.MINUTES)
                 .build()
         )
 
