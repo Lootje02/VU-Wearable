@@ -67,4 +67,5 @@
     <string name="no_data_connection">Not Receiving Data</string>
     <string name="connected">Connected</string>
     <string name="not_connected">Not Connected</string>
+    <string name="password">Password</string>
 </resources>
