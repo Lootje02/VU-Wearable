@@ -15,7 +15,8 @@ import com.scichart.charting.visuals.renderableSeries.FastLineRenderableSeries
 import com.scichart.charting.visuals.renderableSeries.IRenderableSeries
 import com.scichart.core.annotations.Orientation
 import com.scichart.core.framework.UpdateSuspender
-import com.scichart.core.model.DoubleValues
+import com.scichart.core.model.IntegerValues
+import com.scichart.data.model.DoubleRange
 import com.scichart.drawing.common.SolidPenStyle
 import com.scichart.drawing.utility.ColorUtil
 import nl.hva.vuwearable.databinding.FragmentSciChartBinding
@@ -41,18 +42,17 @@ class SciChartFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
-    private val ecgLineData = DoubleValues()
+    private val ecgLineData = IntegerValues()
     private val ecgLineDataSeries =
-        XyDataSeries(Double::class.javaObjectType, Double::class.javaObjectType).apply {
+        XyDataSeries(Int::class.javaObjectType, Int::class.javaObjectType).apply {
             append(xValues, yValues)
         }
 
-    private val icgLineData = DoubleValues()
+    private val icgLineData = IntegerValues()
     private val icgLineDataSeries =
-        XyDataSeries(Int::class.javaObjectType, Double::class.javaObjectType).apply {
+        XyDataSeries(Int::class.javaObjectType, Int::class.javaObjectType).apply {
             append(xValues, yValues)
         }
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -67,24 +67,34 @@ class SciChartFragment : Fragment() {
         val yAxis: IAxis = NumericAxis(requireContext())
 
         ecgLineDataSeries.seriesName = "ECG"
+        icgLineDataSeries.seriesName = "ICG"
 
-        ecgLineDataSeries.fifoCapacity = 300
+        ecgLineDataSeries.fifoCapacity = 10000
+        icgLineDataSeries.fifoCapacity = 10000000
 
-        val xValues = DoubleValues()
+        yAxis.growBy = DoubleRange(0.4, 0.4)
+
+        val xValues = IntegerValues()
 
         ecgLineDataSeries.append(xValues, ecgLineData)
+        icgLineDataSeries.append(xValues, icgLineData)
 
-        val lineSeries: IRenderableSeries = FastLineRenderableSeries()
-        lineSeries.dataSeries = ecgLineDataSeries
+        val ecgLineSeries: IRenderableSeries = FastLineRenderableSeries()
+        ecgLineSeries.dataSeries = ecgLineDataSeries
 
-        lineSeries.strokeStyle = SolidPenStyle(ColorUtil.LimeGreen, true, 5f, null)
+        val icgLineSeries: IRenderableSeries = FastLineRenderableSeries()
+        icgLineSeries.dataSeries = icgLineDataSeries
+
+
+        ecgLineSeries.strokeStyle = SolidPenStyle(ColorUtil.LimeGreen, true, 5f, null)
+        icgLineSeries.strokeStyle = SolidPenStyle(ColorUtil.Yellow, true, 5f, null)
 
         val legendModifier = LegendModifier(requireContext())
         legendModifier.setOrientation(Orientation.HORIZONTAL)
         legendModifier.setLegendPosition(Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL, 0, 0, 0, 10)
 
         UpdateSuspender.using(surface) {
-            Collections.addAll(surface.renderableSeries, lineSeries)
+            Collections.addAll(surface.renderableSeries, ecgLineSeries, icgLineSeries)
             Collections.addAll(
                 surface.chartModifiers,
                 PinchZoomModifier(),
@@ -100,30 +110,43 @@ class SciChartFragment : Fragment() {
             Collections.addAll(surface.yAxes, yAxis)
         }
 
-        var previousTime = 0.0
+        // Append the first value
+        ecgLineDataSeries.append(0, 0)
+        icgLineDataSeries.append(0, 0)
+
         chartViewModel.measurements.observe(viewLifecycleOwner) {
             for (mutableEntry in it) {
                 val key = mutableEntry.key
-                val value = mutableEntry.value.find { measurement ->
-                    measurement.title.equals("ECG")
+                val ecgValue = mutableEntry.value.find { measurement ->
+                    measurement.title == "ECG"
                 }
 
-                if (value != null) {
-                    val calculatedKey = key / 1000
-                    if (key != 0.0 && previousTime > key) return@observe
-
-                    previousTime = calculatedKey
-
-                    if (ecgLineDataSeries.xValues.contains(calculatedKey) || ecgLineDataSeries.xMax >= calculatedKey) return@observe
-
-                    if (key != 0.0) {
-                        ecgLineDataSeries.append(calculatedKey, value.value)
-                    } else ecgLineDataSeries.append(ecgLineDataSeries.xMax, 0.0)
-                    binding.surface.zoomExtentsX()
-
+                if (ecgValue != null) {
+                    if (ecgLineDataSeries.xValues.size > 0 && ecgLineDataSeries.xValues.last() < key && !ecgLineDataSeries.xValues.contains(
+                            key.toInt() / 10000
+                        )
+                    )
+                        ecgLineDataSeries.append(key, ecgValue.value)
                 }
+
+                val icgValue = mutableEntry.value.find { measurement ->
+                    measurement.title == "ICG"
+                }
+
+                if (icgValue != null) {
+                    if (icgLineDataSeries.xValues.size > 0 && icgLineDataSeries.xValues.last() < key && !icgLineDataSeries.xValues.contains(
+                            key / 10000
+                        )
+                    )
+                        icgLineDataSeries.append(key, icgValue.value)
+                }
+
+                binding.surface.zoomExtentsX()
+                binding.surface.zoomExtentsY()
+
             }
         }
+
 //        schedule = scheduledExecutorService.scheduleWithFixedDelay(
 //            updateData,
 //            0,

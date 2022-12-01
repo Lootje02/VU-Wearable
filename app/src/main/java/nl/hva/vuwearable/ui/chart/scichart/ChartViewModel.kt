@@ -7,9 +7,9 @@ import java.util.*
 
 class ChartViewModel : ViewModel() {
 
-    val measurements: MutableLiveData<TreeMap<Double, List<Measurement>>> = MutableLiveData()
+    val measurements: MutableLiveData<TreeMap<Int, List<Measurement>>> = MutableLiveData()
 
-    fun setMeasurement(measurements: TreeMap<Double, List<Measurement>>) {
+    fun setMeasurement(measurements: TreeMap<Int, List<Measurement>>) {
         this.measurements.value = measurements
     }
 
