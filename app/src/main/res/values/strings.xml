@@ -64,4 +64,5 @@
     <string name="chart_information_placeholder">Chart Information</string>
     <string name="connection_success">connection established</string>
     <string name="connection_failed">no connection</string>
+    <string name="password">Password</string>
 </resources>
