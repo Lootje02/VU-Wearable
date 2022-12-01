@@ -18,7 +18,7 @@ import nl.hva.vuwearable.udp.UDPConnection
 class BackgroundWorker(appContext: Context, workerParams: WorkerParameters) :
     Worker(appContext, workerParams) {
 
-    private val measurementStarted = false
+    private val measurementStarted = true
 
     private val CHANNEL_ID = "notificationWifi"
 
@@ -33,17 +33,14 @@ class BackgroundWorker(appContext: Context, workerParams: WorkerParameters) :
                 when (it) {
                     false -> {
                         createNotification()
-                        Log.i("wifi connected", "wifi connection")
-                        Result.retry()
+                        Result.failure()
                     }
                     true -> {
                         Log.i("wifi connected", "wifi connection")
                         Result.success()
                     }
                 }
-            }, 10, 10)).start()
-        } else {
-            return Result.failure()
+            })).start()
         }
         return Result.retry()
     }

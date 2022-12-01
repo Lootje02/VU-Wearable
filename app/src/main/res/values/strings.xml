@@ -65,5 +65,5 @@
     <string name="connection_success">connection established</string>
     <string name="connection_failed">no connection</string>
     <string name="set_issue_title">This issue</string>
-    <string name="data_connection">data connection</string>
+    <string name="issue_dialog">%s</string>
 </resources>

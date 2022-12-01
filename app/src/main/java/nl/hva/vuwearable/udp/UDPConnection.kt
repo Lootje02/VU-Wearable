@@ -43,7 +43,7 @@ class UDPConnection(private val setConnectedCallback: (isConnected: Boolean) -> 
                // Log.i(UDP_TAG, "Stable connection")
                 setConnectedCallback(true)
             }
-        }, firstDelay, everyDelay, TimeUnit.SECONDS)
+        }, firstDelay , everyDelay , TimeUnit.SECONDS)
         try {
             val udpSocket = DatagramSocket(UDP_PORT)
             val buffer = ByteArray(BUFFER_LENGTH)
