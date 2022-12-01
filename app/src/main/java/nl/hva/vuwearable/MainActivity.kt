@@ -13,6 +13,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
@@ -32,9 +33,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val loginViewModel: LoginViewModel by viewModels()
 
-    private val uploadWorkRequest =
-        PeriodicWorkRequest.Builder(BackgroundWorker::class.java, 1, TimeUnit.MINUTES)
-
     private val viewModel: UDPViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,7 +46,11 @@ class MainActivity : AppCompatActivity() {
 
         setupAppBar()
 
-        WorkManager.getInstance(applicationContext).enqueue(uploadWorkRequest.build())
+        WorkManager.getInstance(applicationContext).enqueue(
+            PeriodicWorkRequest.Builder(BackgroundWorker::class.java, 10, TimeUnit.SECONDS)
+                //.setInitialDelay(1, TimeUnit.MINUTES)
+                .build()
+        )
 
         navView.setupWithNavController(navController)
 

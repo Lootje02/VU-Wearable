@@ -33,11 +33,9 @@ class BackgroundWorker(appContext: Context, workerParams: WorkerParameters) :
                 when (it) {
                     false -> {
                         createNotification()
-                        Result.failure()
                     }
                     true -> {
                         Log.i("wifi connected", "wifi connection")
-                        Result.success()
                     }
                 }
             })).start()
