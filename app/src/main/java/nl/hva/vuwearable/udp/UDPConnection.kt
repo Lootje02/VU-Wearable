@@ -130,13 +130,16 @@ class UDPConnection(private val setConnectedCallback: (isConnected: Boolean) -> 
     private fun getMeasurementValuesForTypeA(map: Map<Int, List<Int>>): LinkedHashMap<Double, List<Measurement>> {
         val results = LinkedHashMap<Double, List<Measurement>>()
         val byteToBit = 8
+        // loop through all the different measurement chunks we receive
         map.values.forEach { measurement ->
             val measurements = mutableListOf<Measurement>()
             var startCount = 0
             var timeInUnix = 0.0
+            // loop through the structure of an A data set
             TYPE_A_DATA_SET.forEach { type ->
                 val totalElementToCount = type.totalBytes / byteToBit
 
+                // check per measurement the value
                 var measurementTotal = 0.0
                 for (i in startCount until totalElementToCount + startCount) {
                     measurementTotal += measurement[i]
@@ -146,9 +149,11 @@ class UDPConnection(private val setConnectedCallback: (isConnected: Boolean) -> 
                 if (type.title == TIME_TITLE) timeInUnix = measurementTotal
 
                 measurements.add(type)
+                // go to the next value
                 startCount += totalElementToCount
             }
 
+            // add all the different measurements to your specific time
             results[timeInUnix] = measurements
         }
         return results
