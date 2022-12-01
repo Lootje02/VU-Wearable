@@ -14,6 +14,9 @@ import java.util.concurrent.TimeUnit
  * Handles the connection with UDP and decodes the data that is coming in.
  *
  * @author Bunyamin Duduk
+ *
+ * @property setConnectedCallback gives back the connection in a callback
+ * @property setMeasurementCallback gives back the measurement in a callback
  */
 class UDPConnection(
     private val setConnectedCallback: (isConnected: Boolean) -> Unit,

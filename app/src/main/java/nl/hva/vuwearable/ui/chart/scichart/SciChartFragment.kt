@@ -23,7 +23,11 @@ import java.util.*
 import java.util.concurrent.Executors
 import java.util.concurrent.ScheduledFuture
 
-
+/**
+ * Initializes and updates the chart in real time.
+ *
+ * @author Bunyamin Duduk
+ */
 class SciChartFragment : Fragment() {
 
     private var _binding: FragmentSciChartBinding? = null

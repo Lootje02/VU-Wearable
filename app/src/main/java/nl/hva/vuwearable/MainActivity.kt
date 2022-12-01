@@ -55,8 +55,6 @@ class MainActivity : AppCompatActivity() {
             }
         }, setMeasurementCallback = {
             CoroutineScope(Dispatchers.Main).launch {
-//                Log.i("YES", it.toString())
-
                 chartViewModel.setMeasurement(TreeMap(it))
             }
         })).start()
