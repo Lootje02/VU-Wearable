@@ -48,9 +48,9 @@ class MainActivity : AppCompatActivity() {
 
         setupAppBar()
 
-        WorkManager.getInstance(applicationContext).enqueue(
+        WorkManager.getInstance(applicationContext).enqueueUniquePeriodicWork(
+            "createNotification", ExistingPeriodicWorkPolicy.REPLACE,
             PeriodicWorkRequest.Builder(BackgroundWorker::class.java, 1, TimeUnit.MINUTES)
-                .setInitialDelay(1, TimeUnit.MINUTES)
                 .build()
         )
 
@@ -105,8 +105,9 @@ class MainActivity : AppCompatActivity() {
             // set login function on button click
             dialogLayout.findViewById<Button>(R.id.login_button).setOnClickListener {
                 val inputCode =
-                    dialogLayout.findViewById<EditText>(R.id.
-                    input_password).text.toString()
+                    dialogLayout.findViewById<EditText>(
+                        R.id.input_password
+                    ).text.toString()
                 loginViewModel.checkInput(inputCode, this@MainActivity)
                 // check if login is successfully
                 if (loginViewModel.isLoggedIn.value == true) {

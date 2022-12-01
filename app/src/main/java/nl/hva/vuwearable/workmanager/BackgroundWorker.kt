@@ -26,25 +26,36 @@ class BackgroundWorker(appContext: Context, workerParams: WorkerParameters) :
         applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
     override fun doWork(): Result {
-        createNotificationChannel()
+
+        if (checkSDK() && notificationManager.getNotificationChannel(
+                CHANNEL_ID
+            ) == null
+        ) {
+            createNotificationChannel()
+        }
 
         if (measurementStarted) {
             Thread(UDPConnection({
                 when (it) {
                     false -> {
                         createNotification()
+                        Log.i("wifi", "notification")
                     }
                     true -> {
                         Log.i("wifi connected", "wifi connection")
                     }
                 }
-            })).start()
+            }, 60, 60)).start()
         }
         return Result.success()
     }
 
+    private fun checkSDK(): Boolean {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
+    }
+
     private fun createNotificationChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if (checkSDK()) {
             val channel = NotificationChannel(
                 CHANNEL_ID,
                 CHANNEL_ID,
