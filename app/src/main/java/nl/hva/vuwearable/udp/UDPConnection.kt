@@ -10,7 +10,11 @@ import java.util.*
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 
-
+/**
+ * Handles the connection with UDP and decodes the data that is coming in.
+ *
+ * @author Bunyamin Duduk
+ */
 class UDPConnection(
     private val setConnectedCallback: (isConnected: Boolean) -> Unit,
     private val setMeasurementCallback: (measurements: LinkedHashMap<Double, List<Measurement>>) -> Unit
@@ -43,9 +47,12 @@ class UDPConnection(
     }
 
     override fun run() {
+        // With the lastReceivedPacketDate, we can check if the packets are coming in at time
         var lastReceivedPacketDate: Date? = null
 
+        // Check on a different thread if packets are coming in
         Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate({
+            // If no packets are received yet
             if (lastReceivedPacketDate === null) {
                 Log.i(UDP_TAG, "No stable connection")
                 setConnectedCallback(false)
@@ -56,7 +63,7 @@ class UDPConnection(
             val diff = currentDate.time - lastReceivedPacketDate!!.time
             val secondsDifference = diff / 1000
 
-            // Connection is not stable
+            // Check if the time difference is bigger or equal than the timeout
             if (secondsDifference >= CONNECTION_TIMEOUT_SECONDS) {
                 Log.i(UDP_TAG, "No stable connection!")
                 setConnectedCallback(false)
@@ -66,7 +73,9 @@ class UDPConnection(
                 setConnectedCallback(true)
             }
         }, 3, 3, TimeUnit.SECONDS)
+
         try {
+            // Connect to the UDP socket by the UDP port
             val udpSocket = DatagramSocket(UDP_PORT)
             val buffer = ByteArray(BUFFER_LENGTH)
             val packet = DatagramPacket(buffer, buffer.size)
@@ -95,22 +104,35 @@ class UDPConnection(
         }
     }
 
+    /**
+     * Put all the character codes of the 'A' section into a map
+     * since a packet can contain multiple 'A' sections.
+     *
+     * @param text The encoded packet
+     * @return all the sections of 'A'
+     */
     private fun getPartOfA(text: String): Map<Int, List<Int>> {
         val charArray = text.toCharArray()
         val array = mutableListOf<Int>()
 
         var isInASection = false
+
+        // Loop through each of the characters in the encoded packet
         charArray.forEach {
             val code = it.code
 
+            // After 'A' the character 'M' comes, then we know that we are
+            // not in the 'A' section anymore
             if (it == 'M') {
                 isInASection = false
             }
 
+            // When we arrive at the 'A' section
             if (it == 'A') {
                 isInASection = true
             }
 
+            // Add the char code if we are in the 'A' section
             if (isInASection) {
                 array.add(code)
             }
@@ -118,11 +140,24 @@ class UDPConnection(
         return splitIntoSections(array)
     }
 
+    /**
+     * Splits all the 'A' sections of one packet into a map.
+     *
+     * @param array all the 'A' sections of a packet
+     * @return all the sections of 'A' sections
+     */
     private fun splitIntoSections(array: List<Int>): Map<Int, List<Int>> {
         val map = mutableMapOf<Int, List<Int>>()
 
         var currentStart = 0
 
+        /*
+         Till the end of the array, split up all the 'A's into its own section.
+         Example:
+         (65 char code == 'A')
+         List: [65, 49 ,45, 65, 34, 98]
+         Into: 0: [65, 49, 45], 1: [65, 34, 98]
+         */
         while (currentStart + A_PART_LENGTH <= array.size - 1) {
             map[map.size] = array.subList(currentStart, currentStart + A_PART_LENGTH)
             currentStart += A_PART_LENGTH
