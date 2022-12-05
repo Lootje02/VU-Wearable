@@ -21,8 +21,6 @@ import com.scichart.drawing.common.SolidPenStyle
 import com.scichart.drawing.utility.ColorUtil
 import nl.hva.vuwearable.databinding.FragmentSciChartBinding
 import java.util.*
-import java.util.concurrent.Executors
-import java.util.concurrent.ScheduledFuture
 
 /**
  * Initializes and updates the chart in real time.
@@ -34,9 +32,6 @@ class SciChartFragment : Fragment() {
     private var _binding: FragmentSciChartBinding? = null
 
     private val chartViewModel: ChartViewModel by activityViewModels()
-
-    private val scheduledExecutorService = Executors.newSingleThreadScheduledExecutor()
-    private lateinit var schedule: ScheduledFuture<*>
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -63,22 +58,28 @@ class SciChartFragment : Fragment() {
 
         val surface = binding.surface
 
+        // Create x and y axis
         val xAxis: IAxis = NumericAxis(requireContext())
         val yAxis: IAxis = NumericAxis(requireContext())
 
+        // Name of the line
         ecgLineDataSeries.seriesName = "ECG"
         icgLineDataSeries.seriesName = "ICG"
 
+        // How much it will show on the screen
         ecgLineDataSeries.fifoCapacity = 10000
-        icgLineDataSeries.fifoCapacity = 10000000
+        icgLineDataSeries.fifoCapacity = 10000
 
+        // Add some padding at the bottom and top to have a more clear view
         yAxis.growBy = DoubleRange(0.4, 0.4)
 
         val xValues = IntegerValues()
 
+        // Append data to initialise the data series
         ecgLineDataSeries.append(xValues, ecgLineData)
         icgLineDataSeries.append(xValues, icgLineData)
 
+        // Type of line
         val ecgLineSeries: IRenderableSeries = FastLineRenderableSeries()
         ecgLineSeries.dataSeries = ecgLineDataSeries
 
@@ -86,13 +87,16 @@ class SciChartFragment : Fragment() {
         icgLineSeries.dataSeries = icgLineDataSeries
 
 
+        // Color of the line
         ecgLineSeries.strokeStyle = SolidPenStyle(ColorUtil.LimeGreen, true, 5f, null)
         icgLineSeries.strokeStyle = SolidPenStyle(ColorUtil.Yellow, true, 5f, null)
 
+        // Show in a box what the lines are
         val legendModifier = LegendModifier(requireContext())
         legendModifier.setOrientation(Orientation.HORIZONTAL)
         legendModifier.setLegendPosition(Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL, 0, 0, 0, 10)
 
+        // Add all those data and modifiers
         UpdateSuspender.using(surface) {
             Collections.addAll(surface.renderableSeries, ecgLineSeries, icgLineSeries)
             Collections.addAll(
@@ -105,6 +109,7 @@ class SciChartFragment : Fragment() {
             Collections.addAll(surface.chartModifiers, RolloverModifier())
         }
 
+        // Add the x and y axis to the chart
         UpdateSuspender.using(surface) {
             Collections.addAll(surface.xAxes, xAxis)
             Collections.addAll(surface.yAxes, yAxis)
@@ -114,26 +119,35 @@ class SciChartFragment : Fragment() {
         ecgLineDataSeries.append(0, 0)
         icgLineDataSeries.append(0, 0)
 
+        // Observe all the incoming measurements from the UDP socket
         chartViewModel.measurements.observe(viewLifecycleOwner) {
+            // Loop through the properties in an 'A' section
             for (mutableEntry in it) {
                 val key = mutableEntry.key
+
+                // Find the section that is ECG
                 val ecgValue = mutableEntry.value.find { measurement ->
                     measurement.title == "ECG"
                 }
 
                 if (ecgValue != null) {
+                    // If the key is not in the chart, then append it.
+                    // This is done to prevent duplicates
                     if (ecgLineDataSeries.xValues.size > 0 && ecgLineDataSeries.xValues.last() < key && !ecgLineDataSeries.xValues.contains(
-                            key.toInt() / 10000
+                            key / 10000
                         )
                     )
                         ecgLineDataSeries.append(key, ecgValue.value)
                 }
 
+                // Find the section that is ICG
                 val icgValue = mutableEntry.value.find { measurement ->
                     measurement.title == "ICG"
                 }
 
                 if (icgValue != null) {
+                    // If the key is not in the chart, then append it.
+                    // This is done to prevent duplicates
                     if (icgLineDataSeries.xValues.size > 0 && icgLineDataSeries.xValues.last() < key && !icgLineDataSeries.xValues.contains(
                             key / 10000
                         )
@@ -141,82 +155,16 @@ class SciChartFragment : Fragment() {
                         icgLineDataSeries.append(key, icgValue.value)
                 }
 
+                // Update where the person looks at the chart, so that they don't have
+                // to manually scroll
                 binding.surface.zoomExtentsX()
                 binding.surface.zoomExtentsY()
 
             }
         }
 
-//        schedule = scheduledExecutorService.scheduleWithFixedDelay(
-//            updateData,
-//            0,
-//            15,
-//            TimeUnit.MILLISECONDS
-//        )
-
-//        view
-
         return binding.root
     }
-
-    private var count = 0
-    private var changeCount = 0
-
-//    private val updateData = Runnable {
-//        val x = count
-//        UpdateSuspender.using(binding.surface) {
-//            var totalStepsDone = -1
-//            if (changeCount == 100) {
-//                for (i in 0..10) {
-//                    ecgLineDataSeries.append(x + ++totalStepsDone, 0.01 * i)
-//                }
-//
-//                Log.i("UDP", totalStepsDone.toString())
-//                ecgLineDataSeries.append(x + ++totalStepsDone, 0.09)
-//                Log.i("UDP", totalStepsDone.toString())
-//
-//                ecgLineDataSeries.append(x + ++totalStepsDone, 0.08)
-//                ecgLineDataSeries.append(x + ++totalStepsDone, 0.07)
-//                ecgLineDataSeries.append(x + ++totalStepsDone, 0.06)
-//                ecgLineDataSeries.append(x + ++totalStepsDone, 0.05)
-//                ecgLineDataSeries.append(x + ++totalStepsDone, 0.04)
-//                ecgLineDataSeries.append(x + ++totalStepsDone, 0.03)
-//                ecgLineDataSeries.append(x + ++totalStepsDone, 0.02)
-//                ecgLineDataSeries.append(x + ++totalStepsDone, 0.01)
-//
-//                for (i in 0..5) {
-//                    ecgLineDataSeries.append(x + ++totalStepsDone, -0.01 * i)
-//                }
-//
-//                for (i in 0..30) {
-//                    ecgLineDataSeries.append(x + ++totalStepsDone, 0.0)
-//                }
-//
-//
-//                for (i in 0..10) {
-//                    ecgLineDataSeries.append(x + ++totalStepsDone, 0.02 * i)
-//                }
-//
-//                for (i in 10 downTo -6) {
-//                    ecgLineDataSeries.append(x + ++totalStepsDone, 0.02 * i)
-//                }
-//
-//                for (i in -6..0) {
-//                    ecgLineDataSeries.append(x + ++totalStepsDone, 0.02 * i)
-//                }
-//
-//                count += totalStepsDone
-//                changeCount = 0
-//                totalStepsDone = 0
-//            } else {
-//                ecgLineDataSeries.append(x, 0.0)
-//            }
-//
-//            binding.surface.zoomExtentsX()
-//            count++
-//            changeCount++
-//        }
-//    }
 
     override fun onDestroyView() {
         super.onDestroyView()
