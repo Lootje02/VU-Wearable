@@ -50,6 +50,13 @@ class DashboardFragment : Fragment() {
                 true -> {
                     binding.ivWifi.setImageResource(R.drawable.ic_baseline_wifi_24)
                     binding.wifiConnection.text = getString(R.string.connection_success)
+
+                    udpViewModel.isReceivingData.observe(viewLifecycleOwner) { isReceivingData ->
+                        if (!isReceivingData) {
+                            binding.wifiConnection.text = getString(R.string.no_data_connection)
+                            binding.ivWifi.setImageResource(R.drawable.ic_baseline_wifi_24_no_data)
+                        }
+                    }
                 }
                 false -> {
                     binding.ivWifi.setImageResource(R.drawable.ic_baseline_wifi_off_24)

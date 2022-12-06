@@ -1,5 +1,11 @@
 package nl.hva.vuwearable
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.net.wifi.SupplicantState
+import android.net.wifi.WifiInfo
+import android.net.wifi.WifiManager
 import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
@@ -33,6 +39,9 @@ class MainActivity : AppCompatActivity() {
     private val loginViewModel: LoginViewModel by viewModels()
 
     private val viewModel: UDPViewModel by viewModels()
+
+    private val deviceNetwork: String = "AndroidWifi"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -60,17 +69,19 @@ class MainActivity : AppCompatActivity() {
 
         // Android does not allow to use a UDP socket on the main thread,
         // so we need to use it on a different thread
-        Thread(UDPConnection({
+        Thread(UDPConnection(this.applicationContext) { isConnected, isReceivingData ->
             // Update the view model on the main thread
             CoroutineScope(Dispatchers.Main).launch {
-                viewModel.setIsConnected(it)
+                viewModel.setIsConnected(isConnected)
+                viewModel.setIsReceivingData(isReceivingData)
             }
-        }, 3, 3)).start()
+
+        }).start()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.nav_menu, menu)
-        return true;
+        return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
