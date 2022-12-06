@@ -1,7 +1,6 @@
 package nl.hva.vuwearable.ui.chart.scichart
 
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -16,8 +15,8 @@ import com.scichart.charting.visuals.renderableSeries.FastLineRenderableSeries
 import com.scichart.charting.visuals.renderableSeries.IRenderableSeries
 import com.scichart.core.annotations.Orientation
 import com.scichart.core.framework.UpdateSuspender
+import com.scichart.core.model.DoubleValues
 import com.scichart.core.model.IntegerValues
-import com.scichart.core.model.LongValues
 import com.scichart.data.model.DoubleRange
 import com.scichart.drawing.common.SolidPenStyle
 import com.scichart.drawing.utility.ColorUtil
@@ -39,9 +38,9 @@ class SciChartFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
-    private val ecgLineData = LongValues()
+    private val ecgLineData = DoubleValues()
     private val ecgLineDataSeries =
-        XyDataSeries(Long::class.javaObjectType, Long::class.javaObjectType).apply {
+        XyDataSeries(Int::class.javaObjectType, Double::class.javaObjectType).apply {
             append(xValues, yValues)
         }
 
@@ -72,21 +71,28 @@ class SciChartFragment : Fragment() {
         icgLineDataSeries.seriesName = "ICG"
 
         // How much it will show on the screen
-        ecgLineDataSeries.fifoCapacity = 2000
-//        icgLineDataSeries.fifoCapacity = 10000
+        ecgLineDataSeries.fifoCapacity = 500
+        icgLineDataSeries.fifoCapacity = 10000
 
         // Add some padding at the bottom and top to have a more clear view
-        yAxis.growBy = DoubleRange(3.0, 3.0)
+        yAxis.growBy = DoubleRange(10.0, 10.0)
 
-        val xValues = LongValues()
+        val xValues = IntegerValues()
 
         // Append data to initialise the data series
         ecgLineDataSeries.append(xValues, ecgLineData)
-//        icgLineDataSeries.append(xValues, icgLineData)
+        icgLineDataSeries.append(xValues, icgLineData)
 
         // Type of line
         val ecgLineSeries: IRenderableSeries = FastLineRenderableSeries()
         ecgLineSeries.dataSeries = ecgLineDataSeries
+
+//        val pointMarker = EllipsePointMarker()
+//        pointMarker.setSize(10, 10)
+//        pointMarker.strokeStyle = SolidPenStyle(Color.GREEN,false, 2.0f, null)
+//        pointMarker.fillStyle = SolidBrushStyle(Color.RED)
+//        ecgLineSeries.pointMarker = pointMarker
+
 
         val icgLineSeries: IRenderableSeries = FastLineRenderableSeries()
         icgLineSeries.dataSeries = icgLineDataSeries
@@ -103,7 +109,7 @@ class SciChartFragment : Fragment() {
 
         // Add all those data and modifiers
         UpdateSuspender.using(surface) {
-            Collections.addAll(surface.renderableSeries, ecgLineSeries)
+            Collections.addAll(surface.renderableSeries, ecgLineSeries, icgLineSeries)
             Collections.addAll(
                 surface.chartModifiers,
                 PinchZoomModifier(),
@@ -120,16 +126,17 @@ class SciChartFragment : Fragment() {
             Collections.addAll(surface.yAxes, yAxis)
         }
 
+        ecgLineDataSeries.acceptsUnsortedData = true
         // Append the first value
-        ecgLineDataSeries.append(0, 0)
-        icgLineDataSeries.append(0, 0)
+//        ecgLineDataSeries.append(0, 0)
+//        icgLineDataSeries.append(0, 0)
 
+        var prevTime = 0
         // Observe all the incoming measurements from the UDP socket
         chartViewModel.measurements.observe(viewLifecycleOwner) {
             // Loop through the properties in an 'A' section
             for (mutableEntry in it) {
                 val key = mutableEntry.key
-                Log.i("key", key.toString())
 
                 // Find the section that is ECG
                 val ecgValue = mutableEntry.value.find { measurement ->
@@ -141,20 +148,10 @@ class SciChartFragment : Fragment() {
                 }
 
 
-                if (time != null) {
-                    Log.i("tick", time.value.toString())
-                }
+                if (ecgValue != null && time != null) {
 
-                if (ecgValue != null) {
-                    Log.i("ECG", ecgValue.value.toString())
-
-                    // If the key is not in the chart, then append it.
-                    // This is done to prevent duplicates
-                    if (ecgLineDataSeries.xValues.size > 0 && ecgLineDataSeries.xValues.last() < key && !ecgLineDataSeries.xValues.contains(
-                            key
-                        )
-                    )
-                        ecgLineDataSeries.append(key, ecgValue.value)
+                    prevTime = time.value.toInt()
+                    ecgLineDataSeries.append(time.value.toInt(), ecgValue.value)
                 }
 
                 // Find the section that is ICG
