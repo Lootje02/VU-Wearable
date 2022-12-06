@@ -19,6 +19,8 @@ import java.util.concurrent.TimeUnit
 
 class UDPConnection(
     private val context: Context,
+    private val firstDelay: Long,
+    private val everyDelay: Long,
     private val setConnectedCallback: (isConnected: Boolean, isReceivingData: Boolean) -> Unit
 ) : Runnable {
 
@@ -76,14 +78,14 @@ class UDPConnection(
                 Log.i(UDP_TAG, "Stable connection")
                 setConnectedCallback(true, true)
             }
-        }, 3, 3, TimeUnit.SECONDS)
+        }, firstDelay, everyDelay, TimeUnit.SECONDS)
         try {
             val udpSocket = DatagramSocket(UDP_PORT)
             val buffer = ByteArray(BUFFER_LENGTH)
             val packet = DatagramPacket(buffer, buffer.size)
 
             while (true) {
-                Log.i(UDP_TAG, "Waiting to receive")
+                //Log.i(UDP_TAG, "Waiting to receive")
                 udpSocket.receive(packet)
 
                 // Receive and show the incoming packet data

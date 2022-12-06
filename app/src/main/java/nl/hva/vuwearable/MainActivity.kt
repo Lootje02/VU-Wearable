@@ -21,6 +21,8 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.work.*
+import androidx.work.WorkManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -29,6 +31,8 @@ import nl.hva.vuwearable.databinding.ActivityMainBinding
 import nl.hva.vuwearable.udp.UDPConnection
 import nl.hva.vuwearable.ui.login.LoginViewModel
 import nl.hva.vuwearable.ui.udp.UDPViewModel
+import nl.hva.vuwearable.workmanager.BackgroundWorker
+import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
 
@@ -48,13 +52,25 @@ class MainActivity : AppCompatActivity() {
         val navView: BottomNavigationView = binding.navView
 
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
+
+        val periodicWorkRequest =
+            PeriodicWorkRequest.Builder(BackgroundWorker::class.java, 1, TimeUnit.MINUTES)
+                .setBackoffCriteria(BackoffPolicy.LINEAR, 1, TimeUnit.MINUTES)
+                .build()
+
         setupAppBar()
+
+        WorkManager.getInstance(applicationContext).enqueueUniquePeriodicWork(
+            "Background notifications",
+            ExistingPeriodicWorkPolicy.REPLACE,
+            periodicWorkRequest
+        )
 
         navView.setupWithNavController(navController)
 
         // Android does not allow to use a UDP socket on the main thread,
         // so we need to use it on a different thread
-        Thread(UDPConnection(this.applicationContext) { isConnected, isReceivingData ->
+        Thread(UDPConnection(this.applicationContext, 3, 3) { isConnected, isReceivingData ->
             // Update the view model on the main thread
             CoroutineScope(Dispatchers.Main).launch {
                 viewModel.setIsConnected(isConnected)
@@ -103,8 +119,9 @@ class MainActivity : AppCompatActivity() {
             // set login function on button click
             dialogLayout.findViewById<Button>(R.id.login_button).setOnClickListener {
                 val inputCode =
-                    dialogLayout.findViewById<EditText>(R.id.
-                    input_password).text.toString()
+                    dialogLayout.findViewById<EditText>(
+                        R.id.input_password
+                    ).text.toString()
                 loginViewModel.checkInput(inputCode, this@MainActivity)
                 // check if login is successfully
                 if (loginViewModel.isLoggedIn.value == true) {
@@ -134,7 +151,6 @@ class MainActivity : AppCompatActivity() {
                 builder.hide()
             }
         }
-
         setupAppBar()
     }
 }
