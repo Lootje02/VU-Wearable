@@ -1,6 +1,7 @@
 package nl.hva.vuwearable.ui.chart.scichart
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +17,7 @@ import com.scichart.charting.visuals.renderableSeries.IRenderableSeries
 import com.scichart.core.annotations.Orientation
 import com.scichart.core.framework.UpdateSuspender
 import com.scichart.core.model.IntegerValues
+import com.scichart.core.model.LongValues
 import com.scichart.data.model.DoubleRange
 import com.scichart.drawing.common.SolidPenStyle
 import com.scichart.drawing.utility.ColorUtil
@@ -37,9 +39,9 @@ class SciChartFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
-    private val ecgLineData = IntegerValues()
+    private val ecgLineData = LongValues()
     private val ecgLineDataSeries =
-        XyDataSeries(Int::class.javaObjectType, Int::class.javaObjectType).apply {
+        XyDataSeries(Long::class.javaObjectType, Long::class.javaObjectType).apply {
             append(xValues, yValues)
         }
 
@@ -62,22 +64,25 @@ class SciChartFragment : Fragment() {
         val xAxis: IAxis = NumericAxis(requireContext())
         val yAxis: IAxis = NumericAxis(requireContext())
 
+
+//        xAxis.visibleRangeLimit = DoubleRange(0.0, 10000.0)
+
         // Name of the line
         ecgLineDataSeries.seriesName = "ECG"
         icgLineDataSeries.seriesName = "ICG"
 
         // How much it will show on the screen
-        ecgLineDataSeries.fifoCapacity = 10000
-        icgLineDataSeries.fifoCapacity = 10000
+        ecgLineDataSeries.fifoCapacity = 2000
+//        icgLineDataSeries.fifoCapacity = 10000
 
         // Add some padding at the bottom and top to have a more clear view
-        yAxis.growBy = DoubleRange(0.4, 0.4)
+        yAxis.growBy = DoubleRange(3.0, 3.0)
 
-        val xValues = IntegerValues()
+        val xValues = LongValues()
 
         // Append data to initialise the data series
         ecgLineDataSeries.append(xValues, ecgLineData)
-        icgLineDataSeries.append(xValues, icgLineData)
+//        icgLineDataSeries.append(xValues, icgLineData)
 
         // Type of line
         val ecgLineSeries: IRenderableSeries = FastLineRenderableSeries()
@@ -98,7 +103,7 @@ class SciChartFragment : Fragment() {
 
         // Add all those data and modifiers
         UpdateSuspender.using(surface) {
-            Collections.addAll(surface.renderableSeries, ecgLineSeries, icgLineSeries)
+            Collections.addAll(surface.renderableSeries, ecgLineSeries)
             Collections.addAll(
                 surface.chartModifiers,
                 PinchZoomModifier(),
@@ -124,17 +129,29 @@ class SciChartFragment : Fragment() {
             // Loop through the properties in an 'A' section
             for (mutableEntry in it) {
                 val key = mutableEntry.key
+                Log.i("key", key.toString())
 
                 // Find the section that is ECG
                 val ecgValue = mutableEntry.value.find { measurement ->
                     measurement.title == "ECG"
                 }
 
+                val time = mutableEntry.value.find { measurement ->
+                    measurement.title == "Tickcount"
+                }
+
+
+                if (time != null) {
+                    Log.i("tick", time.value.toString())
+                }
+
                 if (ecgValue != null) {
+                    Log.i("ECG", ecgValue.value.toString())
+
                     // If the key is not in the chart, then append it.
                     // This is done to prevent duplicates
                     if (ecgLineDataSeries.xValues.size > 0 && ecgLineDataSeries.xValues.last() < key && !ecgLineDataSeries.xValues.contains(
-                            key / 10000
+                            key
                         )
                     )
                         ecgLineDataSeries.append(key, ecgValue.value)
@@ -145,20 +162,20 @@ class SciChartFragment : Fragment() {
                     measurement.title == "ICG"
                 }
 
-                if (icgValue != null) {
-                    // If the key is not in the chart, then append it.
-                    // This is done to prevent duplicates
-                    if (icgLineDataSeries.xValues.size > 0 && icgLineDataSeries.xValues.last() < key && !icgLineDataSeries.xValues.contains(
-                            key / 10000
-                        )
-                    )
-                        icgLineDataSeries.append(key, icgValue.value)
-                }
+//                if (icgValue != null) {
+//                    // If the key is not in the chart, then append it.
+//                    // This is done to prevent duplicates
+//                    if (icgLineDataSeries.xValues.size > 0 && icgLineDataSeries.xValues.last() < key && !icgLineDataSeries.xValues.contains(
+//                            key
+//                        )
+//                    )
+//                        icgLineDataSeries.append(key, icgValue.value)
+//                }
 
                 // Update where the person looks at the chart, so that they don't have
                 // to manually scroll
                 binding.surface.zoomExtentsX()
-                binding.surface.zoomExtentsY()
+//                binding.surface.zoomExtentsY()
 
             }
         }

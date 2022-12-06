@@ -3,7 +3,7 @@ package nl.hva.vuwearable.models
 data class Measurement(
     val totalBytes: Int,
     val title: String,
-    val formula: ((Int) -> Double)? = null
+    val formula: ((Long) -> Double)? = null
 ) {
-    var value = 0
+    var value = 0L
 }
