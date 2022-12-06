@@ -50,7 +50,6 @@ class UDPConnection(
         private const val A_PART_LENGTH = 28
     }
 
-
     override fun run() {
         var lastReceivedPacketDate: Date? = null
 
