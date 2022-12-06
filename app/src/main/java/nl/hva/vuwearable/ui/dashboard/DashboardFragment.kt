@@ -1,14 +1,12 @@
 package nl.hva.vuwearable.ui.dashboard
 
 import android.app.AlertDialog
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import nl.hva.vuwearable.R
@@ -19,23 +17,20 @@ class DashboardFragment : Fragment() {
 
     private var _binding: FragmentDashboardBinding? = null
 
-    private val viewModel: DashboardViewModel by activityViewModels()
+    private val dashboardViewModel: DashboardViewModel by activityViewModels()
 
     private val udpViewModel: UDPViewModel by activityViewModels()
 
     private val binding get() = _binding!!
 
-    @RequiresApi(Build.VERSION_CODES.S)
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
 
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        binding.imageButton2.setOnClickListener {
+        binding.ibFixIssue.setOnClickListener {
             showIssueDialog()
         }
 
@@ -46,7 +41,9 @@ class DashboardFragment : Fragment() {
         return root
     }
 
-
+    /**
+     * Observe the udpviewmodel for changes in wifi connection and display appropriate icons
+     */
     private fun connectionEstablished() {
         udpViewModel.isConnected.observe(viewLifecycleOwner) {
             when (it) {
@@ -62,8 +59,11 @@ class DashboardFragment : Fragment() {
         }
     }
 
+    /**
+     * Handler to add step every second, used as mockdata for dashboard
+     */
     private fun setStepCount() {
-        viewModel.steps.observe(viewLifecycleOwner) {
+        dashboardViewModel.steps.observe(viewLifecycleOwner) {
             binding.tvStepsValue.text = it.toString()
         }
 
@@ -71,47 +71,15 @@ class DashboardFragment : Fragment() {
 
         handler.postDelayed(object : Runnable {
             override fun run() {
-                viewModel.incrementSteps()
+                dashboardViewModel.incrementSteps()
                 handler.postDelayed(this, 1000)
             }
         }, 1000)
     }
 
-    private fun setAirPressure() {
-        val handler = Handler(Looper.getMainLooper())
-
-        handler.postDelayed(object : Runnable {
-            override fun run() {
-                var randomInt = (1000..1030).random()
-                handler.postDelayed(this, 1000)
-            }
-        }, 1000)
-    }
-
-    private fun setEcg() {
-        val handler = Handler(Looper.getMainLooper())
-
-        handler.postDelayed(object : Runnable {
-            override fun run() {
-                var randomInt = (90..140).random()
-                handler.postDelayed(this, 1000)
-            }
-        }, 1000)
-    }
-
-    private fun setIcg() {
-        val handler = Handler(Looper.getMainLooper())
-
-        handler.postDelayed(object : Runnable {
-            override fun run() {
-                var randomInt = (1000..1030).random()
-                handler.postDelayed(this, 1000)
-            }
-        }, 1000)
-    }
-
-
-    @RequiresApi(Build.VERSION_CODES.S)
+    /**
+     * Show dialog when an issue occurs
+     */
     private fun showIssueDialog() {
 
         val dialogLayout = layoutInflater.inflate(R.layout.issue_dialog, null)
