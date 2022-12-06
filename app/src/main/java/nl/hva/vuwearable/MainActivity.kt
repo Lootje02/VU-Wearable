@@ -22,6 +22,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.work.*
+import androidx.work.WorkManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -69,7 +70,7 @@ class MainActivity : AppCompatActivity() {
 
         // Android does not allow to use a UDP socket on the main thread,
         // so we need to use it on a different thread
-        Thread(UDPConnection(this.applicationContext) { isConnected, isReceivingData ->
+        Thread(UDPConnection(this.applicationContext, 3, 3) { isConnected, isReceivingData ->
             // Update the view model on the main thread
             CoroutineScope(Dispatchers.Main).launch {
                 viewModel.setIsConnected(isConnected)

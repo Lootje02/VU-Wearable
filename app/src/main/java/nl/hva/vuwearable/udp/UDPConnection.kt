@@ -17,7 +17,12 @@ import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 
 
-class UDPConnection(private val setConnectedCallback: (isConnected: Boolean) -> Unit, private val firstDelay: Long = 3, private val everyDelay: Long = 3) : Runnable {
+class UDPConnection(
+    private val context: Context,
+    private val firstDelay: Long,
+    private val everyDelay: Long,
+    private val setConnectedCallback: (isConnected: Boolean, isReceivingData: Boolean) -> Unit
+) : Runnable {
 
     companion object {
         const val UDP_TAG = "UDP"
@@ -44,6 +49,7 @@ class UDPConnection(private val setConnectedCallback: (isConnected: Boolean) -> 
 
         private const val A_PART_LENGTH = 28
     }
+
 
     override fun run() {
         var lastReceivedPacketDate: Date? = null
@@ -73,7 +79,7 @@ class UDPConnection(private val setConnectedCallback: (isConnected: Boolean) -> 
                 Log.i(UDP_TAG, "Stable connection")
                 setConnectedCallback(true, true)
             }
-        }, firstDelay , everyDelay , TimeUnit.SECONDS)
+        }, firstDelay, everyDelay, TimeUnit.SECONDS)
         try {
             val udpSocket = DatagramSocket(UDP_PORT)
             val buffer = ByteArray(BUFFER_LENGTH)

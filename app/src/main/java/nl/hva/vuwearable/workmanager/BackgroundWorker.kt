@@ -9,6 +9,7 @@ import android.content.Intent
 import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.work.*
 import nl.hva.vuwearable.MainActivity
 import nl.hva.vuwearable.R
@@ -38,17 +39,12 @@ class BackgroundWorker(appContext: Context, workerParams: WorkerParameters) :
         }
 
         if (measurementStarted) {
-            Thread(UDPConnection({
-                when (it) {
-                    false -> {
+            Thread(
+                UDPConnection(this.applicationContext, 60, 60) { isConnected, isReceivingData ->
+                    if (!isConnected || !isReceivingData) {
                         createNotification()
-                        Log.i("wifi", "wifi not connected")
                     }
-                    true -> {
-                        Log.i("wifi", "wifi connected")
-                    }
-                }
-            }, 60, 60)).start()
+                }).start()
         }
         return Result.success()
     }
