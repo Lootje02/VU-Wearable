@@ -13,5 +13,12 @@
         <item name="android:statusBarColor">#00b6cb</item>
         <item name="android:navigationBarColor">#00b6cb</item>
         <!-- Customize your theme here. -->
+
     </style>
+
+    <style name="SplashScreenTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:statusBarColor">#00b6cb</item>
+    </style>
+
+
 </resources>
