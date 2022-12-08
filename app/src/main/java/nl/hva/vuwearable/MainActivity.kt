@@ -1,14 +1,7 @@
 package nl.hva.vuwearable
 
-import android.content.Context
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
-import android.net.wifi.SupplicantState
-import android.net.wifi.WifiInfo
-import android.net.wifi.WifiManager
 import android.graphics.Color
 import android.os.Bundle
-import android.text.InputType
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -23,7 +16,9 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import androidx.work.*
+import androidx.work.BackoffPolicy
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.scichart.charting.visuals.SciChartSurface
@@ -36,8 +31,8 @@ import nl.hva.vuwearable.ui.chart.scichart.ChartViewModel
 import nl.hva.vuwearable.ui.login.LoginViewModel
 import nl.hva.vuwearable.ui.udp.UDPViewModel
 import nl.hva.vuwearable.workmanager.BackgroundWorker
-import java.util.concurrent.TimeUnit
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
 
@@ -45,10 +40,6 @@ class MainActivity : AppCompatActivity() {
     private val loginViewModel: LoginViewModel by viewModels()
     private val chartViewModel: ChartViewModel by viewModels()
     private val udpViewModel: UDPViewModel by viewModels()
-
-    private val viewModel: UDPViewModel by viewModels()
-
-    private val deviceNetwork: String = "AndroidWifi"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,16 +68,24 @@ class MainActivity : AppCompatActivity() {
 
         // Android does not allow to use a UDP socket on the main thread,
         // so we need to use it on a different thread
-        Thread(UDPConnection(setConnectedCallback = {
-            // Update the view model on the main thread
-            CoroutineScope(Dispatchers.Main).launch {
-                udpViewModel.setIsConnected(it)
-            }
-        }, setASectionMeasurement = {
-            CoroutineScope(Dispatchers.Main).launch {
-                chartViewModel.setMeasurement(TreeMap(it))
-            }
-        })).start()
+        Thread(
+            UDPConnection(
+                this.applicationContext,
+                3,
+                3,
+                setConnectedCallback = { isConnected, isReceivingData ->
+                    // Update the view model on the main thread
+                    CoroutineScope(Dispatchers.Main).launch {
+                        udpViewModel.setIsReceivingData(isReceivingData)
+                        udpViewModel.setIsConnected(isConnected)
+                    }
+                },
+                setASectionMeasurement = {
+                    CoroutineScope(Dispatchers.Main).launch {
+                        chartViewModel.setMeasurement(TreeMap(it))
+                    }
+                })
+        ).start()
 
         try {
             SciChartSurface.setRuntimeLicenseKey(BuildConfig.SCI_CHART_KEY)

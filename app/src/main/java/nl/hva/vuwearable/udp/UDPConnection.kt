@@ -35,7 +35,7 @@ class UDPConnection(
     private val firstDelay: Long,
     private val everyDelay: Long,
     private val setConnectedCallback: (isConnected: Boolean, isReceivingData: Boolean) -> Unit,
-    private val setASectionMeasurement: (measurements: Map<Int, Array<Number>>) -> Unit
+    private val setASectionMeasurement: (measurements: Map<Int, Array<Number>>) -> Unit = {}
 ) : Runnable {
 
     companion object {
