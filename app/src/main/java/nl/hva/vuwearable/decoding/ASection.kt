@@ -3,6 +3,11 @@ package nl.hva.vuwearable.decoding
 import java.nio.ByteBuffer
 import java.util.*
 
+/**
+ * Parses and decodes the A section of a packet
+ *
+ * @author Bunyamin Duduk
+ */
 class ASection : PacketDecoding {
 
     companion object {

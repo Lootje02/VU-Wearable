@@ -3,6 +3,11 @@ package nl.hva.vuwearable.decoding
 import java.nio.ByteBuffer
 import java.util.*
 
+/**
+ * Decode a section of a packet
+ *
+ * @author Bunyamin Duduk
+ */
 interface PacketDecoding {
 
     /**
