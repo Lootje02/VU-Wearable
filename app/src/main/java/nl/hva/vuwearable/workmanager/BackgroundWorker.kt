@@ -7,10 +7,9 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import android.util.Log
 import androidx.core.app.NotificationCompat
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.work.*
+import androidx.work.Worker
+import androidx.work.WorkerParameters
 import nl.hva.vuwearable.MainActivity
 import nl.hva.vuwearable.R
 import nl.hva.vuwearable.udp.UDPConnection
@@ -40,11 +39,16 @@ class BackgroundWorker(appContext: Context, workerParams: WorkerParameters) :
 
         if (measurementStarted) {
             Thread(
-                UDPConnection(this.applicationContext, 60, 60) { isConnected, isReceivingData ->
-                    if (!isConnected || !isReceivingData) {
-                        createNotification()
-                    }
-                }).start()
+                UDPConnection(
+                    this.applicationContext,
+                    60,
+                    60,
+                    setConnectedCallback = { isConnected, isReceivingData ->
+                        if (!isConnected || !isReceivingData) {
+                            createNotification()
+                        }
+                    })
+            ).start()
         }
         return Result.success()
     }
