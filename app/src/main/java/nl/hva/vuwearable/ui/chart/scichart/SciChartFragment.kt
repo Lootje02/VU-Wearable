@@ -45,9 +45,9 @@ class SciChartFragment : Fragment() {
             append(xValues, yValues)
         }
 
-    private val icgLineData = IntegerValues()
+    private val icgLineData = DoubleValues()
     private val icgLineDataSeries =
-        XyDataSeries(Int::class.javaObjectType, Int::class.javaObjectType).apply {
+        XyDataSeries(Int::class.javaObjectType, Double::class.javaObjectType).apply {
             append(xValues, yValues)
         }
 
@@ -64,19 +64,16 @@ class SciChartFragment : Fragment() {
         val xAxis: IAxis = NumericAxis(requireContext())
         val yAxis: IAxis = NumericAxis(requireContext())
 
-
-//        xAxis.visibleRangeLimit = DoubleRange(0.0, 10000.0)
-
         // Name of the line
         ecgLineDataSeries.seriesName = "ECG"
         icgLineDataSeries.seriesName = "ICG"
 
         // How much it will show on the screen
-        ecgLineDataSeries.fifoCapacity = 500
+        ecgLineDataSeries.fifoCapacity = 2000
         icgLineDataSeries.fifoCapacity = 10000
 
         // Add some padding at the bottom and top to have a more clear view
-        yAxis.growBy = DoubleRange(10.0, 10.0)
+        yAxis.growBy = DoubleRange(0.3, 0.3)
 
         val xValues = IntegerValues()
 
@@ -87,12 +84,6 @@ class SciChartFragment : Fragment() {
         // Type of line
         val ecgLineSeries: IRenderableSeries = FastLineRenderableSeries()
         ecgLineSeries.dataSeries = ecgLineDataSeries
-
-//        val pointMarker = EllipsePointMarker()
-//        pointMarker.setSize(10, 10)
-//        pointMarker.strokeStyle = SolidPenStyle(Color.GREEN,false, 2.0f, null)
-//        pointMarker.fillStyle = SolidBrushStyle(Color.RED)
-//        ecgLineSeries.pointMarker = pointMarker
 
 
         val icgLineSeries: IRenderableSeries = FastLineRenderableSeries()
@@ -127,57 +118,20 @@ class SciChartFragment : Fragment() {
             Collections.addAll(surface.yAxes, yAxis)
         }
 
-        ecgLineDataSeries.acceptsUnsortedData = true
-        // Append the first value
-//        ecgLineDataSeries.append(0, 0)
-//        icgLineDataSeries.append(0, 0)
-
-        var prevTime = 0
         // Observe all the incoming measurements from the UDP socket
         chartViewModel.sectionAMeasurements.observe(viewLifecycleOwner) {
             // Loop through the properties in an 'A' section
-            for (mutableEntry in it) {
-                val key = mutableEntry.key
+            for (sectionArray in it.values) {
+                val tickCount = sectionArray[ASection.TICK_COUNT_INDEX]
+                val icgValue = sectionArray[ASection.ICG_INDEX]
+                val ecgValue = sectionArray[ASection.ECG_INDEX]
 
-                // Find the section that is ECG
-//                val ecgValue = mutableEntry.value.find { measurement ->
-//                    measurement.title == "ECG"
-//                }
-//
-//                val time = mutableEntry.value.find { measurement ->
-//                    measurement.title == "Tickcount"
-//                }
-                val tickCount = mutableEntry.value[ASection.TICK_COUNT_INDEX]
-                val ecgValue = mutableEntry.value[ASection.ECG_INDEX]
-//                Log.i("tickCount", ecgValue.toString())
+                ecgLineDataSeries.append(tickCount as Int, ecgValue as Double)
+                icgLineDataSeries.append(tickCount, icgValue as Double)
 
-
-//                if (it. != null && tickCount != null) {
-
-                prevTime = tickCount as Int
-                ecgLineDataSeries.append(tickCount, ecgValue as Double)
-//                }
-
-                // Find the section that is ICG
-//                val icgValue = mutableEntry.value.find { measurement ->
-//                    measurement.title == "ICG"
-//                }
-
-//                if (icgValue != null) {
-//                    // If the key is not in the chart, then append it.
-//                    // This is done to prevent duplicates
-//                    if (icgLineDataSeries.xValues.size > 0 && icgLineDataSeries.xValues.last() < key && !icgLineDataSeries.xValues.contains(
-//                            key
-//                        )
-//                    )
-//                        icgLineDataSeries.append(key, icgValue.value)
-//                }
-
-                // Update where the person looks at the chart, so that they don't have
-                // to manually scroll
+                // Automatically adjust zoom depending on the values of the data
                 binding.surface.zoomExtentsX()
-//                binding.surface.zoomExtentsY()
-
+                binding.surface.zoomExtentsY()
             }
         }
 

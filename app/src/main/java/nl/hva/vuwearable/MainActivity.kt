@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity() {
             CoroutineScope(Dispatchers.Main).launch {
                 udpViewModel.setIsConnected(it)
             }
-        }, setMeasurementCallback = {
+        }, setASectionMeasurement = {
             CoroutineScope(Dispatchers.Main).launch {
                 chartViewModel.setMeasurement(TreeMap(it))
             }
