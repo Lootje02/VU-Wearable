@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import nl.hva.vuwearable.R
 import nl.hva.vuwearable.databinding.FragmentDashboardBinding
 import nl.hva.vuwearable.ui.udp.UDPViewModel
@@ -31,7 +32,7 @@ class DashboardFragment : Fragment() {
         val root: View = binding.root
 
         binding.ibFixIssue.setOnClickListener {
-            showIssueDialog()
+            findNavController().navigate(R.id.faqFragment)
         }
 
         connectionEstablished()

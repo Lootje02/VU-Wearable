@@ -143,6 +143,9 @@ class UDPConnection(
         return map
     }
 
+    /**
+     * @author Lorenzo Bindemann
+     */
     private fun getMeasurementValuesForTypeA(map: Map<Int, List<Int>>): LinkedHashMap<Double, List<Measurement>> {
         val results = LinkedHashMap<Double, List<Measurement>>()
         val byteToBit = 8

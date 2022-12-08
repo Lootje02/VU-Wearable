@@ -73,4 +73,5 @@
     <string name="connection_lost">Connection Lost</string>
     <string name="fix_connection">Return to the app and reconnect the device</string>
     <string name="fix_issue_notification">fix issue</string>
+    <string name="title_faq">Faq</string>
 </resources>
