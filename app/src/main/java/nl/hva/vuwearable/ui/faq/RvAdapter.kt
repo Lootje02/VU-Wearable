@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import nl.hva.vuwearable.databinding.SingleItemBinding
+import nl.hva.vuwearable.databinding.FaqItemBinding
 import nl.hva.vuwearable.models.Faq
 
 class RvAdapter(
@@ -14,12 +14,12 @@ class RvAdapter(
     // create an inner class with name ViewHolder
     // It takes a view argument, in which pass the generated class of faq_item.xml
     // ie SingleItemBinding and in the RecyclerView.ViewHolder(binding.root) pass it like this
-    inner class ViewHolder(val binding: SingleItemBinding) : RecyclerView.ViewHolder(binding.root)
+    inner class ViewHolder(val binding: FaqItemBinding) : RecyclerView.ViewHolder(binding.root)
 
     // inside the onCreateViewHolder inflate the view of SingleItemBinding
     // and return new ViewHolder object containing this layout
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = SingleItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = FaqItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
