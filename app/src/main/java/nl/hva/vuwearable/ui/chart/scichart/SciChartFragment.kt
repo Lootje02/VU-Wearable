@@ -21,6 +21,7 @@ import com.scichart.data.model.DoubleRange
 import com.scichart.drawing.common.SolidPenStyle
 import com.scichart.drawing.utility.ColorUtil
 import nl.hva.vuwearable.databinding.FragmentSciChartBinding
+import nl.hva.vuwearable.decoding.ASection
 import java.util.*
 
 /**
@@ -133,31 +134,34 @@ class SciChartFragment : Fragment() {
 
         var prevTime = 0
         // Observe all the incoming measurements from the UDP socket
-        chartViewModel.measurements.observe(viewLifecycleOwner) {
+        chartViewModel.sectionAMeasurements.observe(viewLifecycleOwner) {
             // Loop through the properties in an 'A' section
             for (mutableEntry in it) {
                 val key = mutableEntry.key
 
                 // Find the section that is ECG
-                val ecgValue = mutableEntry.value.find { measurement ->
-                    measurement.title == "ECG"
-                }
+//                val ecgValue = mutableEntry.value.find { measurement ->
+//                    measurement.title == "ECG"
+//                }
+//
+//                val time = mutableEntry.value.find { measurement ->
+//                    measurement.title == "Tickcount"
+//                }
+                val tickCount = mutableEntry.value[ASection.TICK_COUNT_INDEX]
+                val ecgValue = mutableEntry.value[ASection.ECG_INDEX]
+//                Log.i("tickCount", ecgValue.toString())
 
-                val time = mutableEntry.value.find { measurement ->
-                    measurement.title == "Tickcount"
-                }
 
+//                if (it. != null && tickCount != null) {
 
-                if (ecgValue != null && time != null) {
-
-                    prevTime = time.value.toInt()
-                    ecgLineDataSeries.append(time.value.toInt(), ecgValue.value)
-                }
+                prevTime = tickCount as Int
+                ecgLineDataSeries.append(tickCount, ecgValue as Double)
+//                }
 
                 // Find the section that is ICG
-                val icgValue = mutableEntry.value.find { measurement ->
-                    measurement.title == "ICG"
-                }
+//                val icgValue = mutableEntry.value.find { measurement ->
+//                    measurement.title == "ICG"
+//                }
 
 //                if (icgValue != null) {
 //                    // If the key is not in the chart, then append it.

@@ -1,6 +1,7 @@
 package nl.hva.vuwearable.udp
 
 import android.util.Log
+import nl.hva.vuwearable.decoding.ASection
 import nl.hva.vuwearable.models.Measurement
 import java.io.IOException
 import java.net.DatagramPacket
@@ -18,11 +19,11 @@ import java.util.concurrent.TimeUnit
  * @author Bunyamin Duduk
  *
  * @property setConnectedCallback gives back the connection in a callback
- * @property setMeasurementCallback gives back the measurement in a callback
+ * @property setASectionMeasurement gives back the A section measurement in a callback
  */
 class UDPConnection(
     private val setConnectedCallback: (isConnected: Boolean) -> Unit,
-    private val setMeasurementCallback: (measurements: LinkedHashMap<Int, List<Measurement>>) -> Unit
+    private val setASectionMeasurement: (measurements: Map<Int, Array<Number>>) -> Unit
 ) : Runnable {
 
     companion object {
@@ -30,20 +31,27 @@ class UDPConnection(
         const val UDP_PORT = 1234
         const val BUFFER_LENGTH = 2048
         const val CONNECTION_TIMEOUT_SECONDS = 3
-        private const val TIME_TITLE = "Tickcount"
 
         private const val A0_ALL = 0.0
         private const val A1_ALL = 0.00047683721641078591
         private const val A0_T = 24.703470230102539
         private const val A1_T = 0.00097313715377822518
 
-        private val HEADER = Measurement(32, "Header")
-        private val TICK_COUNT = Measurement(32, "Tickcount")
-        private val STATUS = Measurement(32, "Status")
-        private val ICG = Measurement(32, "ICG") { value: Int -> A0_ALL + A1_ALL * value }
-        private val ECG = Measurement(32, "ECG") { value: Int -> A0_ALL + A1_ALL * value }
-        private val IRSC = Measurement(32, "IRSC") { value: Int -> A0_ALL + A1_ALL * value }
-        private val T = Measurement(32, "T") { value: Int -> A0_T + A1_T * value }
+        private val HEADER_TITLE = "Header"
+        private val TICK_COUNT_TITLE = "Tickcount"
+        private val STATUS_TITLE = "Status"
+        private val ICG_TITLE = "ICG"
+        private val ECG_TITLE = "ECG"
+        private val IRSC_TITLE = "IRSC"
+        private val T_TITLE = "T"
+
+        private val HEADER = Measurement(32, HEADER_TITLE)
+        private val TICK_COUNT = Measurement(32, TICK_COUNT_TITLE)
+        private val STATUS = Measurement(32, STATUS_TITLE)
+        private val ICG = Measurement(32, ICG_TITLE) { value: Int -> A0_ALL + A1_ALL * value }
+        private val ECG = Measurement(32, ECG_TITLE) { value: Int -> A0_ALL + A1_ALL * value }
+        private val IRSC = Measurement(32, IRSC_TITLE) { value: Int -> A0_ALL + A1_ALL * value }
+        private val T = Measurement(32, T_TITLE) { value: Int -> A0_T + A1_T * value }
 
 
         private val TYPE_A_DATA_SET = listOf(HEADER, TICK_COUNT, STATUS, ICG, ECG, IRSC, T)
@@ -88,20 +96,20 @@ class UDPConnection(
             val packet = DatagramPacket(buffer, buffer.size)
             var i = 0
 
+            val aDecoding = ASection()
+
+            val byteBuffer = ByteBuffer.allocateDirect(100000000)
+            byteBuffer.order(ByteOrder.LITTLE_ENDIAN)
+
             while (true) {
                 Log.i(UDP_TAG, "Waiting to receive")
                 udpSocket.receive(packet)
 
-                // Receive and show the incoming packet data
-                val text = String(packet.data, 0, packet.data.size)
-//                i++
-//                if (i < 50) continue
-                // Log.i(UDP_TAG, text)
+//                val map = getPartOfA(packet.data)
+//                val results = getMeasurementValuesForTypeA(map)
 
 
-                val map = getPartOfA(packet.data)
-                val results = getMeasurementValuesForTypeA(map)
-                setMeasurementCallback(results)
+                setASectionMeasurement(aDecoding.convertBytes(packet.data, byteBuffer))
 
                 // Set the last received date to see if there is a delay between next packet
                 lastReceivedPacketDate = Date()
@@ -227,7 +235,7 @@ class UDPConnection(
                     calculatedUInt = byteBuffer.int
                 }
 
-                if (type.title == TIME_TITLE) {
+                if (type.title == TICK_COUNT_TITLE) {
                     val byteBuffer = ByteBuffer.allocateDirect(1000000)
                     byteBuffer.order(ByteOrder.LITTLE_ENDIAN)
                     val arr = byteArrayOf(
@@ -244,7 +252,8 @@ class UDPConnection(
                 type.value =
                     if (type.formula != null) type.formula?.let { it(calculatedUInt) }!! else calculatedUInt.toDouble()
 
-                if (type.title == TIME_TITLE) {
+
+                if (type.title == TICK_COUNT_TITLE) {
                     timeInUnix = type.value.toInt()
                 }
 
