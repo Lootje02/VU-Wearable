@@ -73,4 +73,6 @@
     <string name="connection_lost">Connection Lost</string>
     <string name="fix_connection">Return to the app and reconnect the device</string>
     <string name="fix_issue_notification">fix issue</string>
+    <string name="guide_step">How to connect electrodes</string>
+    <string name="guide_finish_button">Finish</string>
 </resources>
