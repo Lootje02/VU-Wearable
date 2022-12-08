@@ -64,4 +64,13 @@
     <string name="chart_information_placeholder">Chart Information</string>
     <string name="connection_success">connection established</string>
     <string name="connection_failed">no connection</string>
+    <string name="set_issue_title">This issue</string>
+    <string name="issue_dialog">%s</string>
+    <string name="no_data_connection">Not Receiving Data</string>
+    <string name="connected">Connected</string>
+    <string name="not_connected">Not Connected</string>
+    <string name="password">Password</string>
+    <string name="connection_lost">Connection Lost</string>
+    <string name="fix_connection">Return to the app and reconnect the device</string>
+    <string name="fix_issue_notification">fix issue</string>
 </resources>

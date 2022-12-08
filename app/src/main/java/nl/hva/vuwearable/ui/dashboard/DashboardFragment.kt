@@ -1,40 +1,38 @@
 package nl.hva.vuwearable.ui.dashboard
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProvider
 import nl.hva.vuwearable.R
 import nl.hva.vuwearable.databinding.FragmentDashboardBinding
 import nl.hva.vuwearable.ui.udp.UDPViewModel
-
 
 class DashboardFragment : Fragment() {
 
     private var _binding: FragmentDashboardBinding? = null
 
-    private val viewModel: DashboardViewModel by activityViewModels()
+    private val dashboardViewModel: DashboardViewModel by activityViewModels()
 
     private val udpViewModel: UDPViewModel by activityViewModels()
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
 
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
         val root: View = binding.root
+
+        binding.ibFixIssue.setOnClickListener {
+            showIssueDialog()
+        }
 
         connectionEstablished()
 
@@ -43,13 +41,22 @@ class DashboardFragment : Fragment() {
         return root
     }
 
-
+    /**
+     * Observe the udpviewmodel for changes in wifi connection and display appropriate icons
+     */
     private fun connectionEstablished() {
         udpViewModel.isConnected.observe(viewLifecycleOwner) {
             when (it) {
                 true -> {
                     binding.ivWifi.setImageResource(R.drawable.ic_baseline_wifi_24)
                     binding.wifiConnection.text = getString(R.string.connection_success)
+
+                    udpViewModel.isReceivingData.observe(viewLifecycleOwner) { isReceivingData ->
+                        if (!isReceivingData) {
+                            binding.wifiConnection.text = getString(R.string.no_data_connection)
+                            binding.ivWifi.setImageResource(R.drawable.ic_baseline_wifi_24_no_data)
+                        }
+                    }
                 }
                 false -> {
                     binding.ivWifi.setImageResource(R.drawable.ic_baseline_wifi_off_24)
@@ -59,8 +66,11 @@ class DashboardFragment : Fragment() {
         }
     }
 
+    /**
+     * Handler to add step every second, used as mockdata for dashboard
+     */
     private fun setStepCount() {
-        viewModel.steps.observe(viewLifecycleOwner) {
+        dashboardViewModel.steps.observe(viewLifecycleOwner) {
             binding.tvStepsValue.text = it.toString()
         }
 
@@ -68,42 +78,27 @@ class DashboardFragment : Fragment() {
 
         handler.postDelayed(object : Runnable {
             override fun run() {
-                viewModel.incrementSteps()
+                dashboardViewModel.incrementSteps()
                 handler.postDelayed(this, 1000)
             }
         }, 1000)
     }
 
-    private fun setAirPressure() {
-        val handler = Handler(Looper.getMainLooper())
+    /**
+     * Show dialog when an issue occurs
+     */
+    private fun showIssueDialog() {
 
-        handler.postDelayed(object : Runnable {
-            override fun run() {
-                var randomInt = (1000..1030).random()
-                handler.postDelayed(this, 1000)
-            }
-        }, 1000)
-    }
+        val dialogLayout = layoutInflater.inflate(R.layout.issue_dialog, null)
 
-    private fun setEcg() {
-        val handler = Handler(Looper.getMainLooper())
+        val builder = AlertDialog.Builder(requireContext())
 
-        handler.postDelayed(object : Runnable {
-            override fun run() {
-                var randomInt = (90..140).random()
-                handler.postDelayed(this, 1000)
-            }
-        }, 1000)
-    }
+        builder.setTitle(getString(R.string.set_issue_title))
 
-    private fun setIcg() {
-        val handler = Handler(Looper.getMainLooper())
+        builder.setCancelable(true)
 
-        handler.postDelayed(object : Runnable {
-            override fun run() {
-                var randomInt = (1000..1030).random()
-                handler.postDelayed(this, 1000)
-            }
-        }, 1000)
+        builder.setView(dialogLayout)
+
+        builder.show()
     }
 }

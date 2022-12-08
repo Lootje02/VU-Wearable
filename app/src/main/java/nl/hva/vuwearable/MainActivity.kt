@@ -1,19 +1,30 @@
 package nl.hva.vuwearable
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.net.wifi.SupplicantState
+import android.net.wifi.WifiInfo
+import android.net.wifi.WifiManager
+import android.graphics.Color
 import android.os.Bundle
 import android.text.InputType
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.work.*
+import androidx.work.WorkManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.scichart.charting.visuals.SciChartSurface
 import kotlinx.coroutines.CoroutineScope
@@ -24,6 +35,8 @@ import nl.hva.vuwearable.udp.UDPConnection
 import nl.hva.vuwearable.ui.chart.scichart.ChartViewModel
 import nl.hva.vuwearable.ui.login.LoginViewModel
 import nl.hva.vuwearable.ui.udp.UDPViewModel
+import nl.hva.vuwearable.workmanager.BackgroundWorker
+import java.util.concurrent.TimeUnit
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -32,6 +45,10 @@ class MainActivity : AppCompatActivity() {
     private val loginViewModel: LoginViewModel by viewModels()
     private val chartViewModel: ChartViewModel by viewModels()
     private val udpViewModel: UDPViewModel by viewModels()
+
+    private val viewModel: UDPViewModel by viewModels()
+
+    private val deviceNetwork: String = "AndroidWifi"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,7 +59,19 @@ class MainActivity : AppCompatActivity() {
         val navView: BottomNavigationView = binding.navView
 
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
+
+        val periodicWorkRequest =
+            PeriodicWorkRequest.Builder(BackgroundWorker::class.java, 1, TimeUnit.MINUTES)
+                .setBackoffCriteria(BackoffPolicy.LINEAR, 1, TimeUnit.MINUTES)
+                .build()
+
         setupAppBar()
+
+        WorkManager.getInstance(applicationContext).enqueueUniquePeriodicWork(
+            "Background notifications",
+            ExistingPeriodicWorkPolicy.REPLACE,
+            periodicWorkRequest
+        )
 
         navView.setupWithNavController(navController)
 
@@ -68,7 +97,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.nav_menu, menu)
-        return true;
+        return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -93,46 +122,50 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
     }
 
+    /**
+     * @author Lorenzo Bindemann
+     */
     private fun showDialog() {
         if (loginViewModel.isLoggedIn.value == false) {
-            // Set up the input
-            val input = EditText(this)
-            // Specify the type of input expected
-            input.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+            // create login pop up
+            val dialogLayout = layoutInflater.inflate(R.layout.login_dialog, null)
+            val builder = android.app.AlertDialog.Builder(this).setView(dialogLayout).show()
 
-            val builder = AlertDialog.Builder(this).apply {
-                setTitle(getString(R.string.login_to_professor))
-                setView(input)
-                setPositiveButton(getString(R.string.login), null)
-                setNegativeButton(getString(R.string.cancel), null)
-            }.show()
-
-            val loginButton = builder.getButton(AlertDialog.BUTTON_POSITIVE)
-            loginButton.setOnClickListener {
-                loginViewModel.checkInput(input.text.toString(), this@MainActivity)
+            // set login function on button click
+            dialogLayout.findViewById<Button>(R.id.login_button).setOnClickListener {
+                val inputCode =
+                    dialogLayout.findViewById<EditText>(
+                        R.id.input_password
+                    ).text.toString()
+                loginViewModel.checkInput(inputCode, this@MainActivity)
+                // check if login is successfully
                 if (loginViewModel.isLoggedIn.value == true) {
                     builder.hide()
                     findNavController(R.id.nav_host_fragment_activity_main).navigate(R.id.professorDashboardFragment)
+                } else {
+                    // login is unsuccessfully
+                    builder.findViewById<EditText>(R.id.input_password).setTextColor(Color.RED)
+                    builder.findViewById<TextView>(R.id.wrong_password).visibility = View.VISIBLE
                 }
             }
         } else {
-            val builder = AlertDialog.Builder(this).apply {
-                setTitle(getString(R.string.logout))
-                setMessage(R.string.logout_description)
-                setPositiveButton(getString(R.string.logout), null)
-                setNegativeButton(getString(R.string.cancel), null)
-            }.show()
+            // create logout pop up
+            val dialogLayout = layoutInflater.inflate(R.layout.logout_dialog, null)
+            val builder = android.app.AlertDialog.Builder(this).setView(dialogLayout).show()
 
-            val logoutButton = builder.getButton(AlertDialog.BUTTON_POSITIVE)
-            logoutButton.setOnClickListener {
-                loginViewModel.setIsLoggedIn(false)
+            // set logout function on button click
+            dialogLayout.findViewById<Button>(R.id.logout_button).setOnClickListener {
                 builder.hide()
+                loginViewModel.setIsLoggedIn(false)
                 findNavController(R.id.nav_host_fragment_activity_main).navigate(R.id.navigation_dashboard)
                 Toast.makeText(this, getString(R.string.logout_successful), Toast.LENGTH_LONG)
                     .show()
             }
+            // set cancel function on button click
+            dialogLayout.findViewById<Button>(R.id.cancel_button).setOnClickListener {
+                builder.hide()
+            }
         }
-
         setupAppBar()
     }
 }
