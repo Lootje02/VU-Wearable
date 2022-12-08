@@ -73,4 +73,6 @@
     <string name="connection_lost">Connection Lost</string>
     <string name="fix_connection">Return to the app and reconnect the device</string>
     <string name="fix_issue_notification">fix issue</string>
+    <string name="welcome_splash">Welcome to the VU-AMS App</string>
+    <string name="continue_splash">To continue choose one of the following options</string>
 </resources>
