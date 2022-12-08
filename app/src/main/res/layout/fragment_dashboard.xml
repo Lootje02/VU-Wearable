@@ -43,7 +43,6 @@
                     android:id="@+id/tv_battery_string"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
                     android:text="@string/battery_life_string"
                     android:textSize="24sp"
                     app:layout_constraintBottom_toTopOf="@+id/tv_battery_value"
@@ -52,28 +51,18 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/tv_battery_value"
-                    android:layout_width="75dp"
-                    android:layout_height="75dp"
-                    android:src="@drawable/ic_baseline_battery_full_24"
-                    android:layout_marginBottom="8dp"
-                    app:layout_constraintBottom_toTopOf="@+id/tv_battery_value_string"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_battery_string" />
-
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@id/tv_battery_value_string"
+                    android:id="@+id/tv_battery_value"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:text="@string/battery_life_value"
+                    android:textSize="48sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_battery_value" />
-
+                    app:layout_constraintTop_toBottomOf="@+id/tv_battery_string" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 

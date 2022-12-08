@@ -1,15 +1,12 @@
 package nl.hva.vuwearable.ui.dashboard
 
 import android.app.AlertDialog
-import android.content.Context
-import android.graphics.Color.green
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import nl.hva.vuwearable.R
@@ -36,8 +33,6 @@ class DashboardFragment : Fragment() {
         binding.ibFixIssue.setOnClickListener {
             showIssueDialog()
         }
-
-        batteryCapacity()
 
         connectionEstablished()
 
@@ -87,17 +82,6 @@ class DashboardFragment : Fragment() {
                 handler.postDelayed(this, 1000)
             }
         }, 1000)
-    }
-
-    private fun batteryCapacity(){
-        dashboardViewModel.batteryPercentage.observe(viewLifecycleOwner){
-            if (it > 20){
-                binding.tvBatteryValue.setImageResource(R.drawable.ic_baseline_battery_full_24)
-            }else{
-                binding.tvBatteryValue.setImageResource(R.drawable.ic_baseline_battery_2_bar_24)
-            }
-        }
-
     }
 
     /**

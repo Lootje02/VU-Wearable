@@ -8,15 +8,12 @@ import androidx.lifecycle.ViewModel
 
 class DashboardViewModel : ViewModel() {
 
-    val steps = MutableLiveData(0)
-
-    val batteryPercentage = MutableLiveData<Int>().apply {
-        value = 100
+    private val _text = MutableLiveData<String>().apply {
+        value = "This is dashboard Fragment"
     }
+    val steps = MutableLiveData(0)
 
     fun incrementSteps(){
         steps.value = steps.value!! + 1
     }
-
-
 }
