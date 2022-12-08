@@ -85,10 +85,8 @@ class SciChartFragment : Fragment() {
         val ecgLineSeries: IRenderableSeries = FastLineRenderableSeries()
         ecgLineSeries.dataSeries = ecgLineDataSeries
 
-
         val icgLineSeries: IRenderableSeries = FastLineRenderableSeries()
         icgLineSeries.dataSeries = icgLineDataSeries
-
 
         // Color of the line
         ecgLineSeries.strokeStyle = SolidPenStyle(ColorUtil.LimeGreen, true, 5f, null)
@@ -122,10 +120,12 @@ class SciChartFragment : Fragment() {
         chartViewModel.sectionAMeasurements.observe(viewLifecycleOwner) {
             // Loop through the properties in an 'A' section
             for (sectionArray in it.values) {
+                // Get all the values from the array
                 val tickCount = sectionArray[ASection.TICK_COUNT_INDEX]
                 val icgValue = sectionArray[ASection.ICG_INDEX]
                 val ecgValue = sectionArray[ASection.ECG_INDEX]
 
+                // Append the values to the chart
                 ecgLineDataSeries.append(tickCount as Int, ecgValue as Double)
                 icgLineDataSeries.append(tickCount, icgValue as Double)
 

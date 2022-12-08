@@ -88,6 +88,7 @@ class UDPConnection(
             val byteBuffer = ByteBuffer.allocateDirect(100000000)
             byteBuffer.order(ByteOrder.LITTLE_ENDIAN)
 
+            // Go through everytime a packet comes in
             while (true) {
                 Log.i(UDP_TAG, "Waiting to receive")
                 udpSocket.receive(packet)

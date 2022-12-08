@@ -34,6 +34,12 @@ import nl.hva.vuwearable.workmanager.BackgroundWorker
 import java.util.*
 import java.util.concurrent.TimeUnit
 
+/**
+ * @author Bunyamin Duduk
+ * @author Lorenzo Bindemann
+ * @author Callum Svadkovski
+ * @author Hugo Zuidema
+ */
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
