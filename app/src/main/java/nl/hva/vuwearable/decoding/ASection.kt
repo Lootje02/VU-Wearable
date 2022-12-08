@@ -22,13 +22,8 @@ class ASection : PacketDecoding {
         const val ICG_INDEX = 1
         const val ECG_INDEX = 2
 
-        private const val A0_ALL = 0.0
-        private const val A1_ALL = 0.00047683721641078591
-        private const val A0_T = 24.703470230102539
-        private const val A1_T = 0.00097313715377822518
-
-        val ECG_FORMULA = { value: Int -> A0_ALL + A1_ALL * value }
-        val ICG_FORMULA = { value: Int -> A0_ALL + A1_ALL * value }
+        val ECG_FORMULA = { value: Int -> PacketDecoding.A0_ALL + PacketDecoding.A1_ALL * value }
+        val ICG_FORMULA = { value: Int -> PacketDecoding.A0_ALL + PacketDecoding.A1_ALL * value }
     }
 
     override fun parsePacket(data: ByteArray): LinkedHashMap<Int, ByteArray> {
@@ -38,7 +33,7 @@ class ASection : PacketDecoding {
 
         // Loop through each of the characters in the encoded packet
         data.forEachIndexed { index, byte ->
-            // When we arrive at the 'A' section
+            // To check if we are at the 'A' section, check if the first byte are corresponding to a real 'A' section
             if (!isInASection && byte == A_FIRST_BYTE && data[index + 1] == A_SECOND_BYTE && data[index + 2] == A_THIRD_BYTE) {
                 isInASection = true
             }

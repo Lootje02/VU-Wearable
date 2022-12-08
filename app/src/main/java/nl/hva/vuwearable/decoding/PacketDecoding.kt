@@ -10,6 +10,13 @@ import java.util.*
  */
 interface PacketDecoding {
 
+    companion object {
+        const val A0_ALL = 0.0
+        const val A1_ALL = 0.00047683721641078591
+        const val A0_T = 24.703470230102539
+        const val A1_T = 0.00097313715377822518
+    }
+
     /**
      * Parses the bytes and returns all the bytes of a specific section.
      *
