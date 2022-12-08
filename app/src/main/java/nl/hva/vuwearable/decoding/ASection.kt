@@ -33,7 +33,7 @@ class ASection : PacketDecoding {
 
         // Loop through each of the characters in the encoded packet
         data.forEachIndexed { index, byte ->
-            // To check if we are at the 'A' section, check if the first byte are corresponding to a real 'A' section
+            // To check if we are at the 'A' section, check if the first bytes are corresponding to a real 'A' section
             if (!isInASection && byte == A_FIRST_BYTE && data[index + 1] == A_SECOND_BYTE && data[index + 2] == A_THIRD_BYTE) {
                 isInASection = true
             }
