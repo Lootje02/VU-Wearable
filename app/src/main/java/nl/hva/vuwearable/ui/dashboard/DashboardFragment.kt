@@ -31,9 +31,9 @@ class DashboardFragment : Fragment() {
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-//        binding.ibFixIssue.setOnClickListener {
-//            findNavController().navigate(R.id.faqFragment)
-//        }
+        binding.faqButton.setOnClickListener {
+            findNavController().navigate(R.id.faqFragment)
+        }
 
         connectionEstablished()
 
