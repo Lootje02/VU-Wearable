@@ -12,7 +12,7 @@ class RvAdapter(
 ) : RecyclerView.Adapter<RvAdapter.ViewHolder>() {
 
     // create an inner class with name ViewHolder
-    // It takes a view argument, in which pass the generated class of single_item.xml
+    // It takes a view argument, in which pass the generated class of faq_item.xml
     // ie SingleItemBinding and in the RecyclerView.ViewHolder(binding.root) pass it like this
     inner class ViewHolder(val binding: SingleItemBinding) : RecyclerView.ViewHolder(binding.root)
 
