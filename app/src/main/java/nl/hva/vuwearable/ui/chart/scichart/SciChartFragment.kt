@@ -70,7 +70,7 @@ class SciChartFragment : Fragment() {
 
         // How much it will show on the screen
         ecgLineDataSeries.fifoCapacity = 2000
-        icgLineDataSeries.fifoCapacity = 10000
+        icgLineDataSeries.fifoCapacity = 5000
 
         // Add some padding at the bottom and top to have a more clear view
         yAxis.growBy = DoubleRange(0.3, 0.3)
