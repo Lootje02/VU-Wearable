@@ -94,6 +94,8 @@ class UDPConnection(
             val aDecoding = ASectionDecoder()
 
             val byteBuffer = ByteBuffer.allocateDirect(BYTE_BUFFER_SIZE)
+
+            // Place the biggest byte value at the start and the lowest at the end
             byteBuffer.order(ByteOrder.LITTLE_ENDIAN)
 
             // Go through everytime a packet comes in
