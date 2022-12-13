@@ -21,17 +21,5 @@ class SplashActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         navController = findNavController(R.id.nav_host_fragment_activity_splash)
-
-//        setNavigation()
     }
-
-//    private fun setNavigation(){
-//        binding.btnSetup.setOnClickListener{
-//        }
-//
-//        binding.btnDashboard.setOnClickListener{
-//            navController.navigate(R.id.nav_host_fragment_activity_main)
-//        }
-//    }
-
 }
