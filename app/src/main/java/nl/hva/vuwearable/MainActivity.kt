@@ -114,6 +114,7 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.logout_button -> showDialog()
+            android.R.id.home -> onBackPressed()
         }
         return super.onOptionsItemSelected(item)
     }
