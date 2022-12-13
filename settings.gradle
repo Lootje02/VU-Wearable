@@ -11,6 +11,8 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         maven { url 'https://jitpack.io' }
+        maven { url 'https://www.myget.org/F/abtsoftware/maven' }
+        maven { url 'https://www.myget.org/F/abtsoftware-bleeding-edge/maven' }
     }
 }
 rootProject.name = "VU Wearable"

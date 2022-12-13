@@ -19,9 +19,9 @@
 
     <fragment
         android:id="@+id/navigation_chart"
-        android:name="nl.hva.vuwearable.ui.chart.ChartFragment"
+        android:name="nl.hva.vuwearable.ui.chart.scichart.SciChartFragment"
         android:label="@string/title_chart"
-        tools:layout="@layout/fragment_chart" />
+        tools:layout="@layout/fragment_sci_chart" />
     <fragment
         android:id="@+id/professorDashboardFragment"
         android:name="nl.hva.vuwearable.ui.professordashboard.ProfessorDashboardFragment"
