@@ -11,6 +11,7 @@
     <!--Add recycler view to main activity-->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_list"
+        android:layout_marginTop="16dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:listitem="@layout/faq_item"

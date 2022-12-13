@@ -30,6 +30,7 @@
             hide initially and show as expanded
             layout when user clicks on any of the item-->
         <RelativeLayout
+            android:animateLayoutChanges="true"
             android:id="@+id/expanded_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
