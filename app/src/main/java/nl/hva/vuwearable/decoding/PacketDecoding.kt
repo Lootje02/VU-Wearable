@@ -4,18 +4,14 @@ import java.nio.ByteBuffer
 import java.util.*
 
 /**
- * Decode a section of a packet
+ * Decode a section of a packet.
+ *
+ * Be aware that if you are decoding more than 4 bytes, that you should change
+ * the byte buffer size to how much you decode at once with 'ByteBuffer.getInt(byteArray)'
  *
  * @author Bunyamin Duduk
  */
-interface PacketDecoding {
-
-    companion object {
-        const val A0_ALL = 0.0
-        const val A1_ALL = 0.00047683721641078591
-        const val A0_T = 24.703470230102539
-        const val A1_T = 0.00097313715377822518
-    }
+interface PacketDecoding<T> {
 
     /**
      * Parses the bytes and returns all the bytes of a specific section.
@@ -45,7 +41,7 @@ interface PacketDecoding {
      * @param byteBuffer Byte buffer
      * @return All the sections in a map with the values
      */
-    fun convertBytes(array: ByteArray, byteBuffer: ByteBuffer): Map<Int, Array<Number>>
+    fun convertBytes(array: ByteArray, byteBuffer: ByteBuffer): T
 
 }
 

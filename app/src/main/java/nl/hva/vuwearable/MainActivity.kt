@@ -82,7 +82,7 @@ class MainActivity : AppCompatActivity() {
 
         supportActionBar?.setDisplayShowHomeEnabled(true);
         supportActionBar?.setDisplayShowTitleEnabled(false)
-        supportActionBar?.setIcon(R.drawable.topbar2);
+        supportActionBar?.setIcon(R.drawable.topappbarlogo);
 
         // Android does not allow to use a UDP socket on the main thread,
         // so we need to use it on a different thread
@@ -100,7 +100,7 @@ class MainActivity : AppCompatActivity() {
                 },
                 setASectionMeasurement = {
                     CoroutineScope(Dispatchers.Main).launch {
-                        chartViewModel.setMeasurement(TreeMap(it))
+                        chartViewModel.setASectionMeasurement(TreeMap(it))
                     }
                 })
         ).start()
