@@ -1,13 +1,8 @@
 package nl.hva.vuwearable
 
-import android.content.Context
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
-import android.net.wifi.SupplicantState
-import android.net.wifi.WifiInfo
-import android.net.wifi.WifiManager
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -22,27 +17,36 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import androidx.work.*
+import androidx.work.BackoffPolicy
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.scichart.charting.visuals.SciChartSurface
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import nl.hva.vuwearable.databinding.ActivityMainBinding
 import nl.hva.vuwearable.udp.UDPConnection
+import nl.hva.vuwearable.ui.chart.scichart.ChartViewModel
 import nl.hva.vuwearable.ui.login.LoginViewModel
 import nl.hva.vuwearable.ui.udp.UDPViewModel
 import nl.hva.vuwearable.workmanager.BackgroundWorker
+import java.util.*
 import java.util.concurrent.TimeUnit
 
+/**
+ * @author Bunyamin Duduk
+ * @author Lorenzo Bindemann
+ * @author Callum Svadkovski
+ * @author Hugo Zuidema
+ */
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private val loginViewModel: LoginViewModel by viewModels()
-
-    private val viewModel: UDPViewModel by viewModels()
-
-    private val deviceNetwork: String = "AndroidWifi"
+    private val chartViewModel: ChartViewModel by viewModels()
+    private val udpViewModel: UDPViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,6 +57,8 @@ class MainActivity : AppCompatActivity() {
         val navView: BottomNavigationView = binding.navView
 
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
+
+//        navController.navigate(R.id.guideFragment)
 
         val periodicWorkRequest =
             PeriodicWorkRequest.Builder(BackgroundWorker::class.java, 1, TimeUnit.MINUTES)
@@ -71,14 +77,30 @@ class MainActivity : AppCompatActivity() {
 
         // Android does not allow to use a UDP socket on the main thread,
         // so we need to use it on a different thread
-        Thread(UDPConnection(this.applicationContext, 3, 3) { isConnected, isReceivingData ->
-            // Update the view model on the main thread
-            CoroutineScope(Dispatchers.Main).launch {
-                viewModel.setIsConnected(isConnected)
-                viewModel.setIsReceivingData(isReceivingData)
-            }
+        Thread(
+            UDPConnection(
+                this.applicationContext,
+                3,
+                3,
+                setConnectedCallback = { isConnected, isReceivingData ->
+                    // Update the view model on the main thread
+                    CoroutineScope(Dispatchers.Main).launch {
+                        udpViewModel.setIsReceivingData(isReceivingData)
+                        udpViewModel.setIsConnected(isConnected)
+                    }
+                },
+                setASectionMeasurement = {
+                    CoroutineScope(Dispatchers.Main).launch {
+                        chartViewModel.setMeasurement(TreeMap(it))
+                    }
+                })
+        ).start()
 
-        }).start()
+        try {
+            SciChartSurface.setRuntimeLicenseKey(BuildConfig.SCI_CHART_KEY)
+        } catch (e: Exception) {
+            Log.e("SciChart", e.toString())
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
