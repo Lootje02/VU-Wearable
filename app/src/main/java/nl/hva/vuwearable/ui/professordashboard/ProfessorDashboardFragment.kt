@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import nl.hva.vuwearable.R
 import nl.hva.vuwearable.databinding.FragmentProfesorDashboardBinding
 import java.text.SimpleDateFormat
@@ -45,6 +46,10 @@ class ProfessorDashboardFragment : Fragment() {
 
         binding.txtSystemTime.text = getString(R.string.pd_current_system_time, formatter.format(time))
         binding.txtTestId.text = getString(R.string.pd_test_id, testerId)
+
+        binding.btnFaq.setOnClickListener {
+            findNavController().navigate(R.id.faqFragment)
+        }
 
         binding.btnTesterId.setOnClickListener { showSetTesterIdDialog() }
 

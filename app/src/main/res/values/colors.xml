@@ -21,4 +21,5 @@
     <color name="bg_black">#CC191919</color>
     <color name="bg_house_blue">#1A00B6CB</color>
     <color name="house_blue">#00B6CB</color>
+    <color name="house_yellow">#F7C80C</color>
 </resources>

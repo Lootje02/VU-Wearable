@@ -2,6 +2,7 @@ package nl.hva.vuwearable.ui.chart.scichart
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import nl.hva.vuwearable.decoding.models.ASection
 import java.util.*
 
 /**
@@ -9,9 +10,9 @@ import java.util.*
  */
 class ChartViewModel : ViewModel() {
 
-    val sectionAMeasurements: MutableLiveData<TreeMap<Int, Array<Number>>> = MutableLiveData()
+    val sectionAMeasurements: MutableLiveData<TreeMap<Int, ASection>> = MutableLiveData()
 
-    fun setMeasurement(measurements: TreeMap<Int, Array<Number>>) {
+    fun setASectionMeasurement(measurements: TreeMap<Int, ASection>) {
         this.sectionAMeasurements.value = measurements
     }
 

@@ -18,6 +18,7 @@
     <string name="pd_update_time">UPDATE TIME</string>
     <string name="pd_start_btn">START</string>
     <string name="pd_stop_btn">STOP</string>
+    <string name="pd_view_faq">VIEW FAQ</string>
     <string name="pd_view_live_data">VIEW LIVE DATA</string>
     <string name="pd_set_tester_id">SET TESTER ID</string>
     <string name="pd_set_tester_title">Set Tester ID</string>
@@ -44,7 +45,7 @@
     <string name="wifi">WIFI</string>
     <string name="recording_connection">recording is active</string>
     <string name="time_calibration">time is calibrated correctly</string>
-    <string name="fix_issue">more ></string>
+    <string name="faq_button">Click here</string>
     <string name="tips_icon">tips_icon</string>
     <string name="correct">correct</string>
     <string name="warning">warning</string>
@@ -73,6 +74,7 @@
     <string name="connection_lost">Connection Lost</string>
     <string name="fix_connection">Return to the app and reconnect the device</string>
     <string name="fix_issue_notification">fix issue</string>
-    <string name="guide_step">How to connect electrodes</string>
-    <string name="guide_finish_button">Finish</string>
+    <string name="title_faq">Faq</string>
+    <string name="for_the_faq_page">For the FAQ page</string>
+</resources>
 </resources>
