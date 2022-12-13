@@ -18,20 +18,20 @@ class SplashActivity : AppCompatActivity() {
 
         binding = ActivitySplashscreenBinding.inflate(layoutInflater)
 
-        setContentView(R.layout.activity_splashscreen)
+        setContentView(binding.root)
 
         navController = findNavController(R.id.nav_host_fragment_activity_splash)
 
-        setNavigation()
+//        setNavigation()
     }
 
-    private fun setNavigation(){
-        binding.btnSetup.setOnClickListener{
-        }
-
-        binding.btnDashboard.setOnClickListener{
-            navController.navigate(R.id.nav_host_fragment_activity_main)
-        }
-    }
+//    private fun setNavigation(){
+//        binding.btnSetup.setOnClickListener{
+//        }
+//
+//        binding.btnDashboard.setOnClickListener{
+//            navController.navigate(R.id.nav_host_fragment_activity_main)
+//        }
+//    }
 
 }
