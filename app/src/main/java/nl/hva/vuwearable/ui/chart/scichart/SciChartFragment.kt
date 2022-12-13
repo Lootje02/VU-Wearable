@@ -21,7 +21,6 @@ import com.scichart.data.model.DoubleRange
 import com.scichart.drawing.common.SolidPenStyle
 import com.scichart.drawing.utility.ColorUtil
 import nl.hva.vuwearable.databinding.FragmentSciChartBinding
-import nl.hva.vuwearable.decoding.ASection
 import java.util.*
 
 /**
@@ -119,15 +118,10 @@ class SciChartFragment : Fragment() {
         // Observe all the incoming measurements from the UDP socket
         chartViewModel.sectionAMeasurements.observe(viewLifecycleOwner) {
             // Loop through the properties in an 'A' section
-            for (sectionArray in it.values) {
-                // Get all the values from the array
-                val tickCount = sectionArray[ASection.TICK_COUNT_INDEX]
-                val icgValue = sectionArray[ASection.ICG_INDEX]
-                val ecgValue = sectionArray[ASection.ECG_INDEX]
-
+            for (section in it.values) {
                 // Append the values to the chart
-                ecgLineDataSeries.append(tickCount as Int, ecgValue as Double)
-                icgLineDataSeries.append(tickCount, icgValue as Double)
+                ecgLineDataSeries.append(section.tickCount, section.ecg)
+                icgLineDataSeries.append(section.tickCount, section.icg)
 
                 // Automatically adjust zoom depending on the values of the data
                 binding.surface.zoomExtentsX()
