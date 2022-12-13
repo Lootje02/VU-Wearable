@@ -27,4 +27,8 @@
         android:name="nl.hva.vuwearable.ui.professordashboard.ProfessorDashboardFragment"
         android:label="Management Dashboard"
         tools:layout="@layout/fragment_profesor_dashboard" />
+    <fragment
+        android:id="@+id/faqFragment"
+        android:name="nl.hva.vuwearable.ui.faq.FaqFragment"
+        android:label="@string/title_faq" />
 </navigation>

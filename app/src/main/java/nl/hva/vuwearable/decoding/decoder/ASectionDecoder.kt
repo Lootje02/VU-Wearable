@@ -1,5 +1,8 @@
-package nl.hva.vuwearable.decoding
+package nl.hva.vuwearable.decoding.decoder
 
+import nl.hva.vuwearable.decoding.PacketDecoding
+import nl.hva.vuwearable.decoding.getInt
+import nl.hva.vuwearable.decoding.models.ASection
 import java.nio.ByteBuffer
 import java.util.*
 
@@ -8,7 +11,7 @@ import java.util.*
  *
  * @author Bunyamin Duduk
  */
-class ASection : PacketDecoding {
+class ASectionDecoder : PacketDecoding<Map<Int, ASection>> {
 
     companion object {
         const val A_FIRST_BYTE: Byte = 65
@@ -17,13 +20,13 @@ class ASection : PacketDecoding {
 
         const val A_PART_LENGTH = 28
 
-        // When accessing the array, use those indexes to get the specific value
-        const val TICK_COUNT_INDEX = 0
-        const val ICG_INDEX = 1
-        const val ECG_INDEX = 2
+        const val A0 = 0.0
+        const val A1 = 0.00047683721641078591
+        const val A0_T = 24.703470230102539
+        const val A1_T = 0.00097313715377822518
 
-        val ECG_FORMULA = { value: Int -> PacketDecoding.A0_ALL + PacketDecoding.A1_ALL * value }
-        val ICG_FORMULA = { value: Int -> PacketDecoding.A0_ALL + PacketDecoding.A1_ALL * value }
+        val ECG_FORMULA = { value: Int -> A0 + A1 * value }
+        val ICG_FORMULA = { value: Int -> A0 + A1 * value }
     }
 
     override fun parsePacket(data: ByteArray): LinkedHashMap<Int, ByteArray> {
@@ -75,9 +78,9 @@ class ASection : PacketDecoding {
         return map
     }
 
-    override fun convertBytes(array: ByteArray, byteBuffer: ByteBuffer): Map<Int, Array<Number>> {
+    override fun convertBytes(array: ByteArray, byteBuffer: ByteBuffer): Map<Int, ASection> {
         val parsedSections = parsePacket(array)
-        val results = mutableMapOf<Int, Array<Number>>()
+        val results = mutableMapOf<Int, ASection>()
 
         parsedSections.values.forEachIndexed { index, sectionArray ->
             // Get tick count section
@@ -104,13 +107,12 @@ class ASection : PacketDecoding {
                 sectionArray[19]
             )
 
-            // Put them in the right order in the array so it can be accessed via the constants indexes
-            results[index] = arrayOf(
+            // Put the result in the map with the corresponding values
+            results[index] = ASection(
                 byteBuffer.getInt(tickCountArray),
                 ICG_FORMULA(byteBuffer.getInt(icgArray)),
                 ECG_FORMULA(byteBuffer.getInt(ecgArray))
             )
-
         }
         return results
     }
