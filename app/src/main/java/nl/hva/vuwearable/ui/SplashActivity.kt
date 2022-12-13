@@ -1,5 +1,6 @@
 package nl.hva.vuwearable.ui
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
@@ -15,11 +16,11 @@ class SplashActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivitySplashscreenBinding.inflate(layoutInflater)
 
         setContentView(binding.root)
 
         navController = findNavController(R.id.nav_host_fragment_activity_splash)
+
     }
 }

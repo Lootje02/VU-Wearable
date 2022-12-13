@@ -1,13 +1,5 @@
 package nl.hva.vuwearable
 
-import android.content.Context
-import android.content.Intent
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
-import android.net.wifi.SupplicantState
-import android.net.wifi.WifiInfo
-import android.net.wifi.WifiManager
-import android.content.res.Resources.Theme
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -18,7 +10,6 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
-import android.window.SplashScreen
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -136,7 +127,7 @@ class MainActivity : AppCompatActivity() {
 
         val appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.navigation_home, dashboardId, R.id.navigation_chart, R.id.faqFragment
+                dashboardId, R.id.navigation_chart, R.id.faqFragment
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)

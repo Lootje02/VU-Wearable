@@ -24,13 +24,14 @@ class SplashFragment : Fragment() {
         _binding = FragmentSplashBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+
+        binding.btnSetup.setOnClickListener {
+            findNavController().navigate(R.id.action_splashFragment_to_guideFragment)
+        }
+
         binding.btnDashboard.setOnClickListener {
             val intent = Intent(it.context, MainActivity::class.java)
             startActivity(intent)
-        }
-
-        binding.btnSetup.setOnClickListener {
-
         }
 
         return root

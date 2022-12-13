@@ -31,4 +31,12 @@
         android:id="@+id/faqFragment"
         android:name="nl.hva.vuwearable.ui.faq.FaqFragment"
         android:label="@string/title_faq" />
+    <fragment
+        android:id="@+id/guideFragment"
+        android:name="nl.hva.vuwearable.ui.guide.GuideFragment"
+        android:label="GuideFragment" >
+        <action
+            android:id="@+id/action_guideFragment_to_navigation_dashboard"
+            app:destination="@id/navigation_dashboard" />
+    </fragment>
 </navigation>
