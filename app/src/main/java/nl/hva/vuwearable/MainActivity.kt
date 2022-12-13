@@ -57,8 +57,6 @@ class MainActivity : AppCompatActivity() {
 
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
 
-//        navController.navigate(R.id.guideFragment)
-
         val periodicWorkRequest =
             PeriodicWorkRequest.Builder(BackgroundWorker::class.java, 1, TimeUnit.MINUTES)
                 .setBackoffCriteria(BackoffPolicy.LINEAR, 1, TimeUnit.MINUTES)
