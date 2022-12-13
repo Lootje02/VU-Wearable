@@ -45,6 +45,13 @@ class UDPConnection(
         const val BUFFER_LENGTH = 2048
         const val DEVICE_NETWORK_NAME = "AndroidWifi"
         const val CONNECTION_TIMEOUT_SECONDS = 3
+
+        // In the normal decoder of AMS, a size of 10000000 is being used.
+        // This is unnecessary and too big for what it needs.
+        // When you add new sections that contain more than 4 byte elements in a byte array and the app crashes,
+        // then you need to increase the byte buffer size to how much elements you have
+        // in the byte array
+        const val BYTE_BUFFER_SIZE = 4
     }
 
     override fun run() {
@@ -86,7 +93,7 @@ class UDPConnection(
 
             val aDecoding = ASectionDecoder()
 
-            val byteBuffer = ByteBuffer.allocateDirect(100000000)
+            val byteBuffer = ByteBuffer.allocateDirect(BYTE_BUFFER_SIZE)
             byteBuffer.order(ByteOrder.LITTLE_ENDIAN)
 
             // Go through everytime a packet comes in

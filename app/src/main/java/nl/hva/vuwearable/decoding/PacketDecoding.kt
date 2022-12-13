@@ -4,7 +4,10 @@ import java.nio.ByteBuffer
 import java.util.*
 
 /**
- * Decode a section of a packet
+ * Decode a section of a packet.
+ *
+ * Be aware that if you are decoding more than 4 bytes, that you should change
+ * the byte buffer size to how much you decode at once with 'ByteBuffer.getInt(byteArray)'
  *
  * @author Bunyamin Duduk
  */
