@@ -17,6 +17,10 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
         this.setIsLoggedIn(LOGIN_CODE == codeInput)
     }
 
+    fun checkIfUserIsLoggedIn () : Boolean {
+        return isLoggedIn.value == true
+    }
+
     fun setIsLoggedIn (value : Boolean) {
         isLoggedIn.value = value
     }
@@ -27,7 +31,7 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
             APPLICATION.getString(R.string.input_is_empty)
         } else {
             checkLogin(inputText)
-            if (isLoggedIn.value == true) {
+            if (checkIfUserIsLoggedIn()) {
                 APPLICATION.getString(R.string.login_successful)
             } else {
                 APPLICATION.getString(R.string.incorrect_code)

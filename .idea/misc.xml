@@ -3,14 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/vu-8/app/src/main/res/drawable/ic_baseline_setting.xml" value="0.196" />
-        <entry key="..\:/vu-8/app/src/main/res/layout/activity_main.xml" value="0.14722222222222223" />
-        <entry key="..\:/vu-8/app/src/main/res/layout/fragment_dashboard.xml" value="0.18802083333333333" />
-        <entry key="..\:/vu-8/app/src/main/res/layout/fragment_home.xml" value="0.28940217391304346" />
-        <entry key="..\:/vu-8/app/src/main/res/layout/login_dialog.xml" value="0.25" />
-        <entry key="..\:/vu-8/app/src/main/res/layout/logout_dialog.xml" value="0.5" />
-        <entry key="..\:/vu-8/app/src/main/res/layout/set_tester_dialog.xml" value="0.17831813576494426" />
-        <entry key="..\:/vu-8/app/src/main/res/menu/nav_menu.xml" value="0.14722222222222223" />
+        <entry key="..\:/vu-8/app/src/main/res/layout/faq_item.xml" value="0.25" />
+        <entry key="..\:/vu-8/app/src/main/res/layout/fragment_faq.xml" value="0.36666666666666664" />
+        <entry key="..\:/vu-8/app/src/main/res/menu/nav_menu.xml" value="0.2824074074074074" />
       </map>
     </option>
   </component>
