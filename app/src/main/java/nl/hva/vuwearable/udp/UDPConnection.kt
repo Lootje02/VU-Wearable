@@ -7,7 +7,8 @@ import android.net.wifi.SupplicantState
 import android.net.wifi.WifiInfo
 import android.net.wifi.WifiManager
 import android.util.Log
-import nl.hva.vuwearable.decoding.ASection
+import nl.hva.vuwearable.decoding.decoder.ASectionDecoder
+import nl.hva.vuwearable.decoding.models.ASection
 import java.io.IOException
 import java.net.DatagramPacket
 import java.net.DatagramSocket
@@ -35,7 +36,7 @@ class UDPConnection(
     private val firstDelay: Long,
     private val everyDelay: Long,
     private val setConnectedCallback: (isConnected: Boolean, isReceivingData: Boolean) -> Unit,
-    private val setASectionMeasurement: (measurements: Map<Int, Array<Number>>) -> Unit = {}
+    private val setASectionMeasurement: (measurements: Map<Int, ASection>) -> Unit = {}
 ) : Runnable {
 
     companion object {
@@ -83,7 +84,7 @@ class UDPConnection(
             val buffer = ByteArray(BUFFER_LENGTH)
             val packet = DatagramPacket(buffer, buffer.size)
 
-            val aDecoding = ASection()
+            val aDecoding = ASectionDecoder()
 
             val byteBuffer = ByteBuffer.allocateDirect(100000000)
             byteBuffer.order(ByteOrder.LITTLE_ENDIAN)

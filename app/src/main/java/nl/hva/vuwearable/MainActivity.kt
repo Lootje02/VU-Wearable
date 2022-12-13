@@ -88,7 +88,7 @@ class MainActivity : AppCompatActivity() {
                 },
                 setASectionMeasurement = {
                     CoroutineScope(Dispatchers.Main).launch {
-                        chartViewModel.setMeasurement(TreeMap(it))
+                        chartViewModel.setASectionMeasurement(TreeMap(it))
                     }
                 })
         ).start()
