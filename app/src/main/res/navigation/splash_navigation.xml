@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/splash_navigation"
+    app:startDestination="@id/splashFragment">
+
+    <fragment
+        android:id="@+id/startFragment"
+        android:name="nl.hva.vuwearable.ui.start.StartFragment"
+        android:label="StartFragment"
+        tools:layout="@layout/fragment_start" />
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="nl.hva.vuwearable.ui.start.SplashFragment"
+        android:label="SplashFragment"
+        tools:layout="@layout/fragment_splash">
+        <action
+            android:id="@+id/action_splashFragment_to_startFragment"
+            app:destination="@id/startFragment" />
+        <action
+            android:id="@+id/action_splashFragment_to_guideFragment"
+            app:destination="@id/guideFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/guideFragment"
+        android:name="nl.hva.vuwearable.ui.guide.GuideFragment"
+        android:label="GuideFragment" />
+</navigation>
