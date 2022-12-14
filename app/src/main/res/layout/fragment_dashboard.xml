@@ -133,30 +133,27 @@
                 android:layout_height="match_parent">
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/tv_steps_string"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="@string/steps_string"
-                    android:textSize="24sp"
-                    app:layout_constraintBottom_toTopOf="@+id/tv_steps_value"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/tv_steps_value"
+                    android:id="@+id/tv_breathing"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:text="@string/steps_number"
-                    android:textSize="34sp"
+                    android:text="@string/breathing_excercise"
+                    android:textSize="24sp"
+                    app:layout_constraintBottom_toTopOf="@+id/iv_breathing"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed" />
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/iv_breathing"
+                    android:layout_width="120dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/breathe"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_steps_string" />
+                    app:layout_constraintTop_toBottomOf="@+id/tv_breathing" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 

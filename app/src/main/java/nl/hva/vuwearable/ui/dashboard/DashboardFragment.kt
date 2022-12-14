@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,12 +33,17 @@ class DashboardFragment : Fragment() {
         val root: View = binding.root
 
         binding.faqButton.setOnClickListener {
-            findNavController().navigate(R.id.faqFragment)
+            findNavController().navigate(R.id.action_navigation_dashboard_to_faqFragment)
+        }
+
+        binding.ivBreathing.setOnClickListener{
+            findNavController().navigate(R.id.action_navigation_dashboard_to_breathingFragment)
+            Log.i("hello","helloo")
         }
 
         connectionEstablished()
 
-        setStepCount()
+        //setStepCount()
 
         return root
     }
@@ -72,7 +78,7 @@ class DashboardFragment : Fragment() {
      */
     private fun setStepCount() {
         dashboardViewModel.steps.observe(viewLifecycleOwner) {
-            binding.tvStepsValue.text = it.toString()
+            //binding.tvStepsValue.text = it.toString()
         }
 
         val handler = Handler(Looper.getMainLooper())
@@ -84,6 +90,8 @@ class DashboardFragment : Fragment() {
             }
         }, 1000)
     }
+
+
 
     /**
      * Show dialog when an issue occurs

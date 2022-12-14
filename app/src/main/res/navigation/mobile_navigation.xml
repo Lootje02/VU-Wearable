@@ -5,17 +5,18 @@
     android:id="@+id/mobile_navigation"
     app:startDestination="@id/navigation_dashboard">
 
-    <!--    <fragment-->
-    <!--        android:id="@+id/navigation_home"-->
-    <!--        android:name="nl.hva.vuwearable.ui.home.HomeFragment"-->
-    <!--        android:label="@string/title_home"-->
-    <!--        tools:layout="@layout/fragment_home" />-->
-
     <fragment
         android:id="@+id/navigation_dashboard"
         android:name="nl.hva.vuwearable.ui.dashboard.DashboardFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_dashboard" >
+        <action
+            android:id="@+id/action_navigation_dashboard_to_breathingFragment"
+            app:destination="@id/breathingFragment" />
+        <action
+            android:id="@+id/action_navigation_dashboard_to_faqFragment"
+            app:destination="@id/faqFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_chart"
@@ -39,4 +40,16 @@
             android:id="@+id/action_guideFragment_to_navigation_dashboard"
             app:destination="@id/navigation_dashboard" />
     </fragment>
+    <fragment
+        android:id="@+id/breathingFragment"
+        android:name="nl.hva.vuwearable.ui.breathing.BreathingFragment"
+        android:label="BreathingFragment" >
+        <action
+            android:id="@+id/action_breathingFragment_to_excerciseFragment"
+            app:destination="@id/excerciseFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/excerciseFragment"
+        android:name="nl.hva.vuwearable.ui.breathing.BreathingExcerciseFragment"
+        android:label="ExcerciseFragment" />
 </navigation>

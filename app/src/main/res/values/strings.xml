@@ -79,4 +79,11 @@
     <string name="welcome_splash">Welcome to the vu-ams app</string>
     <string name="guide_step">How to connect electrodes</string>
     <string name="guide_finish_button">Finish</string>
+    <string name="breathing_excercise">Breathing</string>
+    <string name="delay">Delay</string>
+    <string name="breathe_out">Breathe out</string>
+    <string name="duration">Duration</string>
+    <string name="breathe_in">Breathe in</string>
+    <string name="Start">Start</string>
+    <string name="inhale">Inhale</string>
 </resources>

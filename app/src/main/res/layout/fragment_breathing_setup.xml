@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/bg_black"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_breathe_in"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/breathe_in"
+        app:fontFamily="@font/heebo_semi_bold"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/seekbar_breathe_in"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <SeekBar
+        android:id="@+id/seekbar_breathe_in"
+        android:layout_width="0dp"
+        android:layout_height="18dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:max="10"
+        android:progress="0"
+        android:progressBackgroundTint="#00B8D4"
+        app:layout_constraintBottom_toTopOf="@+id/tv_breathe_out"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_breathe_in" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_breathe_out"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/breathe_out"
+        app:fontFamily="@font/heebo_semi_bold"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/seekbar_breathe_out"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/seekbar_breathe_in" />
+
+    <SeekBar
+        android:id="@+id/seekbar_breathe_out"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:max="10"
+        android:progress="0"
+        android:progressBackgroundTint="#00B8D4"
+        app:layout_constraintBottom_toTopOf="@+id/tv_duration"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_breathe_out" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/duration"
+        app:fontFamily="@font/heebo_semi_bold"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/seekbar_duration"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/seekbar_breathe_out" />
+
+    <SeekBar
+        android:id="@+id/seekbar_duration"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:max="10"
+        android:progress="0"
+        android:progressBackgroundTint="#00B8D4"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_duration" />
+
+    <Button
+        android:id="@+id/btn_start_excercise"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/Start"
+        app:layout_constraintTop_toBottomOf="@id/seekbar_duration"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
