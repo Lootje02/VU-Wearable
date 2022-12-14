@@ -1,17 +1,18 @@
 package nl.hva.vuwearable.ui.breathing
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SeekBar
+import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.ViewModel
 import androidx.navigation.fragment.findNavController
 import nl.hva.vuwearable.R
 import nl.hva.vuwearable.databinding.FragmentBreathingSetupBinding
+
 
 class BreathingFragment : Fragment() {
 
@@ -19,7 +20,7 @@ class BreathingFragment : Fragment() {
 
     private val binding get() = _binding!!
 
-    private val breathingViewModel: BreathingViewModel by viewModels()
+    private val breathingViewModel: BreathingViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -39,6 +40,23 @@ class BreathingFragment : Fragment() {
 
     private fun getSeekBarData() {
         breathingViewModel.breatheIn.value = binding.seekbarBreatheIn.progress
+    }
+
+    internal class YourListener : OnSeekBarChangeListener {
+        private var _binding: FragmentBreathingSetupBinding? = null
+
+        private val binding get() = _binding!!
+
+        override fun onProgressChanged(
+            seekBar: SeekBar, progress: Int,
+            fromUser: Boolean
+        ) {
+            Log.i("tag", progress.toString())
+            binding.textView2.text = progress.toString()
+        }
+
+        override fun onStartTrackingTouch(seekBar: SeekBar) {}
+        override fun onStopTrackingTouch(seekBar: SeekBar) {}
     }
 
 

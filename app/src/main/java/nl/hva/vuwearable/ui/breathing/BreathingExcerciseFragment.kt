@@ -30,8 +30,6 @@ class BreathingExcerciseFragment : Fragment() {
 
         Log.i("EXCERCISE", breathingViewModel.breatheIn.value.toString())
 
-        //animateIn()
-
         animateOut()
 
         return root
