@@ -1,19 +1,14 @@
 package nl.hva.vuwearable.ui.breathing
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import nl.hva.vuwearable.R
 import nl.hva.vuwearable.databinding.FragmentBreathingSetupBinding
-import kotlin.math.max
 
 class BreathingFragment : Fragment() {
 
@@ -40,12 +35,8 @@ class BreathingFragment : Fragment() {
     }
 
     private fun getSeekBarData() {
-        val breatheIn = binding.seekbarBreatheIn.progress
-        val breatheOut = binding.seekbarBreatheOut.progress
-        val maxDuration = binding.seekbarDuration.progress
-
-        breathingViewModel.breatheIn.value = breatheIn.toChar()
-        breathingViewModel.breatheOut.value = breatheOut.toChar()
-        breathingViewModel.maxDuration.value = maxDuration.toChar()
+        breathingViewModel.setBreatheIn()
+        breathingViewModel.setBreatheOut()
+        breathingViewModel.setmaxDuration()
     }
 }
