@@ -1,18 +1,18 @@
 package nl.hva.vuwearable.ui.breathing
 
+import nl.hva.vuwearable.R
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ViewAnimator
-import androidx.core.view.ViewCompat.animate
+import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import nl.hva.vuwearable.R
 import nl.hva.vuwearable.databinding.FragmentBreathingExcerciseBinding
 
-class BreathingExcerciseFragment: Fragment() {
+
+class BreathingExcerciseFragment : Fragment() {
 
     private var _binding: FragmentBreathingExcerciseBinding? = null
 
@@ -28,15 +28,22 @@ class BreathingExcerciseFragment: Fragment() {
 
         val root: View = binding.root
 
-        Log.i("EXCERCISE",breathingViewModel.breatheIn.value.toString())
-        Log.i("EXCERCISE",breathingViewModel.breatheOut.value.toString())
-        Log.i("EXCERCISE",breathingViewModel.maxDuration.value.toString())
+        startAnimation()
+
+        Log.i("EXCERCISE", breathingViewModel.breatheIn.value.toString())
+        Log.i("EXCERCISE", breathingViewModel.breatheOut.value.toString())
+        Log.i("EXCERCISE", breathingViewModel.maxDuration.value.toString())
 
         return root
     }
 
-    fun startAnimation(){
-        
+    private fun startAnimation() {
+        val animator = binding.viewAnimator
+
+        val inter =
+            AnimationUtils.loadAnimation(context, R.anim.zoom_in) // load an animation
+
+        animator.startAnimation(inter)
     }
 
 }

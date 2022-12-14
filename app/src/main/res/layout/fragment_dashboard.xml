@@ -139,14 +139,14 @@
                     android:layout_marginBottom="8dp"
                     android:text="@string/breathing_excercise"
                     android:textSize="24sp"
-                    app:layout_constraintBottom_toTopOf="@+id/iv_breathing"
+                    app:layout_constraintBottom_toTopOf="@+id/iv_breathing_widget"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_chainStyle="packed" />
 
                 <androidx.appcompat.widget.AppCompatImageButton
-                    android:id="@+id/iv_breathing"
+                    android:id="@+id/iv_breathing_widget"
                     android:layout_width="120dp"
                     android:layout_height="100dp"
                     android:src="@drawable/breathe"

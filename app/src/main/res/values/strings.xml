@@ -86,4 +86,5 @@
     <string name="breathe_in">Breathe in</string>
     <string name="Start">Start</string>
     <string name="inhale">Inhale</string>
+    <string name="breathing_image">breathing_image</string>
 </resources>

@@ -36,7 +36,7 @@ class DashboardFragment : Fragment() {
             findNavController().navigate(R.id.action_navigation_dashboard_to_faqFragment)
         }
 
-        binding.ivBreathing.setOnClickListener{
+        binding.ivBreathingWidget.setOnClickListener{
             findNavController().navigate(R.id.action_navigation_dashboard_to_breathingFragment)
             Log.i("hello","helloo")
         }
