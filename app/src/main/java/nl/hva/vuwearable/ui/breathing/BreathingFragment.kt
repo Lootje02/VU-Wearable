@@ -1,12 +1,9 @@
 package nl.hva.vuwearable.ui.breathing
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.SeekBar
-import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -40,6 +37,8 @@ class BreathingFragment : Fragment() {
 
     private fun getSeekBarData() {
         breathingViewModel.breatheIn.value = binding.seekbarBreatheIn.progress
+        breathingViewModel.breatheOut.value = binding.seekbarBreatheOut.progress
+        breathingViewModel.maxDuration.value = binding.seekbarDuration.progress
     }
 
 

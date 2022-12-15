@@ -135,13 +135,26 @@ class BreathingExcerciseFragment : Fragment() {
     private fun startAnimation() {
         val animator = binding.viewAnimator
 
+        val startDate = Date()
+
         runnable = Runnable {
+            val breathIn = (breathingViewModel.breatheIn.value!! * 1000).toLong()
+            val breathOut = (breathingViewModel.breatheOut.value!! * 1000).toLong()
+            val maxDuration = (breathingViewModel.maxDuration.value!! * 1000 * 60).toLong()
+
             animator.animate()
-                .setDuration(1000).scaleX(1.2f).scaleY(1.2f).withEndAction {
-                    animator.animate().setStartDelay(1000).setDuration(1000).scaleY(0.8f)
-                        .scaleX(0.8f).start()
-                }
-            handler.postDelayed(runnable, 4000)
+                .setDuration(breathIn).scaleX(1.2f).scaleY(1.2f).withEndAction {
+                    animator.animate().setStartDelay(2000).setDuration(breathOut).scaleY(0.6f)
+                        .scaleX(0.6f).withEndAction {
+                            val currentDate = Date()
+
+                            if (currentDate.time - startDate.time >= maxDuration) {
+                                handler.removeCallbacks(runnable)
+                            } else
+                                handler.postDelayed(runnable, 0)
+                        }.start()
+                }.start()
+
         }
 
         handler.postDelayed(runnable, 0)
