@@ -42,22 +42,7 @@ class BreathingFragment : Fragment() {
         breathingViewModel.breatheIn.value = binding.seekbarBreatheIn.progress
     }
 
-    internal class YourListener : OnSeekBarChangeListener {
-        private var _binding: FragmentBreathingSetupBinding? = null
 
-        private val binding get() = _binding!!
-
-        override fun onProgressChanged(
-            seekBar: SeekBar, progress: Int,
-            fromUser: Boolean
-        ) {
-            Log.i("tag", progress.toString())
-            binding.textView2.text = progress.toString()
-        }
-
-        override fun onStartTrackingTouch(seekBar: SeekBar) {}
-        override fun onStopTrackingTouch(seekBar: SeekBar) {}
-    }
 
 
 }
