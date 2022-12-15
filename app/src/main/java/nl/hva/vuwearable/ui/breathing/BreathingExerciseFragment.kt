@@ -10,10 +10,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import com.google.android.material.snackbar.Snackbar
 import com.scichart.charting.model.dataSeries.XyDataSeries
 import com.scichart.charting.modifiers.*
-import com.scichart.charting.themes.ThemeManager
 import com.scichart.charting.visuals.axes.IAxis
 import com.scichart.charting.visuals.axes.NumericAxis
 import com.scichart.charting.visuals.renderableSeries.FastLineRenderableSeries
@@ -25,16 +23,14 @@ import com.scichart.core.model.IntegerValues
 import com.scichart.data.model.DoubleRange
 import com.scichart.drawing.common.SolidPenStyle
 import com.scichart.drawing.utility.ColorUtil
-import nl.hva.vuwearable.MainActivity
-import nl.hva.vuwearable.R
-import nl.hva.vuwearable.databinding.FragmentBreathingExcerciseBinding
+import nl.hva.vuwearable.databinding.FragmentBreathingExerciseBinding
 import nl.hva.vuwearable.ui.chart.scichart.ChartViewModel
 import java.util.*
 
 
-class BreathingExcerciseFragment : Fragment() {
+class BreathingExerciseFragment : Fragment() {
 
-    private var _binding: FragmentBreathingExcerciseBinding? = null
+    private var _binding: FragmentBreathingExerciseBinding? = null
 
     private val binding get() = _binding!!
 
@@ -62,13 +58,9 @@ class BreathingExcerciseFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
 
-        _binding = FragmentBreathingExcerciseBinding.inflate(inflater, container, false)
+        _binding = FragmentBreathingExerciseBinding.inflate(inflater, container, false)
 
         handler = Handler(Looper.getMainLooper())
-
-        Log.i("EXCERCISE", breathingViewModel.breatheIn.value.toString())
-        Log.i("EXCERCISE", breathingViewModel.breatheOut.value.toString())
-        Log.i("EXCERCISE", breathingViewModel.maxDuration.value.toString())
 
         startAnimation()
 
@@ -172,22 +164,21 @@ class BreathingExcerciseFragment : Fragment() {
             val breathOut = (breathingViewModel.breatheOut.value!! * 1000).toLong()
             val maxDuration = (breathingViewModel.maxDuration.value!! * 1000 * 60).toLong()
 
+            Log.i("TEST", breathOut.toString())
             animator.animate()
                 .setDuration(breathIn).scaleX(1.2f).scaleY(1.2f).withEndAction {
                     animator.animate().setStartDelay(2000).setDuration(breathOut).scaleY(0.6f)
                         .scaleX(0.6f).withEndAction {
                             val currentDate = Date()
 
-                            if (currentDate.time - startDate.time >= maxDuration) {
-                                Log.i("start",startDate.toString())
-                                Log.i("current",currentDate.toString())
+                            if (currentDate.time - startDate.time >= maxDuration)
                                 handler.removeCallbacks(runnable)
-                            } else
-                                Log.i("max",maxDuration.toString())
-                            handler.postDelayed(runnable, 0)
+                            else
+                                handler.postDelayed(runnable, 0)
                         }.start()
                 }.start()
-            handler.postDelayed(runnable, 0)
         }
+
+        handler.post(runnable)
     }
 }

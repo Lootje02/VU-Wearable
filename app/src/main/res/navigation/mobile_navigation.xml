@@ -50,6 +50,6 @@
     </fragment>
     <fragment
         android:id="@+id/excerciseFragment"
-        android:name="nl.hva.vuwearable.ui.breathing.BreathingExcerciseFragment"
+        android:name="nl.hva.vuwearable.ui.breathing.BreathingExerciseFragment"
         android:label="ExcerciseFragment" />
 </navigation>
