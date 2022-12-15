@@ -30,7 +30,7 @@
     <fragment
         android:id="@+id/guideFragment"
         android:name="nl.hva.vuwearable.ui.guide.GuideFragment"
-        android:label="GuideFragment">
+        android:label="Guide">
         <action
             android:id="@+id/action_guideFragment_to_navigation_dashboard"
             app:destination="@id/navigation_dashboard" />
