@@ -127,17 +127,15 @@ class BreathingExerciseFragment : Fragment() {
 
         // Observe all the incoming measurements from the UDP socket
         chartViewModel.sectionAMeasurements.observe(viewLifecycleOwner) {
-            if (chartViewModel.isBreathing.value == true){
-                // Loop through the properties in an 'A' section
-                for (section in it.values) {
-                    // Append the values to the chart
-                    icgLineDataSeries.append(section.tickCount, section.icg)
-                    ecgLineDataSeries.append(section.tickCount, section.ecg)
+            // Loop through the properties in an 'A' section
+            for (section in it.values) {
+                // Append the values to the chart
+                icgLineDataSeries.append(section.tickCount, section.icg)
+                ecgLineDataSeries.append(section.tickCount, section.ecg)
 
-                    // Automatically adjust zoom depending on the values of the data
-                    binding.surface.zoomExtentsX()
-                    binding.surface.zoomExtentsY()
-                }
+                // Automatically adjust zoom depending on the values of the data
+                binding.surface.zoomExtentsX()
+                binding.surface.zoomExtentsY()
             }
         }
         return binding.root
@@ -166,7 +164,6 @@ class BreathingExerciseFragment : Fragment() {
                             val currentDate = Date()
 
                             if (currentDate.time - startDate.time >= maxDuration) {
-                                chartViewModel.isBreathing.value = false
                                 binding.tvFinished.isVisible = true
                                 handler.removeCallbacks(runnable)
                             } else
