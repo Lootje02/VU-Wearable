@@ -103,15 +103,6 @@ class BreathingExerciseFragment : Fragment() {
         legendModifier.setOrientation(Orientation.HORIZONTAL)
         legendModifier.setLegendPosition(Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL, 0, 0, 0, 10)
 
-        surface.theme = com.scichart.charting.R.style.SciChart_Bright_Spark
-
-        xAxis.drawMajorGridLines = false;
-        xAxis.drawMinorGridLines = false;
-        xAxis.drawMajorBands = false;
-
-        yAxis.drawMajorGridLines = false;
-        yAxis.drawMinorGridLines = false;
-        yAxis.drawMajorBands = false;
 
         // Add all those data and modifiers
         UpdateSuspender.using(surface) {
