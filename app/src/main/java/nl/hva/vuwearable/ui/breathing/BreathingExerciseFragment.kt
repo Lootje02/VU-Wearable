@@ -23,6 +23,7 @@ import com.scichart.core.model.IntegerValues
 import com.scichart.data.model.DoubleRange
 import com.scichart.drawing.common.SolidPenStyle
 import com.scichart.drawing.utility.ColorUtil
+import nl.hva.vuwearable.R
 import nl.hva.vuwearable.databinding.FragmentBreathingExerciseBinding
 import nl.hva.vuwearable.ui.chart.scichart.ChartViewModel
 import java.util.*
@@ -71,8 +72,8 @@ class BreathingExerciseFragment : Fragment() {
         val yAxis: IAxis = NumericAxis(requireContext())
 
         // Name of the line
-        icgLineDataSeries.seriesName = "ICG"
-        ecgLineDataSeries.seriesName = "ECG"
+        icgLineDataSeries.seriesName = getString(R.string.ICG)
+        ecgLineDataSeries.seriesName = getString(R.string.ECG)
 
         // How much it will show on the screen
         icgLineDataSeries.fifoCapacity = 5000
@@ -155,7 +156,6 @@ class BreathingExerciseFragment : Fragment() {
             val breathOut = (breathingViewModel.breatheOut.value!! * 1000).toLong()
             val maxDuration = (breathingViewModel.maxDuration.value!! * 1000 * 60).toLong()
 
-            Log.i("TEST", breathOut.toString())
             animator.animate()
                 .setDuration(breathIn).scaleX(1.2f).scaleY(1.2f).withEndAction {
                     animator.animate().setStartDelay(2000).setDuration(breathOut).scaleY(0.6f)

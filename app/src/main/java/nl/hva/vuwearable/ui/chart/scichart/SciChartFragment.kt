@@ -20,6 +20,7 @@ import com.scichart.core.model.IntegerValues
 import com.scichart.data.model.DoubleRange
 import com.scichart.drawing.common.SolidPenStyle
 import com.scichart.drawing.utility.ColorUtil
+import nl.hva.vuwearable.R
 import nl.hva.vuwearable.databinding.FragmentSciChartBinding
 import java.util.*
 
@@ -64,8 +65,8 @@ class SciChartFragment : Fragment() {
         val yAxis: IAxis = NumericAxis(requireContext())
 
         // Name of the line
-        ecgLineDataSeries.seriesName = "ECG"
-        icgLineDataSeries.seriesName = "ICG"
+        ecgLineDataSeries.seriesName = getString(R.string.ECG)
+        icgLineDataSeries.seriesName = getString(R.string.ICG)
 
         // How much it will show on the screen
         ecgLineDataSeries.fifoCapacity = 2000

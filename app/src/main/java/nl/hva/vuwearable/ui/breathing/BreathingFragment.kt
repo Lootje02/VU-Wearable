@@ -76,7 +76,4 @@ class BreathingFragment : Fragment() {
         breathingViewModel.maxDuration.value = binding.seekbarDuration.progress
     }
 
-
-
-
 }
