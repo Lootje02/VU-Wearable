@@ -8,16 +8,8 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import com.github.mikephil.charting.animation.Easing
-import com.github.mikephil.charting.components.Legend
-import com.github.mikephil.charting.components.XAxis
-import com.github.mikephil.charting.data.Entry
-import com.github.mikephil.charting.data.LineData
-import com.github.mikephil.charting.data.LineDataSet
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.scichart.charting.model.dataSeries.XyDataSeries
 import com.scichart.charting.modifiers.*
 import com.scichart.charting.visuals.axes.IAxis
@@ -31,7 +23,6 @@ import com.scichart.core.model.IntegerValues
 import com.scichart.data.model.DoubleRange
 import com.scichart.drawing.common.SolidPenStyle
 import com.scichart.drawing.utility.ColorUtil
-import nl.hva.vuwearable.R
 import nl.hva.vuwearable.databinding.FragmentBreathingExcerciseBinding
 import nl.hva.vuwearable.ui.chart.scichart.ChartViewModel
 import java.util.*
@@ -54,12 +45,16 @@ class BreathingExcerciseFragment : Fragment() {
             append(xValues, yValues)
         }
 
+    private lateinit var handler: Handler
+    private lateinit var runnable: Runnable
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
 
         _binding = FragmentBreathingExcerciseBinding.inflate(inflater, container, false)
+
+        handler = Handler(Looper.getMainLooper())
 
         Log.i("EXCERCISE", breathingViewModel.breatheIn.value.toString())
 
@@ -134,15 +129,23 @@ class BreathingExcerciseFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-
+        handler.removeCallbacks(runnable)
     }
 
     private fun startAnimation() {
         val animator = binding.viewAnimator
 
-        animator.animate()
-            .setDuration(1000)
-            .
+        runnable = Runnable {
+            animator.animate()
+                .setDuration(1000).scaleX(1.2f).scaleY(1.2f).withEndAction {
+                    animator.animate().setStartDelay(1000).setDuration(1000).scaleY(0.8f)
+                        .scaleX(0.8f).start()
+                }
+            handler.postDelayed(runnable, 4000)
+        }
+
+        handler.postDelayed(runnable, 0)
+
 
 //        when (breathingViewModel.breatheIn.value) {
 //            1 -> animator.startAnimation(AnimationUtils.loadAnimation(context, R.anim.zoom_in_1sec))
