@@ -10,8 +10,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import com.google.android.material.snackbar.Snackbar
 import com.scichart.charting.model.dataSeries.XyDataSeries
 import com.scichart.charting.modifiers.*
+import com.scichart.charting.themes.ThemeManager
 import com.scichart.charting.visuals.axes.IAxis
 import com.scichart.charting.visuals.axes.NumericAxis
 import com.scichart.charting.visuals.renderableSeries.FastLineRenderableSeries
@@ -23,6 +25,8 @@ import com.scichart.core.model.IntegerValues
 import com.scichart.data.model.DoubleRange
 import com.scichart.drawing.common.SolidPenStyle
 import com.scichart.drawing.utility.ColorUtil
+import nl.hva.vuwearable.MainActivity
+import nl.hva.vuwearable.R
 import nl.hva.vuwearable.databinding.FragmentBreathingExcerciseBinding
 import nl.hva.vuwearable.ui.chart.scichart.ChartViewModel
 import java.util.*
@@ -45,6 +49,12 @@ class BreathingExcerciseFragment : Fragment() {
             append(xValues, yValues)
         }
 
+    private val ecgLineData = DoubleValues()
+    private val ecgLineDataSeries =
+        XyDataSeries(Int::class.javaObjectType, Double::class.javaObjectType).apply {
+            append(xValues, yValues)
+        }
+
     private lateinit var handler: Handler
     private lateinit var runnable: Runnable
 
@@ -57,6 +67,8 @@ class BreathingExcerciseFragment : Fragment() {
         handler = Handler(Looper.getMainLooper())
 
         Log.i("EXCERCISE", breathingViewModel.breatheIn.value.toString())
+        Log.i("EXCERCISE", breathingViewModel.breatheOut.value.toString())
+        Log.i("EXCERCISE", breathingViewModel.maxDuration.value.toString())
 
         startAnimation()
 
@@ -68,9 +80,11 @@ class BreathingExcerciseFragment : Fragment() {
 
         // Name of the line
         icgLineDataSeries.seriesName = "ICG"
+        ecgLineDataSeries.seriesName = "ECG"
 
         // How much it will show on the screen
         icgLineDataSeries.fifoCapacity = 5000
+        ecgLineDataSeries.fifoCapacity = 5000
 
         // Add some padding at the bottom and top to have a more clear view
         yAxis.growBy = DoubleRange(0.3, 0.3)
@@ -79,22 +93,37 @@ class BreathingExcerciseFragment : Fragment() {
 
         // Append data to initialise the data series
         icgLineDataSeries.append(xValues, icgLineData)
+        ecgLineDataSeries.append(xValues, ecgLineData)
 
         // Type of line
         val icgLineSeries: IRenderableSeries = FastLineRenderableSeries()
         icgLineSeries.dataSeries = icgLineDataSeries
 
+        val ecgLineSeries: IRenderableSeries = FastLineRenderableSeries()
+        ecgLineSeries.dataSeries = ecgLineDataSeries
+
         // Color of the line
         icgLineSeries.strokeStyle = SolidPenStyle(ColorUtil.Yellow, true, 5f, null)
+        ecgLineSeries.strokeStyle = SolidPenStyle(ColorUtil.LimeGreen, true, 5f, null)
 
         // Show in a box what the lines are
         val legendModifier = LegendModifier(requireContext())
         legendModifier.setOrientation(Orientation.HORIZONTAL)
         legendModifier.setLegendPosition(Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL, 0, 0, 0, 10)
 
+        surface.theme = com.scichart.charting.R.style.SciChart_Bright_Spark
+
+        xAxis.drawMajorGridLines = false;
+        xAxis.drawMinorGridLines = false;
+        xAxis.drawMajorBands = false;
+
+        yAxis.drawMajorGridLines = false;
+        yAxis.drawMinorGridLines = false;
+        yAxis.drawMajorBands = false;
+
         // Add all those data and modifiers
         UpdateSuspender.using(surface) {
-            Collections.addAll(surface.renderableSeries, icgLineSeries)
+            Collections.addAll(surface.renderableSeries, ecgLineSeries, icgLineSeries)
             Collections.addAll(
                 surface.chartModifiers,
                 PinchZoomModifier(),
@@ -117,6 +146,7 @@ class BreathingExcerciseFragment : Fragment() {
             for (section in it.values) {
                 // Append the values to the chart
                 icgLineDataSeries.append(section.tickCount, section.icg)
+                ecgLineDataSeries.append(section.tickCount, section.ecg)
 
                 // Automatically adjust zoom depending on the values of the data
                 binding.surface.zoomExtentsX()
@@ -149,35 +179,15 @@ class BreathingExcerciseFragment : Fragment() {
                             val currentDate = Date()
 
                             if (currentDate.time - startDate.time >= maxDuration) {
+                                Log.i("start",startDate.toString())
+                                Log.i("current",currentDate.toString())
                                 handler.removeCallbacks(runnable)
                             } else
-                                handler.postDelayed(runnable, 0)
+                                Log.i("max",maxDuration.toString())
+                            handler.postDelayed(runnable, 0)
                         }.start()
                 }.start()
-
+            handler.postDelayed(runnable, 0)
         }
-
-        handler.postDelayed(runnable, 0)
-
-
-//        when (breathingViewModel.breatheIn.value) {
-//            1 -> animator.startAnimation(AnimationUtils.loadAnimation(context, R.anim.zoom_in_1sec))
-//            2 -> animator.startAnimation(AnimationUtils.loadAnimation(context, R.anim.zoom_in_2sec))
-//            3 -> animator.startAnimation(AnimationUtils.loadAnimation(context, R.anim.zoom_in_3sec))
-//            4 -> animator.startAnimation(AnimationUtils.loadAnimation(context, R.anim.zoom_in_4sec))
-//            5 -> animator.startAnimation(AnimationUtils.loadAnimation(context, R.anim.zoom_in_5sec))
-//            6 -> animator.startAnimation(AnimationUtils.loadAnimation(context, R.anim.zoom_in_6sec))
-//            7 -> animator.startAnimation(AnimationUtils.loadAnimation(context, R.anim.zoom_in_7sec))
-//            8 -> animator.startAnimation(AnimationUtils.loadAnimation(context, R.anim.zoom_in_8sec))
-//            9 -> animator.startAnimation(AnimationUtils.loadAnimation(context, R.anim.zoom_in_9sec))
-//            10 -> animator.startAnimation(
-//                AnimationUtils.loadAnimation(
-//                    context,
-//                    R.anim.zoom_in_10sec
-//                )
-//            )
-//        }
     }
-
-
 }

@@ -82,10 +82,12 @@
     <string name="breathing_excercise">Breathing</string>
     <string name="delay">Delay</string>
     <string name="breathe_out">Breathe out</string>
-    <string name="duration">Duration</string>
-    <string name="breathe_in">Breathe in time</string>
+    <string name="duration">Max Duration</string>
+    <string name="breathe_in">Breathe in</string>
     <string name="Start">Start</string>
     <string name="inhale">Inhale</string>
     <string name="breathing_image">breathing_image</string>
-    <string name="seconds">%d Seconds</string>
+    <string name="seconds_breathe_in">%d Second(s)</string>
+    <string name="seconds_breathe_out">%d Second(s)</string>
+    <string name="seconds_duration">%d Minute(s)</string>
 </resources>

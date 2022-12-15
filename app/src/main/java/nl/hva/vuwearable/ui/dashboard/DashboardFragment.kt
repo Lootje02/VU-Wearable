@@ -38,12 +38,9 @@ class DashboardFragment : Fragment() {
 
         binding.ivBreathingWidget.setOnClickListener{
             findNavController().navigate(R.id.action_navigation_dashboard_to_breathingFragment)
-            Log.i("hello","helloo")
         }
 
         connectionEstablished()
-
-        //setStepCount()
 
         return root
     }
@@ -72,26 +69,6 @@ class DashboardFragment : Fragment() {
             }
         }
     }
-
-    /**
-     * Handler to add step every second, used as mockdata for dashboard
-     */
-    private fun setStepCount() {
-        dashboardViewModel.steps.observe(viewLifecycleOwner) {
-            //binding.tvStepsValue.text = it.toString()
-        }
-
-        val handler = Handler(Looper.getMainLooper())
-
-        handler.postDelayed(object : Runnable {
-            override fun run() {
-                dashboardViewModel.incrementSteps()
-                handler.postDelayed(this, 1000)
-            }
-        }, 1000)
-    }
-
-
 
     /**
      * Show dialog when an issue occurs

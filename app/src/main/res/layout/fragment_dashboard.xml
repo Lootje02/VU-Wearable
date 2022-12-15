@@ -145,7 +145,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_chainStyle="packed" />
 
-                <androidx.appcompat.widget.AppCompatImageButton
+                <ImageView
                     android:id="@+id/iv_breathing_widget"
                     android:layout_width="120dp"
                     android:layout_height="100dp"

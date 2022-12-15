@@ -35,13 +35,34 @@ class BreathingFragment : Fragment() {
         }
 
         binding.progressBreathInSeconds.text =
-            getString(R.string.seconds, binding.seekbarBreatheIn.progress)
+            getString(R.string.seconds_breathe_in, binding.seekbarBreatheIn.progress)
+
+        binding.progressBreathOutSeconds.text =
+            getString(R.string.seconds_breathe_out, binding.seekbarBreatheOut.progress)
+
+        binding.progressMaxSeconds.text =
+            getString(R.string.seconds_duration, binding.seekbarDuration.progress)
 
         binding.seekbarBreatheIn.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
-                binding.progressBreathInSeconds.text = getString(R.string.seconds, progress)
+                binding.progressBreathInSeconds.text = getString(R.string.seconds_breathe_in, progress)
             }
+            override fun onStartTrackingTouch(seekBar: SeekBar) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar) {}
+        })
 
+        binding.seekbarBreatheOut.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                binding.progressBreathOutSeconds.text = getString(R.string.seconds_breathe_out, progress)
+            }
+            override fun onStartTrackingTouch(seekBar: SeekBar) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar) {}
+        })
+
+        binding.seekbarDuration.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                binding.progressMaxSeconds.text = getString(R.string.seconds_duration, progress)
+            }
             override fun onStartTrackingTouch(seekBar: SeekBar) {}
             override fun onStopTrackingTouch(seekBar: SeekBar) {}
         })
