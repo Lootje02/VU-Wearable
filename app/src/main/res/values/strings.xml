@@ -79,5 +79,19 @@
     <string name="welcome_splash">Welcome to the vu-ams app</string>
     <string name="guide_step">How to connect electrodes</string>
     <string name="guide_finish_button">Finish</string>
+    <string name="breathing_excercise">Breathing</string>
+    <string name="delay">Delay</string>
+    <string name="breathe_out">Breathe out</string>
+    <string name="duration">Max Duration</string>
+    <string name="breathe_in">Breathe in</string>
+    <string name="Start">Start</string>
+    <string name="inhale">Inhale</string>
+    <string name="breathing_image">breathing_image</string>
+    <string name="seconds_breathe_in">%d Second(s)</string>
+    <string name="seconds_breathe_out">%d Second(s)</string>
+    <string name="seconds_duration">%d Minute(s)</string>
     <string name="guide_explanation">In order to receive the data correctly, you need to have all the electrodes on your body connected properly. \n\nLook at the images to see where you need to connect the electrodes.\n\nMatch the electrode colors with the image where it needs to be placed.</string>
+    <string name="ECG">ECG</string>
+    <string name="ICG">ICG</string>
+    <string name="exercise_finished">Exercise Completed!</string>
 </resources>

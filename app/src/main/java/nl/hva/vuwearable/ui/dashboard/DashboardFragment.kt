@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,12 +33,14 @@ class DashboardFragment : Fragment() {
         val root: View = binding.root
 
         binding.faqButton.setOnClickListener {
-            findNavController().navigate(R.id.faqFragment)
+            findNavController().navigate(R.id.action_navigation_dashboard_to_faqFragment)
+        }
+
+        binding.ivBreathingWidget.setOnClickListener{
+            findNavController().navigate(R.id.action_navigation_dashboard_to_breathingFragment)
         }
 
         connectionEstablished()
-
-        setStepCount()
 
         return root
     }
@@ -65,24 +68,6 @@ class DashboardFragment : Fragment() {
                 }
             }
         }
-    }
-
-    /**
-     * Handler to add step every second, used as mockdata for dashboard
-     */
-    private fun setStepCount() {
-        dashboardViewModel.steps.observe(viewLifecycleOwner) {
-            binding.tvStepsValue.text = it.toString()
-        }
-
-        val handler = Handler(Looper.getMainLooper())
-
-        handler.postDelayed(object : Runnable {
-            override fun run() {
-                dashboardViewModel.incrementSteps()
-                handler.postDelayed(this, 1000)
-            }
-        }, 1000)
     }
 
     /**
