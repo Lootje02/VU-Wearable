@@ -10,6 +10,8 @@ import java.util.*
  */
 class ChartViewModel : ViewModel() {
 
+    val isBreathing = MutableLiveData(true)
+
     val sectionAMeasurements: MutableLiveData<TreeMap<Int, ASection>> = MutableLiveData()
 
     fun setASectionMeasurement(measurements: TreeMap<Int, ASection>) {

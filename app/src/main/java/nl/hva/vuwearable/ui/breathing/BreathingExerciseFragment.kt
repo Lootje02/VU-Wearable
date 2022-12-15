@@ -8,6 +8,7 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.scichart.charting.model.dataSeries.XyDataSeries
@@ -126,15 +127,17 @@ class BreathingExerciseFragment : Fragment() {
 
         // Observe all the incoming measurements from the UDP socket
         chartViewModel.sectionAMeasurements.observe(viewLifecycleOwner) {
-            // Loop through the properties in an 'A' section
-            for (section in it.values) {
-                // Append the values to the chart
-                icgLineDataSeries.append(section.tickCount, section.icg)
-                ecgLineDataSeries.append(section.tickCount, section.ecg)
+            if (chartViewModel.isBreathing.value == true){
+                // Loop through the properties in an 'A' section
+                for (section in it.values) {
+                    // Append the values to the chart
+                    icgLineDataSeries.append(section.tickCount, section.icg)
+                    ecgLineDataSeries.append(section.tickCount, section.ecg)
 
-                // Automatically adjust zoom depending on the values of the data
-                binding.surface.zoomExtentsX()
-                binding.surface.zoomExtentsY()
+                    // Automatically adjust zoom depending on the values of the data
+                    binding.surface.zoomExtentsX()
+                    binding.surface.zoomExtentsY()
+                }
             }
         }
         return binding.root
@@ -162,14 +165,15 @@ class BreathingExerciseFragment : Fragment() {
                         .scaleX(0.6f).withEndAction {
                             val currentDate = Date()
 
-                            if (currentDate.time - startDate.time >= maxDuration)
+                            if (currentDate.time - startDate.time >= maxDuration) {
+                                chartViewModel.isBreathing.value = false
+                                binding.tvFinished.isVisible = true
                                 handler.removeCallbacks(runnable)
-                            else
+                            } else
                                 handler.postDelayed(runnable, 0)
                         }.start()
                 }.start()
         }
-
         handler.post(runnable)
     }
 }
