@@ -16,7 +16,7 @@ class FaqViewModel(application: Application) : AndroidViewModel(application) {
         val questions: List<String>
         val answers: List<String>
 
-        if (userIsLoggedIn) {
+        if (!userIsLoggedIn) {
 
             questions = listOf(
                 "Can I shower with the device?",
@@ -44,6 +44,8 @@ class FaqViewModel(application: Application) : AndroidViewModel(application) {
                 "Place it in the charger (image of how to put it in the charger). A full charge from empty typically takes 2-3 hours. The LED will show charging is completed by turning solid green.",
             )
         }
+
+        faqList = mutableListOf()
 
         for (i in questions.indices) {
             val faq = Faq(
