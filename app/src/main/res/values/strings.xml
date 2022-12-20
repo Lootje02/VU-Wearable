@@ -39,8 +39,8 @@
     <string name="battery_life_string">Battery</string>
     <string name="battery_life_value">53%</string>
     <string name="profile_name">Firstname</string>
-    <string name="tips"><![CDATA[Tips & Tricks]]></string>
-    <string name="more_info">Find out more here</string>
+    <string name="faq">FAQ</string>
+    <string name="more_info">Answer on general questions</string>
     <string name="wifi">WIFI</string>
     <string name="recording_connection">recording is active</string>
     <string name="time_calibration">time is calibrated correctly</string>

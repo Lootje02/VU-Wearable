@@ -32,7 +32,7 @@ class DashboardFragment : Fragment() {
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        binding.faqButton.setOnClickListener {
+        binding.ivFaq.setOnClickListener {
             findNavController().navigate(R.id.action_navigation_dashboard_to_faqFragment)
         }
 

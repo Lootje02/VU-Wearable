@@ -1,6 +1,5 @@
 package nl.hva.vuwearable.ui.faq
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
