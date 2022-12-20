@@ -45,6 +45,8 @@ class FaqViewModel(application: Application) : AndroidViewModel(application) {
             )
         }
 
+        faqList = mutableListOf()
+
         for (i in questions.indices) {
             val faq = Faq(
                 questions[i],
