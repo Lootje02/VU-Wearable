@@ -12,17 +12,18 @@
         android:id="@+id/layout_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/linear_2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed">
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cv_battery"
             android:layout_width="175dp"
-            android:layout_height="150dp"
+            android:layout_height="250dp"
             android:layout_marginEnd="15dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -33,9 +34,9 @@
                     android:id="@+id/tv_battery_string"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/heebo_medium"
                     android:text="@string/battery_life_string"
                     android:textSize="20sp"
-                    android:fontFamily="@font/heebo_medium"
                     app:layout_constraintBottom_toTopOf="@+id/tv_battery_value"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
@@ -62,11 +63,14 @@
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cv_wifi"
             android:layout_width="175dp"
-            android:layout_height="150dp">
+            android:layout_height="250dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/materialTextView5"
@@ -99,9 +103,9 @@
                     android:id="@+id/wifi_connection"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/heebo_semi_bold"
                     android:text="@string/wifi_connection"
                     android:textSize="18sp"
-                    android:fontFamily="@font/heebo_semi_bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
@@ -119,7 +123,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/materialCardView3"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -128,7 +132,7 @@
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cv_steps"
             android:layout_width="175dp"
-            android:layout_height="150dp"
+            android:layout_height="250dp"
             android:layout_marginEnd="15dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -140,9 +144,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
+                    android:fontFamily="@font/heebo_medium"
                     android:text="@string/breathing_excercise"
                     android:textSize="20sp"
-                    android:fontFamily="@font/heebo_medium"
                     app:layout_constraintBottom_toTopOf="@+id/iv_breathing_widget"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -165,7 +169,7 @@
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="175dp"
-            android:layout_height="150dp">
+            android:layout_height="250dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -175,9 +179,9 @@
                     android:id="@+id/tv_faq"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/heebo_medium"
                     android:text="@string/faq"
                     android:textSize="20sp"
-                    android:fontFamily="@font/heebo_medium"
                     app:layout_constraintBottom_toTopOf="@+id/iv_faq"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
@@ -200,53 +204,5 @@
         </com.google.android.material.card.MaterialCardView>
 
     </LinearLayout>
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/materialCardView3"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="24dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linear_2">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayout7"
-            android:layout_width="match_parent"
-            android:paddingLeft="16dp"
-            android:layout_height="match_parent">
-
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/faq_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:text="@string/faq_button"
-                android:textColor="@color/black"
-                app:backgroundTint="#F7C80C"
-                app:cornerRadius="5dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/faq_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/for_the_faq_page"
-                android:textSize="20dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </com.google.android.material.card.MaterialCardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

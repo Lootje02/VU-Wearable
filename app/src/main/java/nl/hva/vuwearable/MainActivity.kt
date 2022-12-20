@@ -126,7 +126,7 @@ class MainActivity : AppCompatActivity() {
 
         val appBarConfiguration = AppBarConfiguration(
             setOf(
-                dashboardId, R.id.navigation_chart, R.id.faqFragment
+                dashboardId, R.id.navigation_chart
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)

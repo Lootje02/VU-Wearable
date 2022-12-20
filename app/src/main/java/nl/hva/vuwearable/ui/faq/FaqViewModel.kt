@@ -16,7 +16,7 @@ class FaqViewModel(application: Application) : AndroidViewModel(application) {
         val questions: List<String>
         val answers: List<String>
 
-        if (userIsLoggedIn) {
+        if (!userIsLoggedIn) {
 
             questions = listOf(
                 "Can I shower with the device?",
