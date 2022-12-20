@@ -120,13 +120,11 @@ class MainActivity : AppCompatActivity() {
     private fun setupAppBar() {
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
 
-        val dashboardId =
-            if (loginViewModel.isLoggedIn.value == true) R.id.professorDashboardFragment
-            else R.id.navigation_dashboard
-
         val appBarConfiguration = AppBarConfiguration(
             setOf(
-                dashboardId, R.id.navigation_chart
+                R.id.navigation_dashboard,
+                R.id.navigation_chart,
+                R.id.professorDashboardFragment,
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
