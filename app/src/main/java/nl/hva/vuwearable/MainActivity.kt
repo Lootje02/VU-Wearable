@@ -43,6 +43,7 @@ import java.util.concurrent.TimeUnit
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    // Login viewmodel is public to use it also in other classes to check the login status
     val loginViewModel: LoginViewModel by viewModels()
     private val chartViewModel: ChartViewModel by viewModels()
     private val udpViewModel: UDPViewModel by viewModels()
@@ -120,6 +121,7 @@ class MainActivity : AppCompatActivity() {
     private fun setupAppBar() {
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
 
+        // This list is made to not show any back button
         val appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.navigation_dashboard,
@@ -131,6 +133,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
+     * This function is made to show a login or logout dialog
      * @author Lorenzo Bindemann
      */
     private fun showDialog() {

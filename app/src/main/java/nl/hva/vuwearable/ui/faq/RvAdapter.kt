@@ -7,7 +7,11 @@ import androidx.recyclerview.widget.RecyclerView
 import nl.hva.vuwearable.databinding.FaqItemBinding
 import nl.hva.vuwearable.models.Faq
 
-
+/**
+ * This adapter is created to show a Faq xml item for every item in the list
+ * The expandedView is used to show the answer when you click on the item
+ * @author Lorenzo Bindemann
+ */
 class RvAdapter(
     private var questionList: List<Faq>
 ) : RecyclerView.Adapter<RvAdapter.ViewHolder>() {
@@ -54,7 +58,7 @@ class RvAdapter(
             }
         }
     }
-    // return the size of languageList
+    // return the size of faqList
     override fun getItemCount(): Int {
         return questionList.size
     }

@@ -11,6 +11,10 @@ import nl.hva.vuwearable.MainActivity
 import nl.hva.vuwearable.databinding.FragmentFaqBinding
 import nl.hva.vuwearable.models.Faq
 
+/**
+ * This fragment is used to create the list of different FAQ questions
+ * @author Lorenzo Bindemann
+ */
 class FaqFragment : Fragment() {
 
     private var _binding: FragmentFaqBinding? = null
@@ -23,9 +27,11 @@ class FaqFragment : Fragment() {
 
     private val faqViewModel : FaqViewModel by viewModels()
 
-    override fun onCreateView(inflater: LayoutInflater,
-                              container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         super.onCreate(savedInstanceState)
         _binding = FragmentFaqBinding.inflate(layoutInflater)
 
@@ -38,9 +44,7 @@ class FaqFragment : Fragment() {
         FaqList = faqViewModel.faqList
         rvAdapter = RvAdapter(FaqList)
         binding.rvList.adapter = rvAdapter
-
         rvAdapter.notifyDataSetChanged()
-
 
         return binding.root
 
