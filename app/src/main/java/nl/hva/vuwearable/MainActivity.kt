@@ -30,6 +30,7 @@ import nl.hva.vuwearable.udp.UDPConnection
 import nl.hva.vuwearable.ui.chart.scichart.ChartViewModel
 import nl.hva.vuwearable.ui.login.LoginViewModel
 import nl.hva.vuwearable.ui.udp.UDPViewModel
+import nl.hva.vuwearable.websocket.SocketService
 import nl.hva.vuwearable.workmanager.BackgroundWorker
 import java.util.*
 import java.util.concurrent.TimeUnit

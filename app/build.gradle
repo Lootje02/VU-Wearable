@@ -18,7 +18,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField("String", "SCI_CHART_KEY", '"O6yRcMh1R/hOTWyQSPfjbiizetiDyMFzrGc56Pn2q0hOsplGoxqdvCrZ2GBlWG42HYOxmRoAXBl0PSpIlo3TspEbSf00hpvWvoQ6+412NPtaJXyz05+k5IzFbpIRbYyk1b7BCCVmPSqfVBmMGz79bhfV1ukWZWflgnC+xGwt3d37O8Q1DcqI1klSd0EKVvo2YIe19mW7cRB8Tl84KhlBrM3QLX30yz3Z01q+AXuJGiAikaIeOtUsGUt5xDcVQ0jS+9RmrTGfUpO/+P6YZFSXDBpp7NfXWAfrXpHd3oFwL2ge+GKgUREku+czNOa84S0Kk79Emd0G5+VHY20Up1O6020HQxDpuSEXRHCQYEFj8cGuvd7lS7PLWzHDXrKZmlYYhNrYTwYwTA8CTghQjZSsCF88Sp5pDcvXCGmM6+YC7TIMP07ExPtvURa6C4ylGckV69izjo/LgMLnjbASwTdWuqiz5soizalCBfXJWDpqdmbGHvlIc9AUoN0CCIeEYxY/5YRkD3aK7X8Hgu1c0pO79jn0oojWD33Sw5knJ7OWuy2wgFH/8h2QydrA5KTuLwcYEUBjyZkcv/pqSZOmyWAQS2Mp/CKNVS0CzE9pwIdb+p5w/YRGnR+z6VOoE+4RNbMp8ri9NdpHMEfGq5JeVom2NCsJN/3fiH/g1eu8flTdxgQhgBBC5sZFppWxeYuQPIMwqp5K"')
-
+        buildConfigField ("String", "WEB_SOCKET_URL", "\"${webSocketUrl}\"")
     }
 
     buildTypes {
@@ -68,4 +68,6 @@ dependencies {
     // Declare SciChart extension library as module dependencies
     implementation(group: 'com.scichart.library', name: 'extensions', version: sciChart_version, ext: 'aar')
     implementation(group: 'com.scichart.library', name: 'extensions3d', version: sciChart_version, ext: 'aar')
+
+    implementation 'org.java-websocket:Java-WebSocket:1.5.3'
 }

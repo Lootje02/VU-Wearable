@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import nl.hva.vuwearable.R
 import nl.hva.vuwearable.databinding.FragmentProfesorDashboardBinding
+import java.net.URI
 import java.text.SimpleDateFormat
 import java.util.*
 
