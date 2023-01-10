@@ -30,6 +30,7 @@ import nl.hva.vuwearable.udp.UDPConnection
 import nl.hva.vuwearable.ui.chart.scichart.ChartViewModel
 import nl.hva.vuwearable.ui.login.LoginViewModel
 import nl.hva.vuwearable.ui.udp.UDPViewModel
+import nl.hva.vuwearable.websocket.Socket
 import nl.hva.vuwearable.workmanager.BackgroundWorker
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -65,6 +66,8 @@ class MainActivity : AppCompatActivity() {
 
         setupAppBar()
 
+        Socket().openConnection()
+
         WorkManager.getInstance(applicationContext).enqueueUniquePeriodicWork(
             "Background notifications",
             ExistingPeriodicWorkPolicy.REPLACE,
@@ -76,6 +79,7 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowHomeEnabled(true);
         supportActionBar?.setDisplayShowTitleEnabled(false)
         supportActionBar?.setIcon(R.drawable.topappbarlogo);
+
 
         // Android does not allow to use a UDP socket on the main thread,
         // so we need to use it on a different thread
