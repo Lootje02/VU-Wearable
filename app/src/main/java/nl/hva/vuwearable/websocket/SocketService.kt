@@ -7,8 +7,10 @@ import org.java_websocket.handshake.ServerHandshake
 import java.net.URI
 import java.net.URISyntaxException
 
-class Socket {
+class SocketService {
+
     private lateinit var client: WebSocketClient
+    private val WS_LOG_TAG = "WS-SERVICE"
     private var isConnected = false
 
     fun openConnection() {
@@ -21,22 +23,47 @@ class Socket {
 
         client = object : WebSocketClient(uri) {
             override fun onOpen(handshakedata: ServerHandshake?) {
-                Log.i("Websocket", "Opened")
                 isConnected = true
+                Log.i(WS_LOG_TAG, "Opened")
             }
 
             override fun onMessage(message: String?) {
-                Log.i("Websocket", "Received")
+                Log.i(WS_LOG_TAG, "Received")
             }
 
             override fun onClose(code: Int, reason: String, remote: Boolean) {
-                Log.i("Websocket", "Closed $reason")
+                isConnected = false
+                Log.i(WS_LOG_TAG, "Closed $reason")
             }
 
             override fun onError(ex: Exception) {
-                Log.i("Websocket", "Error " + ex.message)
+                isConnected = false
+                Log.i(WS_LOG_TAG, "Error " + ex.message)
             }
         }
+
         client.connect()
+    }
+
+    /**
+     * Sends a message through the socket. This function will only send the message
+     * if a connection has been established with the socket.
+     * @param message the message to send
+     * @return a boolean indicating whether the request was successful or not
+     */
+    fun sendMessage(message: String?): Boolean {
+        return if (isConnected) {
+            client.send(message)
+            true
+        } else {
+            false
+        }
+    }
+
+    /**
+     * Closes the connection with the websocket
+     */
+    fun closeConnection() {
+        client.close()
     }
 }
