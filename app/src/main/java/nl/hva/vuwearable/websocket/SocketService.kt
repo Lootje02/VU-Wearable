@@ -1,3 +1,6 @@
+/**
+ * @author Hugo Zuidema
+ */
 package nl.hva.vuwearable.websocket
 
 import android.util.Log
@@ -9,8 +12,11 @@ import java.net.URISyntaxException
 
 class SocketService {
 
+    companion object {
+        const val WS_LOG_TAG = "WS-SERVICE"
+    }
+
     private lateinit var client: WebSocketClient
-    private val WS_LOG_TAG = "WS-SERVICE"
     private var isConnected = false
 
     fun openConnection() {
