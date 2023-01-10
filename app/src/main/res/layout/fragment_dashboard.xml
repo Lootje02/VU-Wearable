@@ -2,11 +2,11 @@
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#f7f7f7"
-    android:padding="5dp">
+    android:padding="5dp"
+    app:layout_constraintBottom_toBottomOf="parent">
 
     <LinearLayout
         android:id="@+id/layout_1"
@@ -30,31 +30,40 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/tv_battery_string"
+                <ImageView
+                    android:id="@+id/chart_icon_imageview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/heebo_medium"
-                    android:text="@string/battery_life_string"
-                    android:textSize="20sp"
-                    app:layout_constraintBottom_toTopOf="@+id/tv_battery_value"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/chart_icon" />
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/tv_battery_value"
+                <TextView
+                    android:id="@+id/chart_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:text="@string/battery_life_value"
-                    android:textSize="48sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/chart_placeholder"
+                    android:textColor="#CC04BAC6"
+                    android:textSize="24sp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_battery_string" />
+                    app:layout_constraintTop_toBottomOf="@+id/chart_icon_imageview" />
+
+                <TextView
+                    android:id="@+id/chart_sub_textview"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="48dp"
+                    android:text="@string/chart_sub_placeholder"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/chart_textview" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -67,51 +76,43 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintTop_toTopOf="parent">
+                android:layout_height="match_parent">
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/materialTextView5"
+                <ImageView
+                    android:id="@+id/breathing_icon_imageview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/heebo_medium"
-                    android:text="@string/wifi"
-                    android:textSize="20sp"
-                    app:layout_constraintBottom_toTopOf="@+id/iv_wifi"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/breathing_icon" />
 
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/iv_wifi"
-                    android:layout_width="75dp"
-                    android:layout_height="75dp"
-                    android:src="@drawable/ic_baseline_wifi_24"
-                    app:layout_constraintBottom_toTopOf="@+id/wifi_connection"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/materialTextView5" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/wifi_connection"
+                <TextView
+                    android:id="@+id/breathing_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/heebo_semi_bold"
-                    android:text="@string/wifi_connection"
-                    android:textSize="20sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/breathing_placeholder"
+                    android:textColor="#CC04BAC6"
+                    android:textSize="24sp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/iv_wifi" />
+                    app:layout_constraintTop_toBottomOf="@+id/breathing_icon_imageview" />
 
+                <TextView
+                    android:id="@+id/breathing_sub_textview"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="24dp"
+                    android:text="@string/breathing_sub_placeholder"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/breathing_textview" />
             </androidx.constraintlayout.widget.ConstraintLayout>
-
-
         </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
 
@@ -136,32 +137,41 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/tv_breathing"
+                <ImageView
+                    android:id="@+id/setup_icon_imageview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:fontFamily="@font/heebo_medium"
-                    android:text="@string/breathing_excercise"
-                    android:textSize="20sp"
-                    app:layout_constraintBottom_toTopOf="@+id/iv_breathing_widget"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_chainStyle="packed" />
+                    app:srcCompat="@drawable/setup_icon" />
 
-                <ImageView
-                    android:id="@+id/iv_breathing_widget"
-                    android:layout_width="120dp"
-                    android:layout_height="100dp"
-                    android:src="@drawable/breathe"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                <TextView
+                    android:id="@+id/setup_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/setup_placeholder"
+                    android:textColor="#CC04BAC6"
+                    android:textSize="24sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/setup_icon_imageview" />
+
+                <TextView
+                    android:id="@+id/setup_sub_textview"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="24dp"
+                    android:text="@string/setup_sub_placeholder"
+                    android:textSize="14sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_breathing" />
+                    app:layout_constraintTop_toBottomOf="@+id/setup_textview" />
             </androidx.constraintlayout.widget.ConstraintLayout>
-
-
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
@@ -172,32 +182,41 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/tv_faq"
+                <ImageView
+                    android:id="@+id/system_icon_imageview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/heebo_medium"
-                    android:text="@string/faq"
-                    android:textSize="20sp"
-                    app:layout_constraintBottom_toTopOf="@+id/iv_faq"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/system_icon" />
 
-                <ImageView
-                    android:id="@+id/iv_faq"
-                    android:layout_width="120dp"
-                    android:layout_height="110dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
+                <TextView
+                    android:id="@+id/system_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/system_placeholder"
+                    android:textColor="#CC04BAC6"
+                    android:textSize="24sp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_faq"
-                    app:srcCompat="@drawable/ic_baseline_question_answer_24" />
+                    app:layout_constraintTop_toBottomOf="@+id/system_icon_imageview" />
 
+                <TextView
+                    android:id="@+id/system_sub_textview"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="24dp"
+                    android:text="@string/system_sub_placeholder"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/system_textview" />
             </androidx.constraintlayout.widget.ConstraintLayout>
-
         </com.google.android.material.card.MaterialCardView>
 
     </LinearLayout>
