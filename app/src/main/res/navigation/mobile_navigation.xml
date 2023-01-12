@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_navigation_dashboard_to_guideFragment"
             app:destination="@id/guideFragment" />
+        <action
+            android:id="@+id/action_navigation_dashboard_to_systemFragment"
+            app:destination="@id/systemFragment" />
     </fragment>
 
     <fragment
@@ -65,4 +68,8 @@
         android:id="@+id/excerciseFragment"
         android:name="nl.hva.vuwearable.ui.breathing.BreathingExerciseFragment"
         android:label="ExcerciseFragment" />
+    <fragment
+        android:id="@+id/systemFragment"
+        android:name="nl.hva.vuwearable.ui.system.SystemFragment"
+        android:label="SystemFragment" />
 </navigation>
