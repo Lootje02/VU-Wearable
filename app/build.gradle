@@ -70,4 +70,6 @@ dependencies {
     implementation(group: 'com.scichart.library', name: 'extensions3d', version: sciChart_version, ext: 'aar')
 
     implementation 'org.java-websocket:Java-WebSocket:1.5.3'
+    implementation "com.google.android.gms:play-services-location:18.0.0"
+
 }
