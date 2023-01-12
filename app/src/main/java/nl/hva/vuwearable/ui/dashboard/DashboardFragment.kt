@@ -40,6 +40,10 @@ class DashboardFragment : Fragment() {
             navController.navigate(R.id.action_navigation_dashboard_to_navigation_chart)
         }
 
+        binding.cvSetup.setOnClickListener {
+            navController.navigate(R.id.action_navigation_dashboard_to_guideFragment)
+        }
+
         connectionEstablished()
 
         return root

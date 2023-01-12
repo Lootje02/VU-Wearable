@@ -101,7 +101,7 @@
     <string name="setup_placeholder">Setup</string>
     <string name="setup_sub_placeholder">Guide for applying the wearable</string>
     <string name="system_placeholder">System</string>
-    <string name="system_sub_placeholder">Status of individual electrodes</string>
+    <string name="system_sub_placeholder">Configuring device settings</string>
     <string name="faq_placeholder">FAQ</string>
     <string name="faq_sub_placeholder">Find answers for general questions</string>
     <string name="wifi_placeholder">WiFi</string>
