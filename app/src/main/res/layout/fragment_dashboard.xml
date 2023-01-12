@@ -29,7 +29,7 @@
             app:layout_constraintVertical_chainStyle="packed">
 
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cv_battery"
+                android:id="@+id/cv_chart"
                 android:layout_width="175dp"
                 android:layout_height="200dp"
                 android:layout_marginEnd="15dp">
@@ -78,7 +78,7 @@
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cv_wifi"
+                android:id="@+id/cv_breathing"
                 android:layout_width="175dp"
                 android:layout_height="200dp">
 
@@ -137,7 +137,7 @@
             app:layout_constraintTop_toBottomOf="@+id/layout_1">
 
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cv_steps"
+                android:id="@+id/cv_setup"
                 android:layout_width="175dp"
                 android:layout_height="200dp"
                 android:layout_marginEnd="15dp">
@@ -184,6 +184,7 @@
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cv_system"
                 android:layout_width="175dp"
                 android:layout_height="200dp">
 
@@ -242,7 +243,7 @@
             app:layout_constraintTop_toBottomOf="@+id/linear_2">
 
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cv_1"
+                android:id="@+id/cv_faq"
                 android:layout_width="175dp"
                 android:layout_height="200dp"
                 android:layout_marginEnd="15dp">
@@ -289,6 +290,7 @@
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cv_wifi"
                 android:layout_width="175dp"
                 android:layout_height="200dp">
 
