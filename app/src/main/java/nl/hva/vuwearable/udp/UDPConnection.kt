@@ -43,7 +43,7 @@ class UDPConnection(
         const val UDP_TAG = "UDP"
         const val UDP_PORT = 1234
         const val BUFFER_LENGTH = 2048
-        const val DEVICE_NETWORK_NAME = "AndroidWifi"
+        const val DEVICE_NETWORK_NAME = "AMS"
         const val CONNECTION_TIMEOUT_SECONDS = 3
 
         // In the normal decoder of AMS, a size of 10000000 is being used.
