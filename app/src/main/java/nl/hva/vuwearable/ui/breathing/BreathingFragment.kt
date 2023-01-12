@@ -70,7 +70,7 @@ class BreathingFragment : Fragment() {
         return root
     }
 
-    private fun getSeekBarData() {
+    fun getSeekBarData() {
         breathingViewModel.breatheIn.value = binding.seekbarBreatheIn.progress
         breathingViewModel.breatheOut.value = binding.seekbarBreatheOut.progress
         breathingViewModel.maxDuration.value = binding.seekbarDuration.progress
