@@ -125,4 +125,10 @@
     </string>
     <string name="location_denied_change_settings_btn">Change Settings</string>
     <string name="location_denied_proceed_btn">Proceed</string>
+
+    <string name="starting_receiving_data">Started receiving data</string>
+    <string name="stopped_receiving_data">Stopped receiving data</string>
+    <string name="starting_measuring">Started measuring</string>
+    <string name="stopped_measuring">Stopped measuring</string>
+
 </resources>

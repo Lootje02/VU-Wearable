@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import nl.hva.vuwearable.R
 import nl.hva.vuwearable.databinding.FragmentSystemBinding
 import nl.hva.vuwearable.ui.login.LoginViewModel
 import nl.hva.vuwearable.websocket.SocketService
@@ -51,22 +52,26 @@ class SystemFragment : Fragment() {
 
         binding.liveDataStartButton.setOnClickListener {
             webSocket.sendMessage(LIVE_DATA_START)
-            Toast.makeText(context, "Started receiving data", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, getString(R.string.starting_receiving_data), Toast.LENGTH_SHORT)
+                .show()
         }
 
         binding.liveDataStopButton.setOnClickListener {
             webSocket.sendMessage(LIVE_DATA_STOP)
-            Toast.makeText(context, "Stopped receiving data", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, getString(R.string.stopped_receiving_data), Toast.LENGTH_SHORT)
+                .show()
         }
 
         binding.measurementStartButton.setOnClickListener {
             webSocket.sendMessage(MEASUREMENT_START)
-            Toast.makeText(context, "Started measuring", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, getString(R.string.starting_measuring), Toast.LENGTH_SHORT)
+                .show()
         }
 
         binding.measurementStopButton.setOnClickListener {
             webSocket.sendMessage(MEASUREMENT_STOP)
-            Toast.makeText(context, "Stopped measuring", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, getString(R.string.stopped_measuring), Toast.LENGTH_SHORT)
+                .show()
 
         }
 
