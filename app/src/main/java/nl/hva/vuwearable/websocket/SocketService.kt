@@ -19,6 +19,9 @@ class SocketService {
     private lateinit var client: WebSocketClient
     private var isConnected = false
 
+    /**
+     * Opens connection with the websocket on the device
+     */
     fun openConnection() {
         val uri: URI = try {
             URI(BuildConfig.WEB_SOCKET_URL)
