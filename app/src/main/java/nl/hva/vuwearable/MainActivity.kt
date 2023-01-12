@@ -144,7 +144,6 @@ class MainActivity : AppCompatActivity() {
             setOf(
                 R.id.navigation_dashboard,
                 R.id.navigation_chart,
-                R.id.professorDashboardFragment,
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
