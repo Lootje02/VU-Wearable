@@ -1,8 +1,12 @@
 package nl.hva.vuwearable
 
+import android.content.Context
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.SeekBar
 import androidx.fragment.app.testing.launchFragmentInContainer
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.UiController
 import androidx.test.espresso.ViewAction
@@ -12,13 +16,13 @@ import androidx.test.espresso.matcher.BoundedMatcher
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.espresso.action.ViewActions.setProgress
 import junit.framework.Assert.assertEquals
 import nl.hva.vuwearable.databinding.FragmentBreathingSetupBinding
 import nl.hva.vuwearable.ui.breathing.BreathingFragment
 import nl.hva.vuwearable.ui.breathing.BreathingViewModel
 import org.hamcrest.Description
 import org.hamcrest.Matcher
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -26,11 +30,21 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class BreathingFragmentTest {
 
+    private val fragment = BreathingFragment()
+
     private var _binding: FragmentBreathingSetupBinding? = null
+
+    private val context = ApplicationProvider.getApplicationContext<Context>()
 
     private val binding get() = _binding!!
 
     private val viewModel = BreathingViewModel()
+
+    @Before
+    fun setUp() {
+        _binding = FragmentBreathingSetupBinding.bind(View)
+        fragment.onCreateView(LayoutInflater.from(context), null, null)
+    }
 
     @Test
     fun testSeekBarValues() {
