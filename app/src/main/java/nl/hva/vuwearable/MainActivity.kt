@@ -12,6 +12,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -47,6 +48,7 @@ class MainActivity : AppCompatActivity() {
     val loginViewModel: LoginViewModel by viewModels()
     private val chartViewModel: ChartViewModel by viewModels()
     private val udpViewModel: UDPViewModel by viewModels()
+    private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,7 +58,7 @@ class MainActivity : AppCompatActivity() {
 
         val navView: BottomNavigationView = binding.navView
 
-        val navController = findNavController(R.id.nav_host_fragment_activity_main)
+        navController = findNavController(R.id.nav_host_fragment_activity_main)
 
         val periodicWorkRequest =
             PeriodicWorkRequest.Builder(BackgroundWorker::class.java, 1, TimeUnit.MINUTES)
@@ -103,6 +105,8 @@ class MainActivity : AppCompatActivity() {
         } catch (e: Exception) {
             Log.e("SciChart", e.toString())
         }
+
+        initializeBottomNavbar()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -129,6 +133,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.professorDashboardFragment,
             )
         )
+
         setupActionBarWithNavController(navController, appBarConfiguration)
     }
 
@@ -178,5 +183,31 @@ class MainActivity : AppCompatActivity() {
             }
         }
         setupAppBar()
+    }
+
+    /**
+     * Initialize a click listener on the bottom navigation items in order to navigate correctly
+     */
+    private fun initializeBottomNavbar() {
+        // Find the bottom navigation
+        val bottomNav = findViewById<BottomNavigationView>(R.id.nav_view)
+
+        // Set a click listener on the selected item
+        bottomNav.setOnItemSelectedListener {
+            // Based on the item in the bottom navigation, navigate to it
+            when (it.itemId) {
+                R.id.navigation_dashboard -> {
+                    navController.navigate(R.id.navigation_dashboard)
+                    true
+                }
+                R.id.navigation_chart -> {
+                    navController.navigate(R.id.navigation_chart)
+                    true
+                }
+                else -> {
+                    true
+                }
+            }
+        }
     }
 }

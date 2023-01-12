@@ -12,19 +12,13 @@
         tools:layout="@layout/fragment_dashboard">
         <action
             android:id="@+id/action_navigation_dashboard_to_breathingFragment"
-            app:destination="@id/breathingFragment"
-            app:popUpTo="@id/navigation_dashboard"
-            app:popUpToInclusive="true" />
+            app:destination="@id/breathingFragment" />
         <action
             android:id="@+id/action_navigation_dashboard_to_faqFragment"
-            app:destination="@id/faqFragment"
-            app:popUpTo="@id/navigation_dashboard"
-            app:popUpToInclusive="true" />
+            app:destination="@id/faqFragment" />
         <action
             android:id="@+id/action_navigation_dashboard_to_navigation_chart"
-            app:destination="@id/navigation_chart"
-            app:popUpTo="@id/navigation_dashboard"
-            app:popUpToInclusive="true" />
+            app:destination="@id/navigation_chart" />
     </fragment>
 
     <fragment
