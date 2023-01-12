@@ -158,7 +158,7 @@ class MainActivity : AppCompatActivity() {
         if (loginViewModel.isLoggedIn.value == false) {
             // create login pop up
             val dialogLayout = layoutInflater.inflate(R.layout.login_dialog, null)
-            val builder = android.app.AlertDialog.Builder(this).setView(dialogLayout).show()
+            val builder = AlertDialog.Builder(this).setView(dialogLayout).show()
 
             // set login function on button click
             dialogLayout.findViewById<Button>(R.id.login_button).setOnClickListener {
@@ -170,7 +170,6 @@ class MainActivity : AppCompatActivity() {
                 // check if login is successfully
                 if (loginViewModel.isLoggedIn.value == true) {
                     builder.hide()
-                    findNavController(R.id.nav_host_fragment_activity_main).navigate(R.id.professorDashboardFragment)
                 } else {
                     // login is unsuccessfully
                     builder.findViewById<EditText>(R.id.input_password).setTextColor(Color.RED)

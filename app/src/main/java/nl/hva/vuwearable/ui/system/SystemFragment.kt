@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import nl.hva.vuwearable.databinding.FragmentSystemBinding
 import nl.hva.vuwearable.ui.login.LoginViewModel
 import nl.hva.vuwearable.websocket.SocketService
@@ -22,7 +22,7 @@ class SystemFragment : Fragment() {
 
     private val binding get() = _binding!!
 
-    private val loginViewModel: LoginViewModel by viewModels()
+    private val loginViewModel: LoginViewModel by activityViewModels()
     private lateinit var webSocket: SocketService
 
     companion object {
@@ -40,9 +40,11 @@ class SystemFragment : Fragment() {
         _binding = FragmentSystemBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        if (!loginViewModel.checkIfUserIsLoggedIn()) {
-            binding.measurementGroup.visibility = View.INVISIBLE
+        loginViewModel.isLoggedIn.observe(viewLifecycleOwner) { isLoggedIn ->
+            // Show the start stop measuring data group based on if the user is a professor or not
+            binding.measurementGroup.visibility = if (isLoggedIn) View.VISIBLE else View.INVISIBLE
         }
+
 
         webSocket = SocketService()
         webSocket.openConnection()
@@ -71,8 +73,11 @@ class SystemFragment : Fragment() {
         return root
     }
 
-    override fun onDestroyView() {
+    // on destroy of view make the binding reference to null
+    override fun onDestroy() {
+        super.onDestroy()
+        // Close websocket connection
         webSocket.closeConnection()
+        _binding = null
     }
-
 }
