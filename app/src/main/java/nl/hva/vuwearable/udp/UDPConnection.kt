@@ -44,8 +44,7 @@ class UDPConnection(
         const val UDP_TAG = "UDP"
         const val UDP_PORT = 1234
         const val BUFFER_LENGTH = 2048
-        const val DEVICE_NETWORK_NAME = "AMS"
-        const val LOCAL_EMULATOR_NETWORK_NAME = "AndroidWifi"
+        val NETWORK_NAMES = arrayOf("AMS", "AndroidWifi")
         const val CONNECTION_TIMEOUT_SECONDS = 3
 
         // In the normal decoder of AMS, a size of 10000000 is being used.
@@ -138,12 +137,9 @@ class UDPConnection(
             ssid = wifiInfo.ssid.replace("\"", "")
         }
 
-        return if (BuildConfig.IS_DEBUG_MODE) {
-            ssid.toString().contains(LOCAL_EMULATOR_NETWORK_NAME) &&
-                    capabilities!!.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
-        } else {
-            ssid.toString().contains(DEVICE_NETWORK_NAME) &&
-                    capabilities!!.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
-        }
+        val foundNames = NETWORK_NAMES.filter { name -> ssid.toString().contains(name) }
+
+        return foundNames.isNotEmpty() &&
+                capabilities!!.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
     }
 }
