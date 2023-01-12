@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import nl.hva.vuwearable.R
 import nl.hva.vuwearable.databinding.FragmentDashboardBinding
 import nl.hva.vuwearable.ui.udp.UDPViewModel
@@ -13,8 +14,6 @@ import nl.hva.vuwearable.ui.udp.UDPViewModel
 class DashboardFragment : Fragment() {
 
     private var _binding: FragmentDashboardBinding? = null
-
-    private val dashboardViewModel: DashboardViewModel by activityViewModels()
 
     private val udpViewModel: UDPViewModel by activityViewModels()
 
@@ -27,13 +26,19 @@ class DashboardFragment : Fragment() {
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-//        binding.ivFaq.setOnClickListener {
-//            findNavController().navigate(R.id.action_navigation_dashboard_to_faqFragment)
-//        }
-//
-//        binding.ivBreathingWidget.setOnClickListener{
-//            findNavController().navigate(R.id.action_navigation_dashboard_to_breathingFragment)
-//        }
+        val navController = findNavController()
+
+        binding.cvFaq.setOnClickListener {
+            navController.navigate(R.id.action_navigation_dashboard_to_faqFragment)
+        }
+
+        binding.cvBreathing.setOnClickListener {
+            navController.navigate(R.id.action_navigation_dashboard_to_breathingFragment)
+        }
+
+        binding.cvChart.setOnClickListener {
+            navController.navigate(R.id.action_navigation_dashboard_to_navigation_chart)
+        }
 
         connectionEstablished()
 
