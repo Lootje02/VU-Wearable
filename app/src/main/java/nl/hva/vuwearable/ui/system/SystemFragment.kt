@@ -10,6 +10,11 @@ import nl.hva.vuwearable.databinding.FragmentSystemBinding
 import nl.hva.vuwearable.ui.login.LoginViewModel
 import nl.hva.vuwearable.websocket.SocketService
 
+/**
+ * Controls the device configuration
+ *
+ * @author Bunyamin Duduk
+ */
 class SystemFragment : Fragment() {
 
     private var _binding: FragmentSystemBinding? = null
