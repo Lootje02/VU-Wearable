@@ -77,6 +77,7 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowTitleEnabled(false)
         supportActionBar?.setIcon(R.drawable.topappbarlogo);
 
+
         // Android does not allow to use a UDP socket on the main thread,
         // so we need to use it on a different thread
         Thread(
