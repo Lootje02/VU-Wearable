@@ -13,7 +13,7 @@ import nl.hva.vuwearable.models.Faq
  */
 class FaqViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val APPLICATION = getApplication<Application>()
+    val APPLICATION = application
     var faqList : MutableList<Faq> = mutableListOf()
 
     /**
@@ -31,8 +31,8 @@ class FaqViewModel(application: Application) : AndroidViewModel(application) {
             // Questions if you are not logged in (participant)
             questions = listOf(
                 APPLICATION.getString(R.string.participant_question_1),
-                APPLICATION.getString(R.string.participant_question_1),
-                APPLICATION.getString(R.string.participant_question_1),
+                APPLICATION.getString(R.string.participant_question_2),
+                APPLICATION.getString(R.string.participant_question_3),
             )
 
             // Answers if you are not logged in (participant)
