@@ -62,11 +62,11 @@
     <string name="logout_successful">Logout successful</string>
     <string name="title_chart">Chart</string>
     <string name="chart_information_placeholder">Chart Information</string>
-    <string name="connection_success">connection established</string>
-    <string name="connection_failed">no connection</string>
+    <string name="connection_success">Connected</string>
+    <string name="connection_failed">Not Connected</string>
     <string name="set_issue_title">This issue</string>
     <string name="issue_dialog">%s</string>
-    <string name="no_data_connection">Not Receiving Data</string>
+    <string name="no_data_connection">No Data</string>
     <string name="connected">Connected</string>
     <string name="not_connected">Not Connected</string>
     <string name="password">Password</string>
@@ -94,4 +94,18 @@
     <string name="ECG">ECG</string>
     <string name="ICG">ICG</string>
     <string name="exercise_finished">Exercise Completed!</string>
+
+    <string name="location_prompt_title">Location Permission Needed</string>
+    <string name="location_prompt_explanation">This app needs the Precise Location Permission to determine if you are connected
+        to the correct network, your actual location information is not used in this application.
+        Please accept this in the next prompt to use all Network Functionalities.
+    </string>
+    <string name="location_accepted">Thank you! Checking the network status..</string>
+    <string name="location_denied">Location Permission Denied</string>
+    <string name="location_denied_explanation">
+        Access to your precise location has been denied. Some functionalities may not work correctly,
+        such as the current network status.
+    </string>
+    <string name="location_denied_change_settings_btn">Change Settings</string>
+    <string name="location_denied_proceed_btn">Proceed</string>
 </resources>

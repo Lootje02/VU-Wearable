@@ -69,22 +69,4 @@ class DashboardFragment : Fragment() {
             }
         }
     }
-
-    /**
-     * Show dialog when an issue occurs
-     */
-    private fun showIssueDialog() {
-
-        val dialogLayout = layoutInflater.inflate(R.layout.issue_dialog, null)
-
-        val builder = AlertDialog.Builder(requireContext())
-
-        builder.setTitle(getString(R.string.set_issue_title))
-
-        builder.setCancelable(true)
-
-        builder.setView(dialogLayout)
-
-        builder.show()
-    }
 }
