@@ -20,6 +20,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -55,6 +56,7 @@ class MainActivity : AppCompatActivity() {
     val loginViewModel: LoginViewModel by viewModels()
     private val chartViewModel: ChartViewModel by viewModels()
     private val udpViewModel: UDPViewModel by viewModels()
+    private lateinit var navController: NavController
 
     companion object {
         private const val MY_PERMISSIONS_REQUEST_LOCATION = 99
@@ -69,7 +71,7 @@ class MainActivity : AppCompatActivity() {
 
         val navView: BottomNavigationView = binding.navView
 
-        val navController = findNavController(R.id.nav_host_fragment_activity_main)
+        navController = findNavController(R.id.nav_host_fragment_activity_main)
 
         val periodicWorkRequest =
             PeriodicWorkRequest.Builder(BackgroundWorker::class.java, 1, TimeUnit.MINUTES)
@@ -90,7 +92,6 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowHomeEnabled(true);
         supportActionBar?.setDisplayShowTitleEnabled(false)
         supportActionBar?.setIcon(R.drawable.topappbarlogo);
-
 
         // Android does not allow to use a UDP socket on the main thread,
         // so we need to use it on a different thread
@@ -118,6 +119,8 @@ class MainActivity : AppCompatActivity() {
         } catch (e: Exception) {
             Log.e("SciChart", e.toString())
         }
+
+        initializeBottomNavbar()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -141,7 +144,6 @@ class MainActivity : AppCompatActivity() {
             setOf(
                 R.id.navigation_dashboard,
                 R.id.navigation_chart,
-                R.id.professorDashboardFragment,
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -155,7 +157,7 @@ class MainActivity : AppCompatActivity() {
         if (loginViewModel.isLoggedIn.value == false) {
             // create login pop up
             val dialogLayout = layoutInflater.inflate(R.layout.login_dialog, null)
-            val builder = android.app.AlertDialog.Builder(this).setView(dialogLayout).show()
+            val builder = AlertDialog.Builder(this).setView(dialogLayout).show()
 
             // set login function on button click
             dialogLayout.findViewById<Button>(R.id.login_button).setOnClickListener {
@@ -167,7 +169,6 @@ class MainActivity : AppCompatActivity() {
                 // check if login is successfully
                 if (loginViewModel.isLoggedIn.value == true) {
                     builder.hide()
-                    findNavController(R.id.nav_host_fragment_activity_main).navigate(R.id.professorDashboardFragment)
                 } else {
                     // login is unsuccessfully
                     builder.findViewById<EditText>(R.id.input_password).setTextColor(Color.RED)
@@ -290,6 +291,32 @@ class MainActivity : AppCompatActivity() {
                         .show()
                 }
                 return
+            }
+        }
+    }
+
+    /**
+     * Initialize a click listener on the bottom navigation items in order to navigate correctly
+     */
+    private fun initializeBottomNavbar() {
+        // Find the bottom navigation
+        val bottomNav = findViewById<BottomNavigationView>(R.id.nav_view)
+
+        // Set a click listener on the selected item
+        bottomNav.setOnItemSelectedListener {
+            // Based on the item in the bottom navigation, navigate to it
+            when (it.itemId) {
+                R.id.navigation_dashboard -> {
+                    navController.navigate(R.id.navigation_dashboard)
+                    true
+                }
+                R.id.navigation_chart -> {
+                    navController.navigate(R.id.navigation_chart)
+                    true
+                }
+                else -> {
+                    true
+                }
             }
         }
     }

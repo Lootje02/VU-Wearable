@@ -1,10 +1,6 @@
 package nl.hva.vuwearable.ui.dashboard
 
-import android.app.AlertDialog
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,8 +15,6 @@ class DashboardFragment : Fragment() {
 
     private var _binding: FragmentDashboardBinding? = null
 
-    private val dashboardViewModel: DashboardViewModel by activityViewModels()
-
     private val udpViewModel: UDPViewModel by activityViewModels()
 
     private val binding get() = _binding!!
@@ -32,12 +26,26 @@ class DashboardFragment : Fragment() {
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        binding.ivFaq.setOnClickListener {
-            findNavController().navigate(R.id.action_navigation_dashboard_to_faqFragment)
+        val navController = findNavController()
+
+        binding.cvFaq.setOnClickListener {
+            navController.navigate(R.id.action_navigation_dashboard_to_faqFragment)
         }
 
-        binding.ivBreathingWidget.setOnClickListener{
-            findNavController().navigate(R.id.action_navigation_dashboard_to_breathingFragment)
+        binding.cvBreathing.setOnClickListener {
+            navController.navigate(R.id.action_navigation_dashboard_to_breathingFragment)
+        }
+
+        binding.cvChart.setOnClickListener {
+            navController.navigate(R.id.action_navigation_dashboard_to_navigation_chart)
+        }
+
+        binding.cvSetup.setOnClickListener {
+            navController.navigate(R.id.action_navigation_dashboard_to_guideFragment)
+        }
+
+        binding.cvSystem.setOnClickListener {
+            navController.navigate(R.id.action_navigation_dashboard_to_systemFragment)
         }
 
         connectionEstablished()
@@ -52,19 +60,19 @@ class DashboardFragment : Fragment() {
         udpViewModel.isConnected.observe(viewLifecycleOwner) {
             when (it) {
                 true -> {
-                    binding.ivWifi.setImageResource(R.drawable.ic_baseline_wifi_24)
-                    binding.wifiConnection.text = getString(R.string.connection_success)
+                    binding.wifiIconImageview.setImageResource(R.drawable.wifi_icon)
+                    binding.wifiSubTextview.text = getString(R.string.connection_success)
 
                     udpViewModel.isReceivingData.observe(viewLifecycleOwner) { isReceivingData ->
                         if (!isReceivingData) {
-                            binding.wifiConnection.text = getString(R.string.no_data_connection)
-                            binding.ivWifi.setImageResource(R.drawable.ic_baseline_wifi_24_no_data)
+                            binding.wifiSubTextview.text = getString(R.string.no_data_connection)
+                            binding.wifiIconImageview.setImageResource(R.drawable.wifi_not_receiving_icon)
                         }
                     }
                 }
                 false -> {
-                    binding.ivWifi.setImageResource(R.drawable.ic_baseline_wifi_off_24)
-                    binding.wifiConnection.text = getString(R.string.connection_failed)
+                    binding.wifiIconImageview.setImageResource(R.drawable.wifi_off_icon)
+                    binding.wifiSubTextview.text = getString(R.string.connection_failed)
                 }
             }
         }
