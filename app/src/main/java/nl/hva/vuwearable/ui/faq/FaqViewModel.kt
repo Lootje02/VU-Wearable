@@ -43,7 +43,6 @@ class FaqViewModel(application: Application) : AndroidViewModel(application) {
             // Questions if you are logged in (researcher)
             questions = listOf(
                 "How do I check the signal quality and see if it is sufficient?",
-                "How do I manage what the participant sees in the dashboard?",
                 "How do I check if the device is working properly?",
                 "How do I charge the device?"
             )
@@ -51,7 +50,6 @@ class FaqViewModel(application: Application) : AndroidViewModel(application) {
             // Answers if you are not logged in (researcher)
             answers = listOf(
                 "Follow our signal quality wizard after connecting your participant [Start signal quality check] -> takes the researcher through different signal visualisations and does automated checks on the signal plus gives tooltips on what the researcher should look for",
-                "-",
                 "The LED on the device blinks every 3 seconds. The status in the app says ‘data acquisition in progress’.",
                 "Place it in the charger (image of how to put it in the charger). A full charge from empty typically takes 2-3 hours. The LED will show charging is completed by turning solid green.",
             )
