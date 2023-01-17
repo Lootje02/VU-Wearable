@@ -47,7 +47,6 @@ class FaqViewModel(application: Application) : AndroidViewModel(application) {
                 APPLICATION.getString(R.string.researcher_question_1),
                 APPLICATION.getString(R.string.researcher_question_2),
                 APPLICATION.getString(R.string.researcher_question_3),
-                APPLICATION.getString(R.string.researcher_question_4),
             )
 
             // Answers if you are not logged in (researcher)
@@ -55,7 +54,6 @@ class FaqViewModel(application: Application) : AndroidViewModel(application) {
                 APPLICATION.getString(R.string.researcher_answer_1),
                 APPLICATION.getString(R.string.researcher_answer_2),
                 APPLICATION.getString(R.string.researcher_answer_3),
-                APPLICATION.getString(R.string.researcher_answer_4),
             )
         }
 

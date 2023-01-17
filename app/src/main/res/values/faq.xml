@@ -11,13 +11,11 @@
     <string name="participant_answer_3">Place it in the charger (image of how to put it in the charger). A full charge from empty typically takes 2–3 hours. The LED will show charging is completed by turning solid green.</string>
 
     <string name="researcher_question_1">How do I check the signal quality and see if it is sufficient?</string>
-    <string name="researcher_question_2">How do I manage what the participant sees in the dashboard?</string>
-    <string name="researcher_question_3">How do I check if the device is working properly?</string>
-    <string name="researcher_question_4">How do I charge the device?</string>
+    <string name="researcher_question_2">How do I check if the device is working properly?</string>
+    <string name="researcher_question_3">How do I charge the device?</string>
 
     <string name="researcher_answer_1">Follow our signal quality wizard after connecting your participant [Start signal quality check] -> takes the researcher through different signal visualisations and does automated checks on the signal plus gives tooltips on what the researcher should look for</string>
-    <string name="researcher_answer_2">-</string>
-    <string name="researcher_answer_3">The LED on the device blinks every 3 seconds. The status in the app says ‘data acquisition in progress’.</string>
-    <string name="researcher_answer_4">Place it in the charger (image of how to put it in the charger). A full charge from empty typically takes 2–3 hours. The LED will show charging is completed by turning solid green.</string>
+    <string name="researcher_answer_2">The LED on the device blinks every 3 seconds. The status in the app says ‘data acquisition in progress’.</string>
+    <string name="researcher_answer_3">Place it in the charger (image of how to put it in the charger). A full charge from empty typically takes 2–3 hours. The LED will show charging is completed by turning solid green.</string>
 
 </resources>
