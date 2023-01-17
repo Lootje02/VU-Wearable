@@ -9,25 +9,33 @@
         android:id="@+id/navigation_dashboard"
         android:name="nl.hva.vuwearable.ui.dashboard.DashboardFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" >
+        tools:layout="@layout/fragment_dashboard">
         <action
             android:id="@+id/action_navigation_dashboard_to_breathingFragment"
             app:destination="@id/breathingFragment" />
         <action
             android:id="@+id/action_navigation_dashboard_to_faqFragment"
             app:destination="@id/faqFragment" />
+        <action
+            android:id="@+id/action_navigation_dashboard_to_navigation_chart"
+            app:destination="@id/navigation_chart" />
+        <action
+            android:id="@+id/action_navigation_dashboard_to_guideFragment"
+            app:destination="@id/guideFragment" />
+        <action
+            android:id="@+id/action_navigation_dashboard_to_systemFragment"
+            app:destination="@id/systemFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/navigation_chart"
         android:name="nl.hva.vuwearable.ui.chart.scichart.SciChartFragment"
         android:label="@string/title_chart"
-        tools:layout="@layout/fragment_sci_chart" />
-    <fragment
-        android:id="@+id/professorDashboardFragment"
-        android:name="nl.hva.vuwearable.ui.professordashboard.ProfessorDashboardFragment"
-        android:label="Management Dashboard"
-        tools:layout="@layout/fragment_profesor_dashboard" />
+        tools:layout="@layout/fragment_sci_chart">
+        <action
+            android:id="@+id/action_navigation_chart_to_navigation_dashboard"
+            app:destination="@id/navigation_dashboard" />
+    </fragment>
     <fragment
         android:id="@+id/faqFragment"
         android:name="nl.hva.vuwearable.ui.faq.FaqFragment"
@@ -43,13 +51,20 @@
     <fragment
         android:id="@+id/breathingFragment"
         android:name="nl.hva.vuwearable.ui.breathing.BreathingFragment"
-        android:label="BreathingFragment" >
+        android:label="BreathingFragment">
         <action
             android:id="@+id/action_breathingFragment_to_excerciseFragment"
             app:destination="@id/excerciseFragment" />
+        <action
+            android:id="@+id/action_breathingFragment_to_navigation_dashboard"
+            app:destination="@id/navigation_dashboard" />
     </fragment>
     <fragment
         android:id="@+id/excerciseFragment"
         android:name="nl.hva.vuwearable.ui.breathing.BreathingExerciseFragment"
         android:label="ExcerciseFragment" />
+    <fragment
+        android:id="@+id/systemFragment"
+        android:name="nl.hva.vuwearable.ui.system.SystemFragment"
+        android:label="SystemFragment" />
 </navigation>

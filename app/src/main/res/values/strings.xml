@@ -94,6 +94,23 @@
     <string name="ECG">ECG</string>
     <string name="ICG">ICG</string>
     <string name="exercise_finished">Exercise Completed!</string>
+    <string name="chart_placeholder">Chart</string>
+    <string name="chart_sub_placeholder">Live-data ECG and ICG charts</string>
+    <string name="breathing_placeholder">Breathing</string>
+    <string name="breathing_sub_placeholder">Biometric breathing exercises</string>
+    <string name="setup_placeholder">Setup</string>
+    <string name="setup_sub_placeholder">Guide for applying the wearable</string>
+    <string name="system_placeholder">System</string>
+    <string name="system_sub_placeholder">Configuring device settings</string>
+    <string name="faq_placeholder">FAQ</string>
+    <string name="faq_sub_placeholder">Find answers for general questions</string>
+    <string name="wifi_placeholder">WiFi</string>
+    <string name="wifi_sub_placeholder">You are connected to the device</string>
+    <string name="device_settings_heading">Device Configurator</string>
+    <string name="start_placeholder">START</string>
+    <string name="livedata_placeholder">Receive the measured data</string>
+    <string name="stop_placeholder">STOP</string>
+    <string name="measurement_placeholder">Start or stop measuring on the device</string>
 
     <string name="location_prompt_title">Location Permission Needed</string>
     <string name="location_prompt_explanation">This app needs the Precise Location Permission to determine if you are connected
@@ -108,4 +125,10 @@
     </string>
     <string name="location_denied_change_settings_btn">Change Settings</string>
     <string name="location_denied_proceed_btn">Proceed</string>
+
+    <string name="starting_receiving_data">Started receiving data</string>
+    <string name="stopped_receiving_data">Stopped receiving data</string>
+    <string name="starting_measuring">Started measuring</string>
+    <string name="stopped_measuring">Stopped measuring</string>
+
 </resources>
