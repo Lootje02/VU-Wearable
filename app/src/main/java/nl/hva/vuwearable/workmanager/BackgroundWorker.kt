@@ -29,7 +29,6 @@ class BackgroundWorker(appContext: Context, workerParams: WorkerParameters) :
      * Function that gets executed everytime worker is called
      */
     override fun doWork(): Result {
-
         if (checkSDK() && notificationManager.getNotificationChannel(
                 CHANNEL_ID
             ) == null
