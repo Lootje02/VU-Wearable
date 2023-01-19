@@ -1,7 +1,6 @@
 package nl.hva.vuwearable.decoding
 
 import java.nio.ByteBuffer
-import java.util.*
 
 /**
  * Decode a section of a packet.
@@ -19,7 +18,7 @@ interface PacketDecoding<T> {
      * @param data All the bytes in a packet
      * @return All the sections
      */
-    fun parsePacket(data: ByteArray): LinkedHashMap<Int, ByteArray>
+    fun parsePacket(data: List<UByte>): LinkedHashMap<Int, List<UByte>>
 
     /**
      * Splits all the bytes into its own little section.
@@ -31,7 +30,7 @@ interface PacketDecoding<T> {
      * @param array All the bytes of a specific section
      * @return Map with the sections splitted
      */
-    fun separateIntoSections(array: LinkedList<Byte>): LinkedHashMap<Int, ByteArray>
+    fun separateIntoSections(array: List<UByte>): LinkedHashMap<Int, List<UByte>>
 
     /**
      * Converts all the bytes into an integer and and puts all the
@@ -41,7 +40,7 @@ interface PacketDecoding<T> {
      * @param byteBuffer Byte buffer
      * @return All the sections in a map with the values
      */
-    fun convertBytes(array: ByteArray, byteBuffer: ByteBuffer): T
+    fun convertBytes(array: List<UByte>, byteBuffer: ByteBuffer): T
 
 }
 
@@ -51,9 +50,9 @@ interface PacketDecoding<T> {
  * @param array array of bytes
  * @return the int value of the byte array
  */
-fun ByteBuffer.getInt(array: ByteArray): Int {
+fun ByteBuffer.getInt(array: Array<UByte>): Int {
     this.clear()
-    this.put(array)
+    array.forEach { this.put(it.toByte()) }
     this.position(0)
     return this.int
 }

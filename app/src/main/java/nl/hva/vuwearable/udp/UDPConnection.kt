@@ -105,7 +105,13 @@ class UDPConnection(
                 Log.i(UDP_TAG, "Waiting to receive")
                 udpSocket.receive(packet)
 
-                setASectionMeasurement(aDecoding.convertBytes(packet.data, byteBuffer))
+                // Make a list of UBytes since Kotlin converts a UByteArray to a ByteArray
+                val uByteArray = arrayListOf<UByte>()
+                packet.data.forEach {
+                    uByteArray.add(it.toUByte())
+                }
+
+                setASectionMeasurement(aDecoding.convertBytes(uByteArray, byteBuffer))
 
                 // Set the last received date to see if there is a delay between next packet
                 lastReceivedPacketDate = Date()

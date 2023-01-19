@@ -4,7 +4,6 @@ import nl.hva.vuwearable.decoding.PacketDecoding
 import nl.hva.vuwearable.decoding.getInt
 import nl.hva.vuwearable.decoding.models.ASection
 import java.nio.ByteBuffer
-import java.util.*
 
 /**
  * Parses and decodes the A section of a packet
@@ -14,23 +13,24 @@ import java.util.*
 class ASectionDecoder : PacketDecoding<Map<Int, ASection>> {
 
     companion object {
-        const val A_FIRST_BYTE: Byte = 65
-        const val A_SECOND_BYTE: Byte = 28
-        const val A_THIRD_BYTE: Byte = 0
+        const val A_FIRST_BYTE: UByte = 65u
+        const val A_SECOND_BYTE: UByte = 32u
+        const val A_THIRD_BYTE: UByte = 0u
 
-        const val A_PART_LENGTH = 28
+        const val A_PART_LENGTH = 32
 
         const val A0 = 0.0
-        const val A1 = 0.00047683721641078591
+        const val A1_ECG = 7.9472869401797652e-05
+        const val A1_ICG = 0.00047683721641078591
         const val A0_T = 24.703470230102539
         const val A1_T = 0.00097313715377822518
 
-        val ECG_FORMULA = { value: Int -> A0 + A1 * value }
-        val ICG_FORMULA = { value: Int -> A0 + A1 * value }
+        val ECG_FORMULA = { value: Int -> A0 + A1_ECG * value }
+        val ICG_FORMULA = { value: Int -> A0 + A1_ICG * value }
     }
 
-    override fun parsePacket(data: ByteArray): LinkedHashMap<Int, ByteArray> {
-        val array = LinkedList<Byte>()
+    override fun parsePacket(data: List<UByte>): LinkedHashMap<Int, List<UByte>> {
+        val array = ArrayList<UByte>()
         var isInASection = false
         var i = 0
 
@@ -57,8 +57,8 @@ class ASectionDecoder : PacketDecoding<Map<Int, ASection>> {
         return separateIntoSections(array)
     }
 
-    override fun separateIntoSections(array: LinkedList<Byte>): LinkedHashMap<Int, ByteArray> {
-        val map = LinkedHashMap<Int, ByteArray>()
+    override fun separateIntoSections(array: List<UByte>): LinkedHashMap<Int, List<UByte>> {
+        val map = LinkedHashMap<Int, List<UByte>>()
 
         var currentStart = 0
 
@@ -70,21 +70,31 @@ class ASectionDecoder : PacketDecoding<Map<Int, ASection>> {
          Into: 0: [65, 49, 45], 1: [65, 34, 98]
          */
         while (currentStart + A_PART_LENGTH <= array.size - 1) {
-            val subList = array.subList(currentStart, currentStart + A_PART_LENGTH)
-            map[map.size] = subList.toByteArray()
+            map[map.size] = array.subList(currentStart, currentStart + A_PART_LENGTH)
             currentStart += A_PART_LENGTH
         }
 
         return map
     }
 
-    override fun convertBytes(array: ByteArray, byteBuffer: ByteBuffer): Map<Int, ASection> {
+    override fun convertBytes(array: List<UByte>, byteBuffer: ByteBuffer): Map<Int, ASection> {
         val parsedSections = parsePacket(array)
         val results = mutableMapOf<Int, ASection>()
 
         parsedSections.values.forEachIndexed { index, sectionArray ->
+            /*
+                The A-Section is as following:
+                Header: 0-1-2-3
+                Timestamp: 4-5-6-7
+                Status: 8-9-10-11
+                Vicg: 12-13-14-15
+                V2ecg: 16-17-18-19
+                Visrc: 20-21-22-23
+                Vecg: 24-25-26-27
+                T: 28-29-30-31
+             */
             // Get tick count section
-            val tickCountArray = byteArrayOf(
+            val tickCountArray = arrayOf(
                 sectionArray[4],
                 sectionArray[5],
                 sectionArray[6],
@@ -92,7 +102,7 @@ class ASectionDecoder : PacketDecoding<Map<Int, ASection>> {
             )
 
             // Get ICG section
-            val icgArray = byteArrayOf(
+            val icgArray = arrayOf(
                 sectionArray[12],
                 sectionArray[13],
                 sectionArray[14],
@@ -100,11 +110,11 @@ class ASectionDecoder : PacketDecoding<Map<Int, ASection>> {
             )
 
             // Get ECG section
-            val ecgArray = byteArrayOf(
-                sectionArray[16],
-                sectionArray[17],
-                sectionArray[18],
-                sectionArray[19]
+            val ecgArray = arrayOf(
+                sectionArray[24],
+                sectionArray[25],
+                sectionArray[26],
+                sectionArray[27]
             )
 
             // Put the result in the map with the corresponding values
