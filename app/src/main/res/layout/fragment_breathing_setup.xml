@@ -10,6 +10,7 @@
         android:id="@+id/tv_breathe_in"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
         android:text="@string/breathe_in"
         android:textColor="@color/white"
         android:textSize="16sp"
@@ -19,14 +20,15 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="spread" />
+        app:layout_constraintVertical_chainStyle="packed" />
 
     <TextView
         android:id="@+id/progress_breath_in_seconds"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
         android:fontFamily="@font/heebo_medium"
-        android:text="@string/seconds_breathe_in"
+        android:text="@string/seconds"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toTopOf="@+id/seekbar_breathe_in"
         app:layout_constraintEnd_toEndOf="parent"
@@ -36,10 +38,9 @@
 
     <SeekBar
         android:id="@+id/seekbar_breathe_in"
-        android:layout_width="0dp"
+        android:layout_width="379dp"
         android:layout_height="18dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="32dp"
         android:max="10"
         android:min="1"
         android:progress="1"
@@ -54,6 +55,7 @@
         android:id="@+id/tv_breathe_out"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
         android:text="@string/breathe_out"
         android:textColor="@color/white"
         android:textSize="16sp"
@@ -68,8 +70,9 @@
         android:id="@+id/progress_breath_out_seconds"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
         android:fontFamily="@font/heebo_medium"
-        android:text="@string/seconds_breathe_out"
+        android:text="@string/seconds"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toTopOf="@+id/seekbar_breathe_out"
         app:layout_constraintEnd_toEndOf="parent"
@@ -79,10 +82,53 @@
 
     <SeekBar
         android:id="@+id/seekbar_breathe_out"
-        android:layout_width="0dp"
+        android:layout_width="379dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="32dp"
+        android:max="10"
+        android:min="1"
+        android:progress="1"
+        android:progressBackgroundTint="#00B8D4"
+        app:layout_constraintBottom_toTopOf="@+id/tv_pause"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/progress_breath_out_seconds" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_pause"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="@string/pause"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:fontFamily="@font/heebo_semi_bold"
+        app:layout_constraintBottom_toTopOf="@+id/progress_pause"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/seekbar_breathe_out" />
+
+    <TextView
+        android:id="@+id/progress_pause"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:fontFamily="@font/heebo_medium"
+        android:text="@string/seconds"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toTopOf="@+id/seekbar_pause"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_pause" />
+
+    <SeekBar
+        android:id="@+id/seekbar_pause"
+        android:layout_width="379dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
         android:max="10"
         android:min="1"
         android:progress="1"
@@ -91,12 +137,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/progress_breath_out_seconds" />
+        app:layout_constraintTop_toBottomOf="@+id/progress_pause" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tv_duration"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
         android:text="@string/duration"
         android:textColor="@color/white"
         android:textSize="16sp"
@@ -105,27 +152,26 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/seekbar_breathe_out" />
+        app:layout_constraintTop_toBottomOf="@+id/seekbar_pause" />
 
     <TextView
         android:id="@+id/progress_max_seconds"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
         android:fontFamily="@font/heebo_medium"
-        android:text="@string/seconds_duration"
+        android:text="@string/minutes"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toTopOf="@+id/seekbar_duration"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_duration" />
 
     <SeekBar
         android:id="@+id/seekbar_duration"
-        android:layout_width="0dp"
+        android:layout_width="379dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="32dp"
         android:max="20"
         android:min="1"
         android:progress="1"

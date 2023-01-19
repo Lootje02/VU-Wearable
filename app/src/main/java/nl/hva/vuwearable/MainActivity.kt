@@ -74,8 +74,7 @@ class MainActivity : AppCompatActivity() {
         navController = findNavController(R.id.nav_host_fragment_activity_main)
 
         val periodicWorkRequest =
-            PeriodicWorkRequest.Builder(BackgroundWorker::class.java, 1, TimeUnit.MINUTES)
-                .setBackoffCriteria(BackoffPolicy.LINEAR, 1, TimeUnit.MINUTES)
+            PeriodicWorkRequest.Builder(BackgroundWorker::class.java, 15, TimeUnit.MINUTES)
                 .build()
 
         setupAppBar()

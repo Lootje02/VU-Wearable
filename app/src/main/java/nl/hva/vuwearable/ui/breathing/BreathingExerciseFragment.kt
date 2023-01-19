@@ -3,7 +3,6 @@ package nl.hva.vuwearable.ui.breathing
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -155,15 +154,16 @@ class BreathingExerciseFragment : Fragment() {
         runnable = Runnable {
             val breathIn = (breathingViewModel.breatheIn.value!! * 1000).toLong()
             val breathOut = (breathingViewModel.breatheOut.value!! * 1000).toLong()
-            val maxDuration = (breathingViewModel.maxDuration.value!! * 1000 * 60).toLong()
+            val pause = (breathingViewModel.pause.value!!* 1000).toLong()
+            val duration = (breathingViewModel.duration.value!! * 1000 * 60).toLong()
 
             animator.animate()
                 .setDuration(breathIn).scaleX(1.2f).scaleY(1.2f).withEndAction {
-                    animator.animate().setStartDelay(2000).setDuration(breathOut).scaleY(0.6f)
+                    animator.animate().setStartDelay(pause).setDuration(breathOut).scaleY(0.6f)
                         .scaleX(0.6f).withEndAction {
                             val currentDate = Date()
 
-                            if (currentDate.time - startDate.time >= maxDuration) {
+                            if (currentDate.time - startDate.time >= duration) {
                                 binding.tvFinished.isVisible = true
                                 handler.removeCallbacks(runnable)
                             } else
