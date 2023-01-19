@@ -44,7 +44,7 @@ class UDPConnection(
         const val UDP_TAG = "UDP"
         const val UDP_PORT = 1234
         const val BUFFER_LENGTH = 2048
-        val NETWORK_NAMES = arrayOf("AMS", "AndroidWifi")
+        val NETWORK_NAMES = arrayOf("AMS", "AndroidWifi", "VU")
         const val CONNECTION_TIMEOUT_SECONDS = 3
 
         // In the normal decoder of AMS, a size of 10000000 is being used.
@@ -103,7 +103,7 @@ class UDPConnection(
             while (true) {
                 Log.i(UDP_TAG, "Waiting to receive")
                 udpSocket.receive(packet)
-
+                Log.i(UDP_TAG, packet.toString())
                 setASectionMeasurement(aDecoding.convertBytes(packet.data, byteBuffer))
 
                 // Set the last received date to see if there is a delay between next packet
