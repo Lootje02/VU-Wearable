@@ -39,6 +39,18 @@ class SciChartFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
+    private val twoEcgLineData = DoubleValues()
+    private val twoEcgLineDataSeries =
+        XyDataSeries(Int::class.javaObjectType, Double::class.javaObjectType).apply {
+            append(xValues, yValues)
+        }
+
+    private val isrcLineData = IntegerValues()
+    private val isrcLineDataSeries =
+        XyDataSeries(Int::class.javaObjectType, Int::class.javaObjectType).apply {
+            append(xValues, yValues)
+        }
+
     private val ecgLineData = DoubleValues()
     private val ecgLineDataSeries =
         XyDataSeries(Int::class.javaObjectType, Double::class.javaObjectType).apply {
@@ -47,6 +59,12 @@ class SciChartFragment : Fragment() {
 
     private val icgLineData = DoubleValues()
     private val icgLineDataSeries =
+        XyDataSeries(Int::class.javaObjectType, Double::class.javaObjectType).apply {
+            append(xValues, yValues)
+        }
+
+    private val temperatureLineData = DoubleValues()
+    private val temperateLineDataSeries =
         XyDataSeries(Int::class.javaObjectType, Double::class.javaObjectType).apply {
             append(xValues, yValues)
         }
@@ -65,12 +83,18 @@ class SciChartFragment : Fragment() {
         val yAxis: IAxis = NumericAxis(requireContext())
 
         // Name of the line
+        twoEcgLineDataSeries.seriesName = "2ECG"
+        isrcLineDataSeries.seriesName = "ISRC"
         ecgLineDataSeries.seriesName = getString(R.string.ECG)
         icgLineDataSeries.seriesName = getString(R.string.ICG)
+        temperateLineDataSeries.seriesName = "T"
 
         // How much it will show on the screen
+        twoEcgLineDataSeries.fifoCapacity = 2000
+        isrcLineDataSeries.fifoCapacity = 2000
         ecgLineDataSeries.fifoCapacity = 2000
         icgLineDataSeries.fifoCapacity = 5000
+        temperateLineDataSeries.fifoCapacity = 2000
 
         // Add some padding at the bottom and top to have a more clear view
         yAxis.growBy = DoubleRange(0.3, 0.3)
@@ -78,28 +102,50 @@ class SciChartFragment : Fragment() {
         val xValues = IntegerValues()
 
         // Append data to initialise the data series
+        twoEcgLineDataSeries.append(xValues, twoEcgLineData)
+        isrcLineDataSeries.append(xValues, isrcLineData)
         ecgLineDataSeries.append(xValues, ecgLineData)
         icgLineDataSeries.append(xValues, icgLineData)
+        temperateLineDataSeries.append(xValues, temperatureLineData)
 
         // Type of line
+        val twoEcgLineSeries: IRenderableSeries = FastLineRenderableSeries()
+        twoEcgLineSeries.dataSeries = twoEcgLineDataSeries
+
+        val isrcLineSeries: IRenderableSeries = FastLineRenderableSeries()
+        isrcLineSeries.dataSeries = isrcLineDataSeries
+
         val ecgLineSeries: IRenderableSeries = FastLineRenderableSeries()
         ecgLineSeries.dataSeries = ecgLineDataSeries
 
         val icgLineSeries: IRenderableSeries = FastLineRenderableSeries()
         icgLineSeries.dataSeries = icgLineDataSeries
 
+        val temperatureLineSeries: IRenderableSeries = FastLineRenderableSeries()
+        temperatureLineSeries.dataSeries = temperateLineDataSeries
+
         // Color of the line
+        twoEcgLineSeries.strokeStyle = SolidPenStyle(ColorUtil.Green, true, 5f, null)
+        isrcLineSeries.strokeStyle = SolidPenStyle(ColorUtil.Blue, true, 5f, null)
         ecgLineSeries.strokeStyle = SolidPenStyle(ColorUtil.LimeGreen, true, 5f, null)
         icgLineSeries.strokeStyle = SolidPenStyle(ColorUtil.Yellow, true, 5f, null)
+        temperatureLineSeries.strokeStyle = SolidPenStyle(ColorUtil.Red, true, 5f, null)
 
         // Show in a box what the lines are
         val legendModifier = LegendModifier(requireContext())
-        legendModifier.setOrientation(Orientation.HORIZONTAL)
-        legendModifier.setLegendPosition(Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL, 0, 0, 0, 10)
+        legendModifier.setOrientation(Orientation.VERTICAL)
+        legendModifier.setLegendPosition(Gravity.START, 0, 0, 0, 10)
 
         // Add all those data and modifiers
         UpdateSuspender.using(surface) {
-            Collections.addAll(surface.renderableSeries, ecgLineSeries, icgLineSeries)
+            Collections.addAll(
+                surface.renderableSeries,
+                twoEcgLineSeries,
+                ecgLineSeries,
+                isrcLineSeries,
+                icgLineSeries,
+                temperatureLineSeries
+            )
             Collections.addAll(
                 surface.chartModifiers,
                 PinchZoomModifier(),
@@ -121,8 +167,11 @@ class SciChartFragment : Fragment() {
             // Loop through the properties in an 'A' section
             for (section in it.values) {
                 // Append the values to the chart
+                twoEcgLineDataSeries.append(section.tickCount, section.twoEcg)
+                isrcLineDataSeries.append(section.tickCount, section.isrc)
                 ecgLineDataSeries.append(section.tickCount, section.ecg)
                 icgLineDataSeries.append(section.tickCount, section.icg)
+                temperateLineDataSeries.append(section.tickCount, section.temperature)
 
                 // Automatically adjust zoom depending on the values of the data
                 binding.surface.zoomExtentsX()

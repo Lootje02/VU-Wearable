@@ -22,11 +22,12 @@ class ASectionDecoder : PacketDecoding<Map<Int, ASection>> {
         const val A0 = 0.0
         const val A1_ECG = 7.9472869401797652e-05
         const val A1_ICG = 0.00047683721641078591
-        const val A0_T = 24.703470230102539
+        const val A0_T = -271.53060913085938
         const val A1_T = 0.00097313715377822518
 
         val ECG_FORMULA = { value: Int -> A0 + A1_ECG * value }
         val ICG_FORMULA = { value: Int -> A0 + A1_ICG * value }
+        val T_FORMULA = { value: Int -> A0_T + A1_T * value }
     }
 
     override fun parsePacket(data: List<UByte>): LinkedHashMap<Int, List<UByte>> {
@@ -93,7 +94,8 @@ class ASectionDecoder : PacketDecoding<Map<Int, ASection>> {
                 Vecg: 24-25-26-27
                 T: 28-29-30-31
              */
-            // Get tick count section
+
+            // Get tick count (Timestamp)
             val tickCountArray = arrayOf(
                 sectionArray[4],
                 sectionArray[5],
@@ -101,7 +103,7 @@ class ASectionDecoder : PacketDecoding<Map<Int, ASection>> {
                 sectionArray[7]
             )
 
-            // Get ICG section
+            // Get Vicg
             val icgArray = arrayOf(
                 sectionArray[12],
                 sectionArray[13],
@@ -109,7 +111,23 @@ class ASectionDecoder : PacketDecoding<Map<Int, ASection>> {
                 sectionArray[15]
             )
 
-            // Get ECG section
+            // Get V2ecg
+            val twoEcgArray = arrayOf(
+                sectionArray[16],
+                sectionArray[17],
+                sectionArray[18],
+                sectionArray[19],
+            )
+
+            // Get Visrc
+            val isrcArray = arrayOf(
+                sectionArray[20],
+                sectionArray[21],
+                sectionArray[22],
+                sectionArray[23]
+            )
+
+            // Get Vecg
             val ecgArray = arrayOf(
                 sectionArray[24],
                 sectionArray[25],
@@ -117,11 +135,22 @@ class ASectionDecoder : PacketDecoding<Map<Int, ASection>> {
                 sectionArray[27]
             )
 
+            // Get T (temperature)
+            val temperatureArray = arrayOf(
+                sectionArray[28],
+                sectionArray[29],
+                sectionArray[30],
+                sectionArray[31]
+            )
+
             // Put the result in the map with the corresponding values
             results[index] = ASection(
                 byteBuffer.getInt(tickCountArray),
                 ICG_FORMULA(byteBuffer.getInt(icgArray)),
-                ECG_FORMULA(byteBuffer.getInt(ecgArray))
+                ECG_FORMULA(byteBuffer.getInt(twoEcgArray)),
+                byteBuffer.getInt(isrcArray),
+                ECG_FORMULA(byteBuffer.getInt(ecgArray)),
+                T_FORMULA(byteBuffer.getInt(temperatureArray))
             )
         }
         return results
