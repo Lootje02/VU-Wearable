@@ -90,11 +90,11 @@ class SciChartFragment : Fragment() {
         temperateLineDataSeries.seriesName = "T"
 
         // How much it will show on the screen
-        twoEcgLineDataSeries.fifoCapacity = 2000
-        isrcLineDataSeries.fifoCapacity = 2000
-        ecgLineDataSeries.fifoCapacity = 2000
+        twoEcgLineDataSeries.fifoCapacity = 5000
+        isrcLineDataSeries.fifoCapacity = 5000
+        ecgLineDataSeries.fifoCapacity = 5000
         icgLineDataSeries.fifoCapacity = 5000
-        temperateLineDataSeries.fifoCapacity = 2000
+        temperateLineDataSeries.fifoCapacity = 5000
 
         // Add some padding at the bottom and top to have a more clear view
         yAxis.growBy = DoubleRange(0.3, 0.3)
