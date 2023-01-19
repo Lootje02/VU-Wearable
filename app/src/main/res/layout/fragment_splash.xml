@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/heebo_semi_bold"
-        android:text="Setup the device"
+        android:text="electrode guide"
         android:textColor="#101430"
         app:backgroundTint="#f7c80c"
         app:layout_constraintBottom_toTopOf="@+id/textView4"
