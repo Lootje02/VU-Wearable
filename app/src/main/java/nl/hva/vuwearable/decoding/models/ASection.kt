@@ -5,4 +5,11 @@ package nl.hva.vuwearable.decoding.models
  *
  * @author Bunyamin Duduk
  */
-data class ASection(val tickCount: Int, val icg: Double, val ecg: Double)
+data class ASection(
+    val tickCount: Int,
+    val icg: Double,
+    val twoEcg: Double,
+    val isrc: Int,
+    val ecg: Double,
+    val temperature: Double
+)
