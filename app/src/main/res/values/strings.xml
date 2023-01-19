@@ -39,8 +39,8 @@
     <string name="battery_life_string">Battery</string>
     <string name="battery_life_value">53%</string>
     <string name="profile_name">Firstname</string>
-    <string name="tips"><![CDATA[Tips & Tricks]]></string>
-    <string name="more_info">Find out more here</string>
+    <string name="faq">FAQ</string>
+    <string name="more_info">Answer on general questions</string>
     <string name="wifi">WIFI</string>
     <string name="recording_connection">recording is active</string>
     <string name="time_calibration">time is calibrated correctly</string>
@@ -62,11 +62,11 @@
     <string name="logout_successful">Logout successful</string>
     <string name="title_chart">Chart</string>
     <string name="chart_information_placeholder">Chart Information</string>
-    <string name="connection_success">connection established</string>
-    <string name="connection_failed">no connection</string>
+    <string name="connection_success">Connected</string>
+    <string name="connection_failed">Not Connected</string>
     <string name="set_issue_title">This issue</string>
     <string name="issue_dialog">%s</string>
-    <string name="no_data_connection">Not Receiving Data</string>
+    <string name="no_data_connection">No Data</string>
     <string name="connected">Connected</string>
     <string name="not_connected">Not Connected</string>
     <string name="password">Password</string>
@@ -93,5 +93,41 @@
     <string name="ECG">ECG</string>
     <string name="ICG">ICG</string>
     <string name="exercise_finished">Exercise Completed!</string>
-    <string name="pause">Pause</string>
+    <string name="chart_placeholder">Chart</string>
+    <string name="chart_sub_placeholder">Live-data ECG and ICG charts</string>
+    <string name="breathing_placeholder">Breathing</string>
+    <string name="breathing_sub_placeholder">Biometric breathing exercises</string>
+    <string name="setup_placeholder">Setup</string>
+    <string name="setup_sub_placeholder">Guide for applying the wearable</string>
+    <string name="system_placeholder">System</string>
+    <string name="system_sub_placeholder">Configuring device settings</string>
+    <string name="faq_placeholder">FAQ</string>
+    <string name="faq_sub_placeholder">Find answers for general questions</string>
+    <string name="wifi_placeholder">WiFi</string>
+    <string name="wifi_sub_placeholder">You are connected to the device</string>
+    <string name="device_settings_heading">Device Configurator</string>
+    <string name="start_placeholder">START</string>
+    <string name="livedata_placeholder">Receive the measured data</string>
+    <string name="stop_placeholder">STOP</string>
+    <string name="measurement_placeholder">Start or stop measuring on the device</string>
+
+    <string name="location_prompt_title">Location Permission Needed</string>
+    <string name="location_prompt_explanation">This app needs the Precise Location Permission to determine if you are connected
+        to the correct network, your actual location information is not used in this application.
+        Please accept this in the next prompt to use all Network Functionalities.
+    </string>
+    <string name="location_accepted">Thank you! Checking the network status..</string>
+    <string name="location_denied">Location Permission Denied</string>
+    <string name="location_denied_explanation">
+        Access to your precise location has been denied. Some functionalities may not work correctly,
+        such as the current network status.
+    </string>
+    <string name="location_denied_change_settings_btn">Change Settings</string>
+    <string name="location_denied_proceed_btn">Proceed</string>
+
+    <string name="starting_receiving_data">Started receiving data</string>
+    <string name="stopped_receiving_data">Stopped receiving data</string>
+    <string name="starting_measuring">Started measuring</string>
+    <string name="stopped_measuring">Stopped measuring</string>
+
 </resources>

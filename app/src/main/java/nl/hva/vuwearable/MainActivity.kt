@@ -1,7 +1,13 @@
 package nl.hva.vuwearable
 
+import android.Manifest
+import android.app.AlertDialog
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -12,6 +18,9 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -43,9 +52,16 @@ import java.util.concurrent.TimeUnit
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    // Login viewmodel is public to use it also in other classes to check the login status
     val loginViewModel: LoginViewModel by viewModels()
     private val chartViewModel: ChartViewModel by viewModels()
     private val udpViewModel: UDPViewModel by viewModels()
+    private lateinit var navController: NavController
+
+    companion object {
+        private const val MY_PERMISSIONS_REQUEST_LOCATION = 99
+        private const val MY_PERMISSIONS_REQUEST_BACKGROUND_LOCATION = 66
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,13 +71,14 @@ class MainActivity : AppCompatActivity() {
 
         val navView: BottomNavigationView = binding.navView
 
-        val navController = findNavController(R.id.nav_host_fragment_activity_main)
+        navController = findNavController(R.id.nav_host_fragment_activity_main)
 
         val periodicWorkRequest =
             PeriodicWorkRequest.Builder(BackgroundWorker::class.java, 15, TimeUnit.MINUTES)
                 .build()
 
         setupAppBar()
+        checkLocationPermission()
 
         WorkManager.getInstance(applicationContext).enqueueUniquePeriodicWork(
             "Background notifications",
@@ -101,6 +118,8 @@ class MainActivity : AppCompatActivity() {
         } catch (e: Exception) {
             Log.e("SciChart", e.toString())
         }
+
+        initializeBottomNavbar()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -119,26 +138,25 @@ class MainActivity : AppCompatActivity() {
     private fun setupAppBar() {
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
 
-        val dashboardId =
-            if (loginViewModel.isLoggedIn.value == true) R.id.professorDashboardFragment
-            else R.id.navigation_dashboard
-
+        // This list is made to not show any back button
         val appBarConfiguration = AppBarConfiguration(
             setOf(
-                dashboardId, R.id.navigation_chart, R.id.faqFragment
+                R.id.navigation_dashboard,
+                R.id.navigation_chart,
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
     }
 
     /**
+     * This function is made to show a login or logout dialog
      * @author Lorenzo Bindemann
      */
     private fun showDialog() {
         if (loginViewModel.isLoggedIn.value == false) {
             // create login pop up
             val dialogLayout = layoutInflater.inflate(R.layout.login_dialog, null)
-            val builder = android.app.AlertDialog.Builder(this).setView(dialogLayout).show()
+            val builder = AlertDialog.Builder(this).setView(dialogLayout).show()
 
             // set login function on button click
             dialogLayout.findViewById<Button>(R.id.login_button).setOnClickListener {
@@ -150,7 +168,6 @@ class MainActivity : AppCompatActivity() {
                 // check if login is successfully
                 if (loginViewModel.isLoggedIn.value == true) {
                     builder.hide()
-                    findNavController(R.id.nav_host_fragment_activity_main).navigate(R.id.professorDashboardFragment)
                 } else {
                     // login is unsuccessfully
                     builder.findViewById<EditText>(R.id.input_password).setTextColor(Color.RED)
@@ -176,5 +193,130 @@ class MainActivity : AppCompatActivity() {
             }
         }
         setupAppBar()
+    }
+
+    /**
+     * Function which checks if the app has access to the user's location to determine the network name.
+     * If it does not have access, it will show an explanation as to why it needs access
+     * and then prompt the user with the permission prompt.
+     * @author Hugo Zuidema
+     */
+    private fun checkLocationPermission() {
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // Show an explanation to the user. After the user
+            // sees the explanation, request the permission.
+            AlertDialog.Builder(this)
+                .setTitle(R.string.location_prompt_title)
+                .setMessage(R.string.location_prompt_explanation)
+                .setPositiveButton(
+                    R.string.dialog_ok_button
+                ) { _, _ ->
+                    // Prompt the user once explanation has been shown
+                    requestLocationPermission()
+                }
+                .create()
+                .show()
+        }
+    }
+
+    /**
+     * Function which opens the Android location permission prompt
+     * @author Hugo Zuidema
+     */
+    private fun requestLocationPermission() {
+        ActivityCompat.requestPermissions(
+            this,
+            arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+            ),
+            MY_PERMISSIONS_REQUEST_LOCATION
+        )
+    }
+
+    /**
+     * Listener which listens to the result of the permission prompt.
+     * If the permission was granted it shows a short message to the user. If it was denied it alerts
+     * the user that some functionalities might not work and allows the user to either go to the settings
+     * of the app or proceed.
+     * @author Hugo Zuidema
+     */
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
+        when (requestCode) {
+            MY_PERMISSIONS_REQUEST_LOCATION -> {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted
+                    if (ContextCompat.checkSelfPermission(
+                            this,
+                            Manifest.permission.ACCESS_FINE_LOCATION
+                        ) == PackageManager.PERMISSION_GRANTED
+                    ) {
+                        Toast.makeText(this, R.string.location_accepted, Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    // permission denied
+                    AlertDialog.Builder(this)
+                        .setTitle(R.string.location_denied)
+                        .setMessage(R.string.location_denied_explanation)
+                        .setPositiveButton(
+                            R.string.location_denied_change_settings_btn
+                        ) { _, _ ->
+                            // Check if we are in a state where the user has denied the permission and
+                            // selected: Don't ask again
+                            if (!ActivityCompat.shouldShowRequestPermissionRationale(
+                                    this,
+                                    Manifest.permission.ACCESS_FINE_LOCATION
+                                )
+                            ) {
+                                // open the settings of the application
+                                startActivity(
+                                    Intent(
+                                        Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                                        Uri.fromParts("package", this.packageName, null),
+                                    ),
+                                )
+                            }
+                        }
+                        .setNegativeButton(R.string.location_denied_proceed_btn) {_, _  -> }
+                        .create()
+                        .show()
+                }
+                return
+            }
+        }
+    }
+
+    /**
+     * Initialize a click listener on the bottom navigation items in order to navigate correctly
+     */
+    private fun initializeBottomNavbar() {
+        // Find the bottom navigation
+        val bottomNav = findViewById<BottomNavigationView>(R.id.nav_view)
+
+        // Set a click listener on the selected item
+        bottomNav.setOnItemSelectedListener {
+            // Based on the item in the bottom navigation, navigate to it
+            when (it.itemId) {
+                R.id.navigation_dashboard -> {
+                    navController.navigate(R.id.navigation_dashboard)
+                    true
+                }
+                R.id.navigation_chart -> {
+                    navController.navigate(R.id.navigation_chart)
+                    true
+                }
+                else -> {
+                    true
+                }
+            }
+        }
     }
 }
