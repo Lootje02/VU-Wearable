@@ -27,11 +27,12 @@ class SystemFragment : Fragment() {
     private lateinit var webSocket: SocketService
 
     companion object {
-        // Those strings are recognized by the device to do the specific action
+        // These strings are recognized by the device to do the specific action
         const val LIVE_DATA_START = "3a"
         const val LIVE_DATA_STOP = "0a"
         const val MEASUREMENT_START = "r"
         const val MEASUREMENT_STOP = "s"
+        const val SHUT_DOWN_DEVICE = "Q"
     }
 
     override fun onCreateView(
@@ -73,6 +74,12 @@ class SystemFragment : Fragment() {
             Toast.makeText(context, getString(R.string.stopped_measuring), Toast.LENGTH_SHORT)
                 .show()
 
+        }
+
+        binding.deviceOffButton.setOnClickListener {
+            webSocket.sendMessage(SHUT_DOWN_DEVICE)
+            Toast.makeText(context, getString(R.string.shutdown_device_confirm), Toast.LENGTH_SHORT)
+                .show()
         }
 
         return root
