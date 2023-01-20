@@ -130,5 +130,8 @@
     <string name="stopped_receiving_data">Stopped receiving data</string>
     <string name="starting_measuring">Started measuring</string>
     <string name="stopped_measuring">Stopped measuring</string>
+    <string name="shutdown_device_confirm">Turned off device</string>
+    <string name="shutdown_device_btn_txt">Turn Off</string>
+    <string name="shut_down_device_txt">Shut down device</string>
 
 </resources>
