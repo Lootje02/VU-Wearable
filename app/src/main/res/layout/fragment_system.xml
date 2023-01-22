@@ -89,6 +89,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/measurement_textview" />
 
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/shutdown_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="device_off_button,device_off_textview" />
+
     <TextView
         android:id="@+id/device_off_textview"
         android:layout_width="wrap_content"

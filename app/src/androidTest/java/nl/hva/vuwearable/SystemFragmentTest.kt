@@ -5,9 +5,13 @@ import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.typeText
+import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents
-import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.rule.GrantPermissionRule
+import com.google.android.gms.location.GeofencingRequest.InitialTrigger
+import org.hamcrest.CoreMatchers.not
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -53,11 +57,24 @@ class SystemFragmentTest {
         val activityScenario = ActivityScenario.launch(MainActivity::class.java)
 
         activityScenario.moveToState(Lifecycle.State.RESUMED)
+        onView(withId(R.id.cv_system)).perform(click())
+        Intents.release()
+    }
+
+    @Test
+    fun check_if_only_live_data_group_is_showing() {
+        onView(withId(R.id.live_data_group)).check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
+        onView(withId(R.id.measurement_group)).check(matches(withEffectiveVisibility((Visibility.INVISIBLE))))
+        onView(withId(R.id.shutdown_group)).check(matches(withEffectiveVisibility((Visibility.INVISIBLE))))
     }
 
     @Test
     fun testSystemFragment() {
         onView(withId(R.id.logout_button)).perform(click())
         onView(withId(R.id.input_password)).perform(typeText("nextgen2022"))
+        onView(withId(R.id.login_button)).perform(click())
+        onView(withId(R.id.live_data_group)).check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
+        onView(withId(R.id.measurement_group)).check(matches(withEffectiveVisibility((Visibility.VISIBLE))))
+        onView(withId(R.id.shutdown_group)).check(matches(withEffectiveVisibility((Visibility.VISIBLE))))
     }
 }
