@@ -52,12 +52,19 @@ class SystemFragmentTest {
 
     @Before
     fun setupTest() {
+        // Initialise intent
         Intents.init()
 
+        // Launch main activity
         val activityScenario = ActivityScenario.launch(MainActivity::class.java)
 
+        // Set lifecyle to resumed
         activityScenario.moveToState(Lifecycle.State.RESUMED)
+
+        // Click on the system card
         onView(withId(R.id.cv_system)).perform(click())
+
+        // Release intent after every test before initialising again
         Intents.release()
     }
 
