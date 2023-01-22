@@ -45,6 +45,7 @@ class SystemFragment : Fragment() {
         loginViewModel.isLoggedIn.observe(viewLifecycleOwner) { isLoggedIn ->
             // Show the start stop measuring data group based on if the user is a professor or not
             binding.measurementGroup.visibility = if (isLoggedIn) View.VISIBLE else View.INVISIBLE
+            binding.shutdownGroup.visibility = if (isLoggedIn) View.VISIBLE else View.INVISIBLE
         }
 
 
