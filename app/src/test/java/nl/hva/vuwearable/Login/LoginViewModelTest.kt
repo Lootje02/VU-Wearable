@@ -2,8 +2,6 @@ package nl.hva.vuwearable.Login
 
 import android.app.Application
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.test.ext.junit.rules.activityScenarioRule
-import nl.hva.vuwearable.MainActivity
 import nl.hva.vuwearable.ui.login.LoginViewModel
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -22,10 +20,6 @@ class LoginViewModelTest {
     //Rule used for testing LiveData
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
-
-    //Rule used for testing activities
-    @get:Rule
-    val activityScenarioRule = activityScenarioRule<MainActivity>()
 
     // loginViewModel instance
     private lateinit var loginViewModel: LoginViewModel
