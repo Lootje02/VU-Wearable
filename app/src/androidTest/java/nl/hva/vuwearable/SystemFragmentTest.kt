@@ -62,19 +62,40 @@ class SystemFragmentTest {
     }
 
     @Test
-    fun check_if_only_live_data_group_is_showing() {
+    fun check_if_only_live_data_group_is_showing_1() {
+        // Check if the live data group only shows
         onView(withId(R.id.live_data_group)).check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
         onView(withId(R.id.measurement_group)).check(matches(withEffectiveVisibility((Visibility.INVISIBLE))))
         onView(withId(R.id.shutdown_group)).check(matches(withEffectiveVisibility((Visibility.INVISIBLE))))
     }
 
     @Test
-    fun testSystemFragment() {
+    fun check_if_all_groups_are_showing_2() {
+        // Login
         onView(withId(R.id.logout_button)).perform(click())
         onView(withId(R.id.input_password)).perform(typeText("nextgen2022"))
         onView(withId(R.id.login_button)).perform(click())
+
+        // Check if all the groups are visible
         onView(withId(R.id.live_data_group)).check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
         onView(withId(R.id.measurement_group)).check(matches(withEffectiveVisibility((Visibility.VISIBLE))))
         onView(withId(R.id.shutdown_group)).check(matches(withEffectiveVisibility((Visibility.VISIBLE))))
+    }
+
+    @Test
+    fun check_if_logging_out_hides_all_but_live_data_group_3() {
+        // Login and test if everything shows before we logout.
+        // Calling this so we don't have duplicate code.
+        check_if_all_groups_are_showing_2()
+
+        // Logout
+        onView(withId(R.id.logout_button)).perform(click())
+        onView(withId(R.id.logout_button)).perform(click())
+
+        // Logging out redirects back to dashboard so we need to go back to system fragment
+        onView(withId(R.id.cv_system)).perform(click())
+
+        // Check if only live data group is showing
+        check_if_only_live_data_group_is_showing_1()
     }
 }
