@@ -113,11 +113,11 @@ class MainActivity : AppCompatActivity() {
                 })
         ).start()
 
-//        try {
-////            SciChartSurface.setRuntimeLicenseKey(BuildConfig.SCI_CHART_KEY)
-//        } catch (e: Exception) {
-//            Log.e("SciChart", e.toString())
-//        }
+        try {
+            SciChartSurface.setRuntimeLicenseKey(BuildConfig.SCI_CHART_KEY)
+        } catch (e: Exception) {
+            Log.e("SciChart", e.toString())
+        }
 
         initializeBottomNavbar()
     }

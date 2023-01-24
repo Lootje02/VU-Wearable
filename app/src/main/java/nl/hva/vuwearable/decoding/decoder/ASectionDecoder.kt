@@ -1,5 +1,6 @@
 package nl.hva.vuwearable.decoding.decoder
 
+import android.util.Log
 import nl.hva.vuwearable.decoding.PacketDecoding
 import nl.hva.vuwearable.decoding.getInt
 import nl.hva.vuwearable.decoding.models.ASection

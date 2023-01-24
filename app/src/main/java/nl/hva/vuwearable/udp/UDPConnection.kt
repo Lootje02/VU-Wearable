@@ -101,7 +101,6 @@ class UDPConnection(
 
             // Go through everytime a packet comes in
             while (true) {
-                Log.i(UDP_TAG, "Waiting to receive")
                 udpSocket.receive(packet)
 
                 // Make a list of UBytes since Kotlin converts a UByteArray to a ByteArray
