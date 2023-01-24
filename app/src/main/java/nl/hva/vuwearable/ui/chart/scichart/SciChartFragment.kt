@@ -168,6 +168,7 @@ class SciChartFragment : Fragment() {
             for (section in it.values) {
                 // Append the values to the chart
                 // if the last timestamp on the x-axis is greater than the timestamp of this section, skip this section
+                // in the graph
                 if (twoEcgLineDataSeries.xMax > section.tickCount || isrcLineDataSeries.xMax > section.tickCount) break
 
                 twoEcgLineDataSeries.append(section.tickCount, section.twoEcg)
