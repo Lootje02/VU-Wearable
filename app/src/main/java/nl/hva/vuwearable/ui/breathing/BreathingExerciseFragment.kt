@@ -129,6 +129,7 @@ class BreathingExerciseFragment : Fragment() {
             // Loop through the properties in an 'A' section
             for (section in it.values) {
                 // Append the values to the chart
+                if (icgLineDataSeries.xMax > section.tickCount || ecgLineDataSeries.xMax > section.tickCount) break
                 icgLineDataSeries.append(section.tickCount, section.icg)
                 ecgLineDataSeries.append(section.tickCount, section.ecg)
 
