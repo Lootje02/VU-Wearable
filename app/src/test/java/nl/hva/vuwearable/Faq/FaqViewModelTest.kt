@@ -6,8 +6,10 @@ import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
 import android.app.Application
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import org.junit.Assert
 import nl.hva.vuwearable.ui.faq.FaqViewModel
+import org.junit.Rule
 import org.mockito.kotlin.mock
 
 /**
@@ -16,7 +18,10 @@ import org.mockito.kotlin.mock
 @RunWith(MockitoJUnitRunner::class)
 class FaqViewModelTest {
 
-    @Mock //Annotation to create a mock object of the Application class
+    //Rule used for testing LiveData
+    @get:Rule
+    val instantTaskExecutorRule = InstantTaskExecutorRule()
+
     private val application = mock<Application>()
     lateinit var faqViewModel: FaqViewModel
 

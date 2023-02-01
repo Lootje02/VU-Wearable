@@ -133,5 +133,6 @@
     <string name="shutdown_device_confirm">Turned off device</string>
     <string name="shutdown_device_btn_txt">Turn Off</string>
     <string name="shut_down_device_txt">Shut down device</string>
+    <string name="powered_by_scichart">Powered by SciChart</string>
 
 </resources>
