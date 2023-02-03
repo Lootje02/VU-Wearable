@@ -233,7 +233,7 @@ It is also possible to see the app as a researcher. A researcher has more functi
 9. <span dir="">Run the app and check if it is connected or not.</span>
   
 ## How to add new FAQ items
-* First you have to go to the next file: app/src/main/java/nl/hva/vuwearable/ui/faq/FaqViewModel.kt
-* Next, you need to look into the next function '<span dir="">getFaqQuestionsAndAnswers</span>'
-* Then there is an if statement. In the if you add the participant questions. In the else you can add the questions for the researcher.
-* **Always add one element in the questions list and also one element in the answers list.**
+ * First you have to go to the next file: app/src/main/java/nl/hva/vuwearable/ui/faq/FaqViewModel.kt
+ * Next, you need to look into the next function '<span dir="">getFaqQuestionsAndAnswers</span>'
+ * Then there is an if statement. In the if you add the participant questions. In the else you can add the questions for the researcher.
+ * **Always add one element in the questions list and also one element in the answers list.**
