@@ -184,3 +184,53 @@ It is also possible to see the app as a researcher. A researcher has more functi
 
 - Other FAQ questions, which have more to do with the technical side.
 - An extra start stop button on the device to start the measurement.
+
+## **<span dir="">Redirect Traffic from Wearable to Emulator</span>**
+
+<span dir="">In order to test the connection with the device, we need to route the incoming traffic from the device from our laptop to our emulator. To make this work, please follow the following steps:</span>
+
+### **<span dir="">_Windows_</span>**
+
+ 1. <span dir="">Download and install Ubuntu for WSL2 on Windows</span>[<span dir=""> here</span>](https://ubuntu.com/tutorials/install-ubuntu-on-wsl2-on-windows-10#1-overview)<span dir=""> (**Follow Steps 1 to 4**) . You can install Ubuntu by running the following command in PowerShell: </span>
+    1. **<span dir="">wsl --install -d ubuntu</span>**
+       1. <span dir=""> (d = distro), without the -d flag Windows does not know which Linux distro to install.</span>
+ 2. <span dir="">telnet is by default disabled on Windows but available without having to be downloaded. Enable this feature by following the steps</span>[<span dir=""> here</span>](https://social.technet.microsoft.com/wiki/contents/articles/38433.windows-10-enabling-telnet-client.aspx)<span dir="">.</span>
+ 3. <span dir="">Open Ubuntu through Windows Search or through</span>[<span dir=""> Windows Terminal</span>](https://apps.microsoft.com/store/detail/9N0DX20HK701?hl=nl-nl&gl=NL)<span dir="">. If it is your first time using Ubuntu, you will be asked to set a username and password, remember these values as you will need them when performing sudo commands!</span>
+ 4. <span dir="">In your Ubuntu CLI run **sudo apt-get update** and after that **sudo apt install ncat**.</span>
+ 5. <span dir="">Connect to the AMS device's WiFi.</span>
+ 6. <span dir="">Open the emulator you use via the terminal. On Windows the emulator is located within the hidden %appdata% folder. The path should be as follows: C:\\Users\\<your-username>\\AppData\\Local\\Android\\Sdk\\emulator. Open a cmd window in this path. When your cmd has opened, run the following command to start the emulator: </span>
+    1. **<span dir="">emulator -avd DEVICE_NAME_HERE -feature -Wifi</span>**
+       1. <span dir="">To see what the name of your device is, run adb devices, this is often the name displayed in your device manager in Android Studio but with  _replacing the spaces in the name (for example: Resizable_API_33).![](https://lh4.googleusercontent.com/1ckNp5WD3jwabpz7SIdb76hCrT-yTzumuSTz93LcheBxqhw6ebwxeJ8wP9A3pz4TALsQlV6UbxJMhVTIfyxUrmAFsLh0ekoE760i6kseIxgXLwwMvzwX6pDONPdLb7qTkKajoD4DZ1TjxuU7EzqWoyY9r8ek88vfKuPGvvCROlWrR8Fu9S1hI9a4TOyo5w){width="427" height="189"}</span>
+ 7. <span dir="">Once the emulator is open, open a new cmd window. In this window, open a telnet connection to the emulator by executing **telnet**</span> [**<span dir="">localhost</span>**](http://localhost) **<span dir="">5554</span>**<span dir="">. You will be prompted to authorize yourself. Follow the instructions in the terminal.</span>
+    1. <span dir="">To authorize, type **auth <code here>**.</span>
+ 8. <span dir="">After you have been authorized, run the following commands:</span>
+    1. **<span dir="">redir add udp:1234:1234</span>** 
+    2. **<span dir="">redir add udp:54440:54440</span>**
+ 9. <span dir="">Quit the Telnet CLI.</span>
+10. <span dir="">Now run the following command in your Ubuntu window: </span>
+    1. **<span dir="">ncat -l -u 192.168.4.2 1234 -v | ncat -4 -u 127.0.0.1 1234 -v -p 54440</span>**
+11. <span dir="">Now run the app and check if it is connected or not and data is coming in.</span>
+
+### **<span dir="">_MacOS_</span>**
+
+<span dir="">If you use MacOS, you can just use your system terminal.</span>
+
+1. <span dir="">Install</span>[<span dir=""> HomeBrew</span>](https://brew.sh/)<span dir=""> .</span>
+2. <span dir="">Run **brew install telnet** in the terminal to install telnet.</span>
+3. <span dir="">Connect to the AMS device's WiFi.</span>
+4. <span dir="">Open the emulator you use via a terminal window. On MacOS it is the following path: </span>
+   1. <span dir="">cd \~/Library/Android/sdk/emulator and then ./emulator -avd DEVICE_NAME_HERE -feature -Wifi</span>
+      1. <span dir="">To see what the name of your device is, run **adb devices**.</span>
+5. <span dir="">In your terminal, type the following: **telnet**</span> [**<span dir="">localhost</span>**](http://localhost) **<span dir="">5554</span>**<span dir=""> and then you need to authorize yourself. Check what it says in the terminal.</span>
+6. <span dir="">To authorize, type **auth <code here>**.</span>
+7. <span dir="">Run the following commands: </span>
+   1. **<span dir="">redir add udp:1234:1234</span>**<span dir=""> </span>
+   2. **<span dir="">redir add udp:54440:54440</span>**
+      1. <span dir=""> (**_NOTE_**: Replace 54440 with the port you see the data is going to in WireShark).</span>
+8. <span dir="">Quit the telnet CLI and type run: **nc -l -u 1234 | nc -u 127.0.0.1 1234 -v**.</span>
+9. <span dir="">Run the app and check if it is connected or not.</span>
+  
+* First you have to go to the next file: app/src/main/java/nl/hva/vuwearable/ui/faq/FaqViewModel.kt
+* Next, you need to look into the next function '<span dir="">getFaqQuestionsAndAnswers</span>'
+* Then there is an if statement. In the if you add the participant questions. In the else you can add the questions for the researcher.
+* **Always add one element in the questions list and also one element in the answers list.**
