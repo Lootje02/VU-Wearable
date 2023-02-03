@@ -185,6 +185,8 @@ It is also possible to see the app as a researcher. A researcher has more functi
 - Other FAQ questions, which have more to do with the technical side.
 - An extra start stop button on the device to start the measurement.
 
+## Local Develop Environment
+
 ## **<span dir="">Redirect Traffic from Wearable to Emulator</span>**
 
 <span dir="">In order to test the connection with the device, we need to route the incoming traffic from the device from our laptop to our emulator. To make this work, please follow the following steps:</span>
@@ -230,6 +232,7 @@ It is also possible to see the app as a researcher. A researcher has more functi
 8. <span dir="">Quit the telnet CLI and type run: **nc -l -u 1234 | nc -u 127.0.0.1 1234 -v**.</span>
 9. <span dir="">Run the app and check if it is connected or not.</span>
   
+## How to add new FAQ items
 * First you have to go to the next file: app/src/main/java/nl/hva/vuwearable/ui/faq/FaqViewModel.kt
 * Next, you need to look into the next function '<span dir="">getFaqQuestionsAndAnswers</span>'
 * Then there is an if statement. In the if you add the participant questions. In the else you can add the questions for the researcher.
